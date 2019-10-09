@@ -23,7 +23,7 @@ export default class Pitch extends Component {
             pitchUrl: "",
 
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
-            qrPrefix: 'http://192.168.1.66:3000/feedback/',
+            qrPrefix: 'https://blooming-bastion-98391.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
         };
