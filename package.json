@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "/admin/",
-  "engines": {
-    "node": ">=0.12"
-  },
   "dependencies": {
     "@firebase/app": "^0.3.16",
     "@firebase/storage": "^0.2.14",
