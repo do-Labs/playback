@@ -206,21 +206,18 @@ export default class Pitch extends Component {
     };
 
     handleEmailQR = () => {
-        // const url = `https://us-central1-${projectName}.cloudfunctions.net/EmailQR`;
         const body  = JSON.stringify({
             to: this.state.presenterEmail,
             content: this.state.pitchCodeUrl
         });
         console.log("BODY: ", body);
 
-        fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQR`, {
-        // fetch(` http://localhost:5000/playback-2a438/us-central1/EmailQRCode`, {
+        fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQRCode`, {
             method: "POST",
             headers: new Headers({
                 Authorization: "Bearer " + this.props.token,
                 "Content-Type": "application/json",
                 'cache-control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
             }),
             body
         })
@@ -233,28 +230,6 @@ export default class Pitch extends Component {
         })
     };
 
-    handleTestEndpoint = () => {
-        // fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQR`, {
-        fetch(`https://us-central1-playback-2a438.cloudfunctions.net/AuthorizedEndpoint`, {
-        // fetch(`http://dummy.restapiexample.com/api/v1/create`, {
-            method: "POST",
-            headers: new Headers({
-                Authorization: "Bearer " + this.props.token,
-                "Content-Type": "application/json",
-                'cache-control': 'no-cache',
-            }),
-            body: JSON.stringify({
-                to: this.state.presenterEmail,
-            })
-        })
-            .then( (res)=> {
-                console.log("Emailed user");
-                console.log("RESPONSE: ", res)
-            }).catch( (err)=> {
-            alert("Error sending Email");
-            console.log("Error Emailing User: ", err)
-        })
-    };
 
     render() {
         const {
@@ -392,7 +367,6 @@ export default class Pitch extends Component {
                         </Form>
                     </Grid.Column>
                     <Button onClick={this.handleEmailQR}>handleEmailQR</Button>
-                    <Button onClick={this.handleTestEndpoint}>handleTestEndpoint</Button>
                 </Grid>
             </Container>
         );
