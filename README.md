@@ -1,16 +1,22 @@
+#Playback App Documentation
 
 
+### Docker Deployment
 
-
-### Build
+##### Build
     docker build -t playback .
 
-
-### Test
+##### Test
     docker run -p 80:80 playback
 
 
+### Heroku Deployment
 
-### Deploy to Heroku
+#### Config
     heroku login
+    
+#### Push to repo
+    git push
+
+#### Deploy
     git push heroku master
