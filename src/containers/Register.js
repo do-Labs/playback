@@ -5,6 +5,8 @@ import Logo from "../components/Logo";
 import firebase from '../Firebase';
 import { browserHistory } from 'react-router';
 
+const projectName = "playback-2a438";
+
 class Register extends Component {
     state = {
         isLoading: false,
@@ -27,13 +29,19 @@ class Register extends Component {
                 .then(() => {
                     browserHistory.push('/login');
                     console.log("Registered new user!");
+                    // Get Token
+                    // Email Welcome to user
+                    // this.handleEmailWelcome();
                     this.setState({
                         registered: true,
                         isLoading: false
                     });
                 }, error => {
                     console.log("Error registering user");
-                    this.setState({ error: error.message, isLoading: false });
+                    this.setState({
+                        error: error.message,
+                        isLoading: false
+                    });
                 });
         }
         else {
@@ -48,6 +56,29 @@ class Register extends Component {
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState(state);
+    };
+
+    handleEmailWelcome = () => {
+        const body  = JSON.stringify({
+            to: this.state.email,
+        });
+
+        fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQRCode`, {
+            method: "POST",
+            headers: new Headers({
+                Authorization: "Bearer " + this.props.token,
+                "Content-Type": "application/json",
+                'cache-control': 'no-cache',
+            }),
+            body
+        })
+            .then( (res)=> {
+                console.log("Emailed user");
+                console.log("RESPONSE: ", res)
+            }).catch( (err)=> {
+            alert("Error sending Email");
+            console.log("Error Emailing User: ", err)
+        })
     };
 
     render() {
@@ -127,6 +158,7 @@ class Register extends Component {
                                         }
                                 >Submit</Button>
                             </Form>
+                            <Button onClick={this.handleEmailWelcome}>email</Button>
                         </Segment>
                     </Grid.Column>
                 </Grid>
