@@ -19,17 +19,45 @@ class Register extends Component {
         error: null
     };
 
-    handleSignUp = (event) => {
+    signInWithFirebase = async () => {
+        console.log("signInWithFirebase");
+        try {
+            this.setState({isLoading: true});
+            await firebase.auth().signInWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+            );
+            await firebase.auth().currentUser.getIdTokenResult(true)
+                .then(res => {
+                    console.log("IDTOKEN1: ", res.token);
+                    this.setState({
+                        isLoading: false,
+                        token: res.token
+                    });
+                    return res.token;
+                }).catch();
+        }
+        catch (error) {
+            this.setState({error, isLoading: false});
+        }
+    };
+
+    handleSignUp = async (event) => {
         event.preventDefault();
         const { confirmPassword, email, password } = this.state;
         if (email && password === confirmPassword) {
             this.setState({ isLoading: true });
             firebase.auth()
                 .createUserWithEmailAndPassword(email, password)
-                .then(() => {
+                .then( async () => {
                     browserHistory.push('/login');
                     console.log("Registered new user!");
                     // Get Token
+                    await this.signInWithFirebase()
+                        .then( async ()=> {
+                            console.log("IDTOKEN2: ", this.state.token);
+                            await this.handleEmailWelcome(this.state.token);
+                        });
                     // Email Welcome to user
                     // this.handleEmailWelcome();
                     this.setState({
@@ -58,15 +86,15 @@ class Register extends Component {
         this.setState(state);
     };
 
-    handleEmailWelcome = () => {
+    handleEmailWelcome = (token) => {
         const body  = JSON.stringify({
             to: this.state.email,
         });
 
-        fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQRCode`, {
+        fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailWelcome`, {
             method: "POST",
             headers: new Headers({
-                Authorization: "Bearer " + this.props.token,
+                Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
                 'cache-control': 'no-cache',
             }),
@@ -104,8 +132,8 @@ class Register extends Component {
                             Register Page
                             <Button style={{position: 'absolute', right: 0}} href="/login" ><i className="left chevron icon"> </i></Button>
                             <Logo />
-                            {error && <Message error content={error.message}>Error Registering User</Message>}
-                            {registered && <Message success >Success!</Message> }
+                            {error &&  !registered && <Message error content={error.message}>{this.state.error}</Message>}
+                            {registered && <Message success >Success!  Click back to login</Message> }
                             <Form>
                                 <Form.Field>
                                     <label>Email</label>
@@ -158,7 +186,6 @@ class Register extends Component {
                                         }
                                 >Submit</Button>
                             </Form>
-                            <Button onClick={this.handleEmailWelcome}>email</Button>
                         </Segment>
                     </Grid.Column>
                 </Grid>
