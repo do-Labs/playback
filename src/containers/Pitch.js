@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Button, Container, Dimmer, Form, Grid, Loader, Message} from "semantic-ui-react";
-import {NavMenu, Logo, Upload} from "../components/index";
+import {NavMenu, Logo} from "../components/index";
 import firebase from '../Firebase';
 const projectName = "playback-2a438";
 
@@ -103,7 +103,7 @@ export default class Pitch extends Component {
     };
 
 
-    submitCreate = () => {
+    submitCreate = async () => {
         const {
             nickname,
             company,
@@ -122,8 +122,7 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
-        }).then((docRef) => {
-
+        }).then( async(docRef) => {
             const pid = docRef._key.path.segments[1];
             console.log("POSTED Pitch Data", docRef);
             console.log("RESSS", pid);
@@ -131,9 +130,8 @@ export default class Pitch extends Component {
             this.setState({
                 pitchID: pid,
             });
-
-
-            this.createQRCode(pid)
+            await this.createQRCode(pid);
+            await this.handleEmailQR();
 
             // this.props.history.push("/pitches")
         })
@@ -343,30 +341,22 @@ export default class Pitch extends Component {
                                         />
                                     </Form.Field>
                                 </div>
-
-                                <div className="four wide column">
-
-                                    {pitchCodeUrl && <img alt="pitchCodeUrl" align="right" className="ui tiny image" src={pitchCodeUrl} />
-                                    }
+                                <div className="ui">
+                                    {pitchCodeUrl && <img alt="pitchCodeUrl" align="right" className="ui tiny image" src={pitchCodeUrl} />}
                                 </div>
-
-                                <Upload/>
 
                             </div>
 
 
                             <Button loading={isLoading}
-                                    // disabled={
-                                    //     !isEnabled || !nickname || nickname === "" ||
-                                    //     !dateOfPitch || !dateOfPitch || dateOfPitch === "" ||
-                                    //     !presenterName || !presenterName || presenterName === "" ||
-                                    //     !presenterEmail || !presenterEmail || presenterEmail === "" ||
-                                    //     !location || !location || location === ""
-                                    // }
+                                    disabled={
+                                        !nickname || nickname === "" ||
+                                        !presenterName || !presenterName || presenterName === "" ||
+                                        !presenterEmail || !presenterEmail || presenterEmail === ""
+                                    }
                             >Submit</Button>
                         </Form>
                     </Grid.Column>
-                    <Button onClick={this.handleEmailQR}>handleEmailQR</Button>
                 </Grid>
             </Container>
         );

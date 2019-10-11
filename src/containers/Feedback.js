@@ -201,16 +201,6 @@ export default class Feedback extends Component {
 
     };
 
-    handleCheckBoxChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
     render() {
         const {
             error,
@@ -231,7 +221,6 @@ export default class Feedback extends Component {
             state,
             rating,
             comment,
-            // isAnonymous,
             pitches,
             pid,
 
@@ -361,7 +350,8 @@ export default class Feedback extends Component {
                                             name="isAnonymous"
                                             type="checkbox"
                                             checked={this.state.isAnonymous}
-                                            onChange={this.handleCheckBoxChange} />
+                                            // onChange={this.handleCheckBoxChange}
+                                        />
                                     </label>
                                 </div>
                                 <div className="equal">
