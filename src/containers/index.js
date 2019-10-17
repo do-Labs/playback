@@ -3,7 +3,7 @@
 
 export { default as Business } from "./Business";
 export { default as Businesses } from "./Businesses";
-export { default as Empty } from "./Empty";
+export { default as Dashboard } from "./Dasboard";
 export { default as Login } from "./Login";
 export { default as Register } from "./Register";
 

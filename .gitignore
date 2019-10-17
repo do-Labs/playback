@@ -4,3 +4,5 @@ build/
 /*.env
 env/
 
+.idea/
+package-lock.json

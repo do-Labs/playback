@@ -5,7 +5,7 @@ import {
 } from "semantic-ui-react";
 import {Logo, NavMenu} from "../components/index";
 
-export default class Empty extends Component {
+export default class Dasboard extends Component {
     state = {
         error: null,
         isLoading: true,

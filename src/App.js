@@ -5,7 +5,7 @@ import {PrivateRoute} from "./components/index";
 import {
     Business,
     Businesses,
-    Empty,
+    Dashboard,
     Explore,
     Search,
     Login,
@@ -86,7 +86,6 @@ class App extends Component {
                 <Router basename={"admin"}>
                     <Switch>
                         <Route
-                            exact
                             path="/login"
                             render={() => <Login {...props}/>}
                         />
@@ -97,7 +96,7 @@ class App extends Component {
                         <PrivateRoute
                             exact
                             path="/"
-                            component={Empty}
+                            component={Dashboard}
                             props={props}
                         />
                         <PrivateRoute
