@@ -19,4 +19,4 @@
     git push
 
 #### Deploy
-    git push heroku master
+    git push heroku <branch-name>
