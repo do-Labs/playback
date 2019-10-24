@@ -41,6 +41,7 @@ class Login extends Component {
             );
             firebase.auth().currentUser.getIdTokenResult(true)
                 .then(idToken => {
+                    console.log("User Authenticated with Firebase");
                     this.setState({user, isLoading: false});
                     this.userAuthenticatesWithFirebase(user, idToken.token);
                     sessionStorage.setItem('auth', JSON.stringify({
@@ -48,7 +49,17 @@ class Login extends Component {
                         username: this.state.email,
                         refreshToken: user.user.refreshToken,
                     }));
-                    console.log("User Authenticated with Firebase");
+
+                    if (idToken.claims.admin === true) {
+                        console.log("User is an admin!");
+                    }
+                    else if (idToken.claims.businessID) {
+                        console.log("Registered Business User Access!");
+                        console.log(idToken.claims.businessID);
+                    } else {
+                        console.log("Guest Access");
+                    }
+
                 }).catch();
         }
         catch (error) {

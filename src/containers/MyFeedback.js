@@ -10,7 +10,6 @@ export default class MyFeedback extends Component {
     constructor(props) {
         super(props);
         this.ref = firebase.firestore().collection('pitches');
-        // this.ref = firebase.firestore().collection('pitches').doc('feedback');
         this.unsubscribe = null;
         this.state = {
             error: null,
@@ -50,20 +49,15 @@ export default class MyFeedback extends Component {
         });
     };
 
-    // componentDidMount = () => {
-    //     this.setState({ isLoading: true });
-    //     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-    //     this.setState({ isLoading: false });
-    // };
-
 
     componentDidMount = async () => {
         this.setState({ isLoading: true });
         const id = this.props.match.params.id;
+        // get custom claims for user
         if (id) {
             console.log('ID: ', id);
-
-
+            this.feedbackRef = this.refPitches.doc(id).collection('feedback');
+            this.unsubscribe = this.feedbackRef.onSnapshot(this.onCollectionUpdate);
             this.setState({
                 isLoading: false,
             });

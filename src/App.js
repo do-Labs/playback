@@ -42,7 +42,6 @@ class App extends Component {
             this.userHasAuthenticated(true, username, token);
             const decoded = jwtDecode(token);
             const userId = decoded.user_id;
-            console.log(userId);
             this.setState({
                 userId: userId,
             });
