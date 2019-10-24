@@ -4,6 +4,7 @@ import {Logo} from "../components/index";
 import usStates from "../states";
 import firebase from '../Firebase';
 import StarRatingComponent from "react-star-rating-component";
+import AddToCalendar from 'react-add-to-calendar';
 
 export default class Feedback extends Component {
 
@@ -26,7 +27,14 @@ export default class Feedback extends Component {
             rating: 1,
 
             pitches: [],
-            pid: ""
+            pid: "",
+            event: {
+                title: 'Sample Event',
+                description: 'This is the sample event provided as an example only',
+                location: 'Portland, OR',
+                startTime: '2016-09-16T20:15:00-04:00',
+                endTime: '2016-09-16T21:45:00-04:00'
+            }
         };
     }
 
@@ -241,6 +249,9 @@ export default class Feedback extends Component {
                                 <Loader inverted/>
                             </Dimmer>
                         )}
+
+                        {/*Add To Calendar Feature*/}
+                        <AddToCalendar event={this.state.event}/>
 
                         {cleanMode &&
                         <div className="ui segment">

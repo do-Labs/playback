@@ -8,6 +8,7 @@ export default class Pitch extends Component {
 
     constructor() {
         super();
+        this.busRef = firebase.firestore().collection('businesses');
         this.ref = firebase.firestore().collection('pitches');
         this.state = {
             error: null,
@@ -18,7 +19,7 @@ export default class Pitch extends Component {
             company: "",
             dateOfPitch: "",
             presenterName: "",
-            presenterEmail: "humdan@dolabs.io",
+            presenterEmail: "",
             location: "",
             pitchUrl: "",
 
@@ -31,6 +32,8 @@ export default class Pitch extends Component {
 
     componentDidMount = () => {
         const pitchId = this.props.match.params.id;
+
+
 
         if (pitchId) {
             this.setState({
