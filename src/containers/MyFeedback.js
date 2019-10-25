@@ -87,12 +87,17 @@ export default class MyFeedback extends Component {
 
     componentDidMount = async () => {
         this.setState({isLoading: true});
-        const {
-            pitchID
-        } = this.state;
+        const path = this.props.location.pathname;
+        const arr = path.split('/');
+        const id = arr[2];
+        console.log("ID:", id);
+        // const {
+        //     pitchID
+        // } = this.state;
+
 
         const pitchesRef = await firebase.firestore().collection("pitches");
-        const myFeedbacksRef = pitchesRef.doc(pitchID).collection("feedback");
+        const myFeedbacksRef = pitchesRef.doc(id).collection("feedback");
         this.unsubscribe = myFeedbacksRef.onSnapshot(this.onCollectionUpdate);
         this.setState({isLoading: false});
     };

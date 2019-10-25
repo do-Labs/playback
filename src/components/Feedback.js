@@ -68,28 +68,6 @@ export default class Feedback extends Component {
                                     <p>Comment: {comment}</p>
                                 </div>
                             }/>
-                        <Button icon="edit" as={Link} to={`/feedback/${this.props.feedback.id}`}/>
-                        <Modal
-                            trigger={<Button icon="delete" onClick={this.handleOpen}/>}
-                            open={this.state.modalOpen}
-                            onClose={this.handleClose}
-                            basic
-                            size="small">
-                            {error && <Message error content={error.message}/>}
-                            <Header color="red" icon="delete" content="Delete"/>
-                            <Modal.Content>
-                                <h3>Do you really want to delete {id} ?</h3>
-                            </Modal.Content>
-                            <Modal.Actions>
-                                <Button basic color="red" inverted onClick={this.handleClose}>
-                                    <Icon name="remove"/>No
-                                </Button>
-                                <Button color="green" inverted onClick={this.handleDelete} loading={isLoading}>
-                                    <Icon name="checkmark"/>Yes
-                                </Button>
-                            </Modal.Actions>
-                        </Modal>
-                        <Button icon="users" as={Link} to={`/users/${id}`}/>
                     </Button.Group>
                 </Table.Cell>
             </Table.Row>

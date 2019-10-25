@@ -83,7 +83,7 @@ export default class Pitch extends Component {
                                 </div>
                             }/>
                         <Button icon="edit" as={Link} to={`/pitch/${this.props.pitch.id}`}/>
-                        <Button icon="reply" as={Link} to={`/feedbacks/${this.props.pitch.id}`}/>
+                        <Button icon="reply" as={Link} to={`/my-feedback/${this.props.pitch.id}`}/>
                         <Modal
                             trigger={<Button icon="delete" onClick={this.handleOpen}/>}
                             open={this.state.modalOpen}
