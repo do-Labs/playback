@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {
     Pitch,
     Logo,
-    NavMenu, Business,
+    NavMenu,
     // Pitch
 } from "../components/index";
 import {Container, Dimmer, Grid, Loader, Message, Table, Form, Button} from "semantic-ui-react";

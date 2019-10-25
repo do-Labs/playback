@@ -20,9 +20,9 @@ export default class Feedback extends Component {
             phoneNumber: "",
             city: "",
             state: "",
-            timeStamp: "",
             comment: "",
             isAnonymous: "",
+            wantsToMeet: "",
             rating: 1,
 
             pitches: [],
@@ -137,10 +137,10 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
-            timeStamp,
             rating,
             comment,
             isAnonymous,
+            wantsToMeet,
         } = this.state;
 
         console.log("Submitting Feedback...");
@@ -154,10 +154,11 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
-            timeStamp,
+            timeStamp: Date.now(),
             rating,
             comment,
             isAnonymous,
+            wantsToMeet,
         }).then((docRef) => {
             this.props.history.push('/thankyou');
         })
@@ -223,6 +224,7 @@ export default class Feedback extends Component {
             comment,
             pitches,
             pid,
+            wantsToMeet
 
         } = this.state;
 
@@ -353,6 +355,17 @@ export default class Feedback extends Component {
                                             // onChange={this.handleCheckBoxChange}
                                         />
                                     </label>
+                                </div>
+                                <div>
+                                    <select
+                                        name="wantsToMeet"
+                                        value={wantsToMeet}
+                                        onChange={this.handleOnChange}
+                                    >
+                                        <option placeholder="-">Request Meeting?</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
                                 </div>
                                 <div className="equal">
                                     <div className="ui form">

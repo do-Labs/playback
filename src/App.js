@@ -23,7 +23,7 @@ import {
     RecordPitch,
 } from "./containers/index.js"
 import jwtDecode from "jwt-decode";
-import firebase from "./Firebase";
+// import firebase from "./Firebase";
 
 
 

@@ -51,6 +51,7 @@ export default class Pitch extends Component {
                         presenterEmail: pitch.presenterEmail,
                         location: pitch.location,
                         pitchUrl: pitch.pitchUrl,
+                        businessID: pitch.businessID,
                     });
                 } else {
                     console.log("No such document!");
@@ -112,6 +113,7 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
+            businessID,
         } = this.state;
 
         this.ref.add({
@@ -122,6 +124,7 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
+            businessID,
         }).then( async(docRef) => {
             const pid = docRef._key.path.segments[1];
             console.log("POSTED Pitch Data", docRef);
@@ -151,6 +154,7 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
+            businessID,
         } = this.state;
 
         // Then update existing data with a PUT call with all fields
@@ -167,9 +171,10 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
+            businessID,
         }).then((docRef) => {
             alert("Pitch Edited Successfully!");
-            this.props.history.push("/pitches")
+            this.props.history.push("/my-pitches")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);

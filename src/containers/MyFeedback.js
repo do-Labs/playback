@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Feedback, NavMenu, Logo} from "../components/index";
-import {Loader, Message, Table, Grid, Dimmer, Container
+import {
+    Loader, Message, Table, Grid, Dimmer, Container, Form, Button
 } from "semantic-ui-react";
 import firebase from '../Firebase';
 
@@ -14,7 +15,9 @@ export default class MyFeedback extends Component {
         this.state = {
             error: null,
             isLoading: true,
-            feedbacks: []
+            feedbacks: [],
+            businessID: "dHcEljBfajdYx0s6cU9O",
+            pitchID: "hj02axeVCqtwh04CA325"
         };
     }
 
@@ -28,7 +31,10 @@ export default class MyFeedback extends Component {
                 phoneNumber,
                 cityState,
                 timeStamp,
-                starsGiven,
+                rating,
+                comment,
+                isAnonymous,
+                wantsToMeet,
             } = doc.data();
             feedbacks.push({
                 key: doc.id,
@@ -40,7 +46,10 @@ export default class MyFeedback extends Component {
                 phoneNumber,
                 cityState,
                 timeStamp,
-                starsGiven,
+                rating,
+                comment,
+                isAnonymous,
+                wantsToMeet,
             });
             console.log("ID: ", doc.id)
         });
@@ -50,24 +59,56 @@ export default class MyFeedback extends Component {
     };
 
 
+    // componentDidMount = async () => {
+    //     this.setState({ isLoading: true });
+    //     const id = this.props.match.params.id;
+    //     // get custom claims for user
+    //     if (id) {
+    //         console.log('ID: ', id);
+    //         this.feedbackRef = this.refPitches.doc(id).collection('feedback');
+    //         this.unsubscribe = this.feedbackRef.onSnapshot(this.onCollectionUpdate);
+    //         this.setState({
+    //             isLoading: false,
+    //         });
+    //     }
+    //     else {
+    //         console.log("No Id found")
+    //         this.setState({
+    //             isLoading: false,
+    //         });
+    //     }
+    // };
+
+    handleOnChange = (e) => {
+        const state = this.state;
+        state[e.target.name] = e.target.value;
+        this.setState(state);
+    };
+
     componentDidMount = async () => {
-        this.setState({ isLoading: true });
-        const id = this.props.match.params.id;
-        // get custom claims for user
-        if (id) {
-            console.log('ID: ', id);
-            this.feedbackRef = this.refPitches.doc(id).collection('feedback');
-            this.unsubscribe = this.feedbackRef.onSnapshot(this.onCollectionUpdate);
-            this.setState({
-                isLoading: false,
-            });
-        }
-        else {
-            console.log("No Id found")
-            this.setState({
-                isLoading: false,
-            });
-        }
+        this.setState({isLoading: true});
+        const {
+            pitchID
+        } = this.state;
+
+        const pitchesRef = await firebase.firestore().collection("pitches");
+        const myFeedbacksRef = pitchesRef.doc(pitchID).collection("feedback");
+        this.unsubscribe = myFeedbacksRef.onSnapshot(this.onCollectionUpdate);
+        this.setState({isLoading: false});
+    };
+
+    getMyFeedback = async () => {
+        this.setState({isLoading: true});
+
+        const {
+            pitchID
+        } = this.state;
+
+        const pitchesRef = await firebase.firestore().collection("pitches");
+        const myFeedbacksRef = pitchesRef.doc(pitchID).collection("feedback")
+
+        this.unsubscribe = myFeedbacksRef.onSnapshot(this.onCollectionUpdate);
+        this.setState({isLoading: false});
     };
 
     render() {
@@ -75,7 +116,12 @@ export default class MyFeedback extends Component {
             onBusinessDeleted: this.getBusinessesList
         };
 
-        const {error, isLoading, feedbacks} = this.state;
+        const {
+            error,
+            isLoading,
+            feedbacks,
+            pitchID,
+        } = this.state;
 
         return (
             <Container>
@@ -94,12 +140,24 @@ export default class MyFeedback extends Component {
                                 <Loader inverted/>
                             </Dimmer>
                         )}
+                        <Form>
+                            <Form.Field>
+                                PitchID
+                                <Form.Input
+                                    name="pitchID"
+                                    value={pitchID}
+                                    onChange={this.handleOnChange}
+                                />
+                            </Form.Field>
+                            <Button onClick={this.getMyFeedback}>Get Pitches</Button>
+                        </Form>
                         <Table celled singleLine>
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell>PitchNickname</Table.HeaderCell>
+                                    {/*<Table.HeaderCell>PitchNickname</Table.HeaderCell>*/}
                                     <Table.HeaderCell>TimeStamp</Table.HeaderCell>
                                     <Table.HeaderCell>Rating</Table.HeaderCell>
+                                    <Table.HeaderCell>Followup</Table.HeaderCell>
                                     <Table.HeaderCell>Action</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
