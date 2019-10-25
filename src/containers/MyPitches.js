@@ -43,7 +43,6 @@ export default class MyPitches extends Component {
                 presenterName,
                 presenterEmail,
             });
-            console.log("PITCHID: ", doc.id)
         });
         this.setState({
             pitches
@@ -52,10 +51,6 @@ export default class MyPitches extends Component {
 
     componentDidMount = () => {
         this.setState({isLoading: true});
-
-        const token = this.props.token;
-        console.log(token);
-
         this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
         this.setState({isLoading: false});
     };

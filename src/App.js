@@ -23,6 +23,7 @@ import {
     RecordPitch,
 } from "./containers/index.js"
 import jwtDecode from "jwt-decode";
+import firebase from "./Firebase";
 
 
 
@@ -44,6 +45,7 @@ class App extends Component {
             const userId = decoded.user_id;
             this.setState({
                 userId: userId,
+                token: token,
             });
         }
         this.setState({
@@ -51,17 +53,6 @@ class App extends Component {
         });
     };
 
-    // componentDidMount = () => {
-    //     const token = this.state.token;
-    //
-    //     const decoded = jwtDecode(token);
-    //     const userId = decoded.user_id;
-    //     console.log(userId);
-    //
-    //     this.setState({
-    //         userId: userId,
-    //     })
-    // };
 
     userHasAuthenticated = (authenticated, username, token) => {
         this.setState({
@@ -75,6 +66,7 @@ class App extends Component {
         const props = {
             isAuthenticated: this.state.isAuthenticated,
             userHasAuthenticated: this.userHasAuthenticated,
+            getClaims: this.getClaims,
             username: this.state.username,
             userId: this.state.userId,
             token: this.state.token,

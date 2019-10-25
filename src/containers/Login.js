@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Form, Grid, Message, Segment } from "semantic-ui-react";
 import Logo from "../components/Logo";
 import { Redirect } from "react-router-dom";
-import firebase from 'firebase';
+import firebase from '../Firebase';
 
 class Login extends Component {
     state = {
@@ -40,30 +40,34 @@ class Login extends Component {
                 this.state.password
             );
             firebase.auth().currentUser.getIdTokenResult(true)
-                .then(idToken => {
+                .then(idTokenResult => {
                     console.log("User Authenticated with Firebase");
                     this.setState({user, isLoading: false});
-                    this.userAuthenticatesWithFirebase(user, idToken.token);
+                    this.userAuthenticatesWithFirebase(user, idTokenResult.token);
                     sessionStorage.setItem('auth', JSON.stringify({
-                        token: idToken.token,
+                        token: idTokenResult.token,
                         username: this.state.email,
                         refreshToken: user.user.refreshToken,
                     }));
-
-                    if (idToken.claims.admin === true) {
-                        console.log("User is an admin!");
-                    }
-                    else if (idToken.claims.businessID) {
-                        console.log("Registered Business User Access!");
-                        console.log(idToken.claims.businessID);
-                    } else {
-                        console.log("Guest Access");
-                    }
+                    this.checkClaims(idTokenResult)
 
                 }).catch();
         }
         catch (error) {
             this.setState({error, isLoading: false});
+        }
+    };
+
+    checkClaims = (idToken) => {
+        if (idToken.claims.admin === true) {
+            console.log("User is an admin!");
+        }
+        else if (idToken.claims.businessID) {
+            console.log("Registered Business User Access!");
+            console.log(idToken.claims.businessID);
+        } else {
+
+            console.log("Guest Access");
         }
     };
 
@@ -83,14 +87,6 @@ class Login extends Component {
             user.user.email,
             token,
         );
-        // firebase.auth().signInWithCustomToken(token)
-        //     .then( function() {
-        //         console.log("Signed in with Custom Token");
-        //     })
-        //     .catch(function(error) {
-        //         console.log("Error Signing in with customToken:", error);
-        //     });
-
     };
 
     confirmSignIn = () => {
