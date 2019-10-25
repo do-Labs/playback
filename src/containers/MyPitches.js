@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import {
+    Pitch,
     Logo,
-    NavMenu,
+    NavMenu, Business,
     // Pitch
 } from "../components/index";
-import {Container, Dimmer, Grid, Loader, Message, Table} from "semantic-ui-react";
+import {Container, Dimmer, Grid, Loader, Message, Table, Form, Button} from "semantic-ui-react";
 import firebase from '../Firebase';
 
 
@@ -17,9 +18,38 @@ export default class MyPitches extends Component {
         this.state = {
             error: null,
             isLoading: true,
-            pitches: []
+            pitches: [],
+            businessID: "dHcEljBfajdYx0s6cU9O"
         };
     }
+
+    // onCollectionUpdate = (querySnapshot) => {
+    //     const pitches = [];
+    //     querySnapshot.forEach((doc) => {
+    //         const {
+    //             nickname,
+    //             dateOfPitch,
+    //             company,
+    //             location,
+    //             presenterName,
+    //             presenterEmail,
+    //         } = doc.data();
+    //         pitches.push({
+    //             key: doc.id,
+    //             doc, // DocumentSnapshot
+    //             id: doc.id,
+    //             nickname,
+    //             dateOfPitch,
+    //             company,
+    //             location,
+    //             presenterName,
+    //             presenterEmail,
+    //         });
+    //     });
+    //     this.setState({
+    //         pitches
+    //     });
+    // };
 
     onCollectionUpdate = (querySnapshot) => {
         const pitches = [];
@@ -49,9 +79,13 @@ export default class MyPitches extends Component {
         });
     };
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.setState({isLoading: true});
-        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+
+        const myPitchesRef = await firebase.firestore().collection("pitches");
+        const pitches = await myPitchesRef.where("businessID", "==", this.state.businessID);
+
+        this.unsubscribe = pitches.onSnapshot(this.onCollectionUpdate);
         this.setState({isLoading: false});
     };
 
@@ -63,7 +97,7 @@ export default class MyPitches extends Component {
 
     handleDelete = (id) => {
         console.log("DEL: ", id);
-        this.setState({pitches: this.state.pitches.filter(pitch => pitch.id !== id)})
+        this.setState({pitches: this.state.pitches.filter(pitch => pitch.id !== id)});
         this.ref.doc(id).delete().then(() => {
             console.log("Document successfully deleted!");
             this.props.history.push("/")
@@ -72,22 +106,31 @@ export default class MyPitches extends Component {
         });
     };
 
-    // handleDelete(id) {
-    //     console.log("Deleting ", id);
-    //     this.ref.doc(id).delete().then(() => {
-    //         console.log("Document successfully deleted!");
-    //         this.props.history.push("/")
-    //     }).catch((error) => {
-    //         console.error("Error removing document: ", error);
-    //     });
-    // }
+    handleOnChange = (e) => {
+        const state = this.state;
+        state[e.target.name] = e.target.value;
+        this.setState(state);
+    };
+
+    getMyPitches = async () => {
+        this.setState({isLoading: true});
+
+        const myPitchesRef = await firebase.firestore().collection("pitches");
+        const pitches = await myPitchesRef.where("businessID", "==", this.state.businessID);
+
+        this.unsubscribe = pitches.onSnapshot(this.onCollectionUpdate);
+        this.setState({isLoading: false});
+    };
+
+
 
     render() {
 
         const {
             error,
             isLoading,
-            // pitches
+            businessID,
+            pitches
         } = this.state;
 
         return (
@@ -107,6 +150,17 @@ export default class MyPitches extends Component {
                                 <Loader inverted/>
                             </Dimmer>
                         )}
+                        <Form>
+                            <Form.Field>
+                                BusinessID
+                                <Form.Input
+                                    name="businessID"
+                                    value={businessID}
+                                    onChange={this.handleOnChange}
+                                />
+                            </Form.Field>
+                            <Button onClick={this.getMyPitches}>Get Pitches</Button>
+                        </Form>
                         <Table celled singleLine>
                             <Table.Header>
                                 <Table.Row>
@@ -119,7 +173,14 @@ export default class MyPitches extends Component {
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
-
+                                {pitches.map(pitch => (
+                                    <Pitch
+                                        key={Math.random()}
+                                        pitch={pitch}
+                                        {...this.props}
+                                        handleDelete={this.handleDelete}
+                                    />
+                                ))}
                             </Table.Body>
                         </Table>
                     </Grid.Column>
