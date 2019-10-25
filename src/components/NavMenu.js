@@ -99,6 +99,9 @@ export default class NavMenu extends Component {
                     {/*<Icon name="large binoculars" />*/}
                     Admin Only
                     <Menu.Menu>
+                        <Menu.Item name="utils" as={NavLink} to="/utils">
+                            Utils
+                        </Menu.Item>
                             Businesses
                         <Menu.Item name="listallbusinesses" as={NavLink} to="/businesses">
                             List

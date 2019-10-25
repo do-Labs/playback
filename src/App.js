@@ -21,6 +21,7 @@ import {
     Feedback,
     ThankYou,
     RecordPitch,
+    Utils
 } from "./containers/index.js"
 import jwtDecode from "jwt-decode";
 // import firebase from "./Firebase";
@@ -168,6 +169,11 @@ class App extends Component {
                         <PrivateRoute
                             path="/feedbacks/:id"
                             component={Feedbacks}
+                            props={props}
+                        />
+                        <PrivateRoute
+                            path="/utils/"
+                            component={Utils}
                             props={props}
                         />
                         <Route

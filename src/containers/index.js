@@ -21,6 +21,7 @@ export { default as AllFeedback } from "./AllFeedback";
 export { default as MyFeedback } from "./MyFeedback";
 export { default as Feedbacks } from "./Feedbacks";
 export { default as Feedback } from "./Feedback";
+export { default as Utils } from "./Utils";
 
 
 export { default as ThankYou } from "./ThankYou";

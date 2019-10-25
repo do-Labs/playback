@@ -26,6 +26,7 @@ export default class Pitch extends Component {
             qrPrefix: 'https://blooming-bastion-98391.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
+            businessID: "",
         };
     }
 
@@ -240,13 +241,14 @@ export default class Pitch extends Component {
             isLoading,
             editMode,
             nickname,
-            company,
+            // company,
             dateOfPitch,
             presenterName,
             presenterEmail,
             location,
             pitchUrl,
             pitchCodeUrl,
+            businessID,
 
         } = this.state;
 
@@ -284,13 +286,13 @@ export default class Pitch extends Component {
                                     </Form.Field>
 
                                     <Form.Field>
-                                        Company
+                                        BusinessID
                                         <Form.Input
-                                            name="company"
-                                            placeholder="Company"
-                                            value={company}
+                                            name="businessID"
+                                            placeholder="businessID"
+                                            value={businessID}
                                             onChange={this.handleOnChange}
-                                            error={!company || company === ""}
+                                            error={!businessID || businessID === ""}
                                         />
                                     </Form.Field>
 
