@@ -4,6 +4,8 @@ import {Logo} from "../components/index";
 import usStates from "../states";
 import firebase from '../Firebase';
 import StarRatingComponent from "react-star-rating-component";
+import AddToCalendar from 'react-add-to-calendar';
+// import AddToCalendar from '../components/add-to-calendar';
 
 const projectName = "playback-2a438";
 
@@ -12,10 +14,20 @@ export default class Feedback extends Component {
     constructor() {
         super();
         this.refPitches = firebase.firestore().collection('pitches');
-        this.unsubscribe = null;
         this.state = {
             error: null,
             isLoading: true,
+            // // Pitch Data
+            businessID: "",
+            company: "",
+            dateOfPitch: "",
+            location: "",
+            nickname: "",
+            pitchUrl: "",
+            presenterEmail: "",
+            presenterName: "",
+
+            // Feedback Data
             firstName: "",
             lastName: "",
             email: "",
@@ -26,97 +38,83 @@ export default class Feedback extends Component {
             isAnonymous: "",
             wantsToMeet: "",
             rating: 1,
-
-            pitches: [],
-            pid: ""
         };
     }
 
-    onCollectionUpdate = (querySnapshot) => {
-        this.getPitchList(querySnapshot);
-    };
-
-    getPitchList = (querySnapshot) => {
-        const pitches = [];
-        querySnapshot.forEach((doc) => {
-            const {
-                nickname,
-                company,
-                dateOfPitch,
-                presenterName,
-                presenterEmail,
-                location,
-            } = doc.data();
-            pitches.push({
-                key: doc.id,
-                doc, // DocumentSnapshot
-                id: doc.id,
-                nickname,
-                company,
-                dateOfPitch,
-                presenterName,
-                presenterEmail,
-                location,
-            });
-        });
-        this.setState({
-            pitches
-        });
-    };
-
     componentDidMount = async () => {
-        this.setState({ isLoading: true });
         const id = this.props.match.params.id;
+        this.setState({
+            isLoading: true,
+            id: id,
+        });
         if (id) {
             console.log('ID: ', id);
-            this.setState({
-                id: this.props.match.params.id,
-                pid: this.props.match.params.id,
-                isLoading: true,
-            });
-            console.log("Writing Feedback for PitchID: " + id);
+            // get current date
+            // const today = Date.now();
+            // convert current date
+            // this.setState({
+            //     id: this.props.match.params.id,
+            //     isLoading: true,
+            //     event: {
+            //         title: 'Remember to leave Feedback',
+            //         description: `leave your feedback for `,
+            //         location: 'Wherever you are',
+            //         startTime: '2019-09-16T20:15:00-04:00',
+            //         endTime: '2019-09-16T21:45:00-04:00',
+            //         buttonLabel: 'TEST'
+            //         // startTime: '' YYYY-MM-DDTHH:MM:SS-
+            //     }
+            // });
 
-            this.unsubscribe = this.refPitches.onSnapshot(this.onCollectionUpdate);
             // get pitch data
-            setTimeout(() => {
-                this.handleGetPitch().then(()=>{console.log("GotPitchData")})
-            }, 3000);
+            await this.handleGetPitchData(id).catch();
             this.setState({
                 isLoading: false,
             });
         }
         else {
-            this.setState({
-                id: this.props.match.params.id,
-                cleanMode: true,
-            });
-            this.unsubscribe = this.refPitches.onSnapshot(this.onCollectionUpdate);
             this.setState({ isLoading: false });
         }
     };
+    
 
-    handleGetPitch = async () => {
-        const id = this.state.id;
-        const pitches = this.state.pitches;
-        console.log(`Getting Pitch Data for ${id}`);
-        console.log("all pitches: ", this.state.pitches);
-        const pitch = pitches.find(x => x.id === id);
-        console.log("PITCH FOUND: ", pitch);
+    handleGetPitchData = async (id) => {
+        console.log('getting pitch data');
+        const refPitch = firebase.firestore().collection('pitches').doc(id);
 
-        if(pitches !== null){
-            this.setState({
-                nickname: pitch.nickname,
-                company: pitch.company,
-                dateOfPitch: pitch.dateOfPitch,
-                presenterName: pitch.presenterName,
-                presenterEmail: pitch.presenterEmail,
-                location: pitch.location,
-            })
-        }
-    };
-
-    componentDidUpdate = () => {
-        console.log("DID UPDAT#E")
+        await refPitch.get().then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                console.log("data:", data);
+                this.setState({
+                    pitchData: {
+                        key: doc.id,
+                        businessID: data.businessID,
+                        company: data.company,
+                        dateOfPitch: data.dateOfPitch,
+                        location: data.location,
+                        nickname: data.nickname,
+                        pitchUrl: data.pitchUrl,
+                        presenterEmail: data.presenterEmail,
+                        presenterName: data.presenterName,
+                    },
+                    businessID: data.businessID,
+                    company: data.company,
+                    dateOfPitch: data.dateOfPitch,
+                    location: data.location,
+                    nickname: data.nickname,
+                    pitchUrl: data.pitchUrl,
+                    presenterEmail: data.presenterEmail,
+                    presenterName: data.presenterName,
+                })
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+        // this.unsubscribe = await refPitch.onSnapshot(this.onCollectionUpdate);
     };
 
     handleOnChange = (e) => {
@@ -129,9 +127,12 @@ export default class Feedback extends Component {
         this.setState({ [name]: value });
     };
 
+    onStarClick(nextValue, prevValue, name) {
+        this.setState({rating: nextValue});
+    }
+
     submitFeedback = () => {
         const id = this.state.id;
-
         const {
             firstName,
             lastName,
@@ -186,29 +187,6 @@ export default class Feedback extends Component {
         console.log("Successfully submitted Feedback");
     };
 
-    onStarClick(nextValue, prevValue, name) {
-        this.setState({rating: nextValue});
-    }
-
-    handleSelectPitch = (e, {name, value}, i) => {
-        console.log('Value: ', value);
-
-        this.setState({
-            pid: value,
-            id: value,
-            cleanMode: false,
-        });
-
-        setTimeout(() => {
-            this.handleGetPitch().then(()=>{console.log("GotPitchData")})
-        }, 2000);
-
-    };
-
-    handleRemindMe = () => {
-        console.log("Handle Remindme Later")
-    };
-
     handleEmailFeedback = () => {
         const body  = JSON.stringify({
             to: this.state.presenterEmail,
@@ -238,8 +216,7 @@ export default class Feedback extends Component {
         const {
             error,
             isLoading,
-            cleanMode,
-
+            id,
             nickname,
             company,
             dateOfPitch,
@@ -254,8 +231,6 @@ export default class Feedback extends Component {
             state,
             rating,
             comment,
-            pitches,
-            pid,
             wantsToMeet
 
         } = this.state;
@@ -273,35 +248,21 @@ export default class Feedback extends Component {
                             </Dimmer>
                         )}
 
-                        {cleanMode &&
-                        <div className="ui segment">
-                            <h2>Create Feedback</h2>
-                            <Dropdown
-                                name="pid"
-                                placeholder="Select a pitch to rate (devOnly)"
-                                fluid
-                                search
-                                selection
-                                options={pitches.map(pitch => ({
-                                    key: pitch.id,
-                                    text: pitch.company,
-                                    value: pitch.id,
-                                }))}
-                                onChange={this.handleSelectPitch}
-                            />
-                        </div>
-
-                        }
-
-                        {!cleanMode &&
                         <Form onSubmit={this.onSubmit}>
-                            <h2>Leave Feedback for: {pid}</h2>
+                            <h2>Leave Feedback for: {id}</h2>
                             <p>Company: {company}</p>
                             <p>Pitch Nickname: {nickname}</p>
                             <p>DateOfPitch: {dateOfPitch}</p>
                             <p>PresenterName: {presenterName}</p>
                             <p>PresenterEmail: {presenterEmail}</p>
                             <div className="ui segment">
+
+
+                                <AddToCalendar
+                                    displayName="Remind Me"
+                                    event={this.state.event}/>
+
+
                                 <center>
                                     <div>
                                         Leave a rating
@@ -412,15 +373,15 @@ export default class Feedback extends Component {
                                             </div>
                                         </Grid.Column>
                                         <Grid.Column width={2}>
-                                            <label>
-                                                <p><span id="isAnonymous"> Anonymous?</span></p>
-                                                <input
-                                                    name="isAnonymous"
-                                                    type="checkbox"
-                                                    checked={this.state.isAnonymous}
-                                                    // onChange={this.handleCheckBoxChange}
-                                                />
-                                            </label>
+                                            {/*<label>*/}
+                                                {/*<p><span id="isAnonymous"> Anonymous?</span></p>*/}
+                                                {/*<input*/}
+                                                    {/*name="isAnonymous"*/}
+                                                    {/*type="checkbox"*/}
+                                                    {/*checked={this.state.isAnonymous}*/}
+                                                    {/*// onChange={this.handleCheckBoxChange}*/}
+                                                {/*/>*/}
+                                            {/*</label>*/}
                                         </Grid.Column>
                                     </Grid>
                                 </div>
@@ -439,19 +400,12 @@ export default class Feedback extends Component {
                                     </div>
                                 </div>
                             </div>
-
-
                             <Button loading={isLoading}
                             >Submit</Button>
                         </Form>
-                        }
-                        <Button loading={isLoading} onClick={this.handleRemindMe}
-                        >RemindMeLater</Button>
+
                     </Grid.Column>
                 </Grid>
-                {/*<Button onClick={this.handleGetPitch}>GetPitch</Button>*/}
-
-
             </Container>
         );
     }

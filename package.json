@@ -19,6 +19,7 @@
     "jwt-decode": "^2.2.0",
     "qrcode.react": "^0.8.0",
     "react": "^16.5.2",
+    "react-add-to-calendar": "^0.1.5",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.5.2",
     "react-json-tree": "^0.11.2",
