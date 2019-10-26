@@ -6,6 +6,7 @@ import firebase from '../Firebase';
 import StarRatingComponent from "react-star-rating-component";
 import AddToCalendar from 'react-add-to-calendar';
 // import AddToCalendar from '../components/add-to-calendar';
+const moment = require('moment');
 
 const projectName = "playback-2a438";
 
@@ -41,6 +42,30 @@ export default class Feedback extends Component {
         };
     }
 
+    setReminderDate = () => {
+        const event = this.state.event;
+        console.log(Date.now());
+        // console.log(Date("1495159447834").toDateString());
+        // console.log(Date.parse('2019-09-16T20:15:00-04:00'));
+        const nowEpoch = Date.now();
+        console.log('nowEpoch  ', nowEpoch);
+        const laterEpoch = nowEpoch; // add 3 hours
+        // const laterEpoch = nowEpoch + 10800 * 1000; // add 3 hours
+        console.log('laterEpoch', laterEpoch);
+        const start = moment(laterEpoch).format();
+        console.log("moment Start: ", start );
+
+        this.setState({
+            event: {
+                title: 'Remember to leave Feedback',
+                description: `leave your feedback for `,
+                location: 'Wherever you are',
+                startTime: start,
+            }
+        })
+
+    };
+
     componentDidMount = async () => {
         const id = this.props.match.params.id;
         this.setState({
@@ -49,22 +74,14 @@ export default class Feedback extends Component {
         });
         if (id) {
             console.log('ID: ', id);
+            this.setReminderDate();
             // get current date
             // const today = Date.now();
             // convert current date
-            // this.setState({
-            //     id: this.props.match.params.id,
-            //     isLoading: true,
-            //     event: {
-            //         title: 'Remember to leave Feedback',
-            //         description: `leave your feedback for `,
-            //         location: 'Wherever you are',
-            //         startTime: '2019-09-16T20:15:00-04:00',
-            //         endTime: '2019-09-16T21:45:00-04:00',
-            //         buttonLabel: 'TEST'
-            //         // startTime: '' YYYY-MM-DDTHH:MM:SS-
-            //     }
-            // });
+            this.setState({
+                id: this.props.match.params.id,
+                isLoading: true,
+            });
 
             // get pitch data
             await this.handleGetPitchData(id).catch();
@@ -259,7 +276,7 @@ export default class Feedback extends Component {
 
 
                                 <AddToCalendar
-                                    displayName="Remind Me"
+                                    buttonLabel="Remind me later"
                                     event={this.state.event}/>
 
 
