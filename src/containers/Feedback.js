@@ -177,7 +177,7 @@ export default class Feedback extends Component {
         });
 
         await this.submitFeedback();
-        await this.handleEmailFeedback();
+        // await this.handleEmailFeedback();
 
         this.setState({
             isEnabled: false,
@@ -207,7 +207,7 @@ export default class Feedback extends Component {
 
     handleRemindMe = () => {
         console.log("Handle Remindme Later")
-    }
+    };
 
     handleEmailFeedback = () => {
         const body  = JSON.stringify({
