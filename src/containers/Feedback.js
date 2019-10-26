@@ -50,7 +50,7 @@ export default class Feedback extends Component {
         const nowEpoch = Date.now();
         console.log('nowEpoch  ', nowEpoch);
         const laterEpoch = nowEpoch; // add 3 hours
-        // const laterEpoch = nowEpoch + 10800 * 1000; // add 3 hours
+        // const laterEpoch = nowEpoch + 20000000; // add 3 hours
         console.log('laterEpoch', laterEpoch);
         const start = moment(laterEpoch).format();
         console.log("moment Start: ", start );
