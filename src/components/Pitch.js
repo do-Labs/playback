@@ -31,7 +31,7 @@ export default class Pitch extends Component {
 
         firebase.firestore().collection('pitches').doc(id).delete().then(() => {
             console.log("Document successfully deleted!");
-            this.props.history.push("/pitches")
+            this.props.history.push("/my-pitches")
         }).catch((error) => {
             console.error("Error removing document: ", error);
         });

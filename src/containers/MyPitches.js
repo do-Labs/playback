@@ -100,7 +100,7 @@ export default class MyPitches extends Component {
         this.setState({pitches: this.state.pitches.filter(pitch => pitch.id !== id)});
         this.ref.doc(id).delete().then(() => {
             console.log("Document successfully deleted!");
-            this.props.history.push("/")
+            // this.props.history.push("/my-pitches")
         }).catch((error) => {
             console.error("Error removing document: ", error);
         });
@@ -152,7 +152,7 @@ export default class MyPitches extends Component {
                         )}
                         <Form>
                             <Form.Field>
-                                BusinessID
+                                BusinessID (dev Only)
                                 <Form.Input
                                     name="businessID"
                                     value={businessID}
