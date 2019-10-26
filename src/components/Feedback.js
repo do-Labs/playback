@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import {Button, Header, Icon, Message, Modal, Table} from "semantic-ui-react";
-import {Link} from "react-router-dom";
+import {Button, Modal, Table} from "semantic-ui-react";
 
 export default class Feedback extends Component {
     state = {
@@ -22,9 +21,6 @@ export default class Feedback extends Component {
         modalOpen: false
     };
 
-    handleOpen = () => this.setState({modalOpen: true});
-    handleClose = () => this.setState({modalOpen: false});
-
     render() {
 
         const {
@@ -40,8 +36,6 @@ export default class Feedback extends Component {
             comment,
             wantsToMeet,
             isAnonymous,
-            error,
-            isLoading
         } = this.state;
 
         return (

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Feedback, NavMenu, Logo} from "../components/index";
 import {
-    Loader, Message, Table, Grid, Dimmer, Container, Form, Button
+    Loader, Message, Table, Grid, Dimmer, Container, Button
 } from "semantic-ui-react";
 import firebase from '../Firebase';
 
@@ -130,7 +130,6 @@ export default class MyFeedback extends Component {
             error,
             isLoading,
             feedbacks,
-            pitchID,
         } = this.state;
 
         return (

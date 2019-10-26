@@ -66,15 +66,15 @@ export default class NavMenu extends Component {
                     </Menu.Menu>
                 </Menu.Item>
 
-                <Menu.Item>
-                    {/*<Icon name="large reply all" />*/}
-                    Feedback
-                    <Menu.Menu>
-                        <Menu.Item name="myFeedback" as={NavLink} to="/my-feedback">
-                            My Feedback
-                        </Menu.Item>
-                    </Menu.Menu>
-                </Menu.Item>
+                {/*<Menu.Item>*/}
+                    {/*/!*<Icon name="large reply all" />*!/*/}
+                    {/*Feedback*/}
+                    {/*<Menu.Menu>*/}
+                        {/*<Menu.Item name="myFeedback" as={NavLink} to="/my-feedback">*/}
+                            {/*My Feedback*/}
+                        {/*</Menu.Item>*/}
+                    {/*</Menu.Menu>*/}
+                {/*</Menu.Item>*/}
 
                 <Menu.Item>
                     {/*<Icon name="large binoculars" />*/}

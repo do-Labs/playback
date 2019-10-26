@@ -371,12 +371,13 @@ export default class Feedback extends Component {
                                     <Grid>
                                         <Grid.Column width={14}>
                                             <div>
+                                                <p><span id="requestMeeting"> Request Meeting?</span></p>
                                                 <select
                                                     name="wantsToMeet"
                                                     value={wantsToMeet}
                                                     onChange={this.handleOnChange}
                                                 >
-                                                    <option placeholder="-">Request Meeting?</option>
+                                                    <option placeholder="-">-</option>
                                                     <option value="yes">Yes</option>
                                                     <option value="no">No</option>
                                                 </select>
