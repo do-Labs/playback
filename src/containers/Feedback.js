@@ -220,7 +220,6 @@ export default class Feedback extends Component {
         fetch(`http://us-central1-${projectName}.cloudfunctions.net/EmailFeedback`, {
             method: "POST",
             headers: new Headers({
-                Authorization: "Bearer " + this.props.token,
                 "Content-Type": "application/json",
                 'cache-control': 'no-cache',
             }),
