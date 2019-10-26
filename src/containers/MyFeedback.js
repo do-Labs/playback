@@ -91,10 +91,9 @@ export default class MyFeedback extends Component {
         const arr = path.split('/');
         const id = arr[2];
         console.log("ID:", id);
-        // const {
-        //     pitchID
-        // } = this.state;
-
+        this.setState({
+            pitchID: id,
+        });
 
         const pitchesRef = await firebase.firestore().collection("pitches");
         const myFeedbacksRef = pitchesRef.doc(id).collection("feedback");
@@ -113,6 +112,12 @@ export default class MyFeedback extends Component {
         const myFeedbacksRef = pitchesRef.doc(pitchID).collection("feedback")
 
         this.unsubscribe = myFeedbacksRef.onSnapshot(this.onCollectionUpdate);
+        this.setState({isLoading: false});
+    };
+
+    handleExportFeedback = async () => {
+        this.setState({isLoading: true});
+        console.log("Exporting Feedback");
         this.setState({isLoading: false});
     };
 
@@ -145,17 +150,6 @@ export default class MyFeedback extends Component {
                                 <Loader inverted/>
                             </Dimmer>
                         )}
-                        <Form>
-                            <Form.Field>
-                                PitchID
-                                <Form.Input
-                                    name="pitchID"
-                                    value={pitchID}
-                                    onChange={this.handleOnChange}
-                                />
-                            </Form.Field>
-                            <Button onClick={this.getMyFeedback}>Get Pitches</Button>
-                        </Form>
                         <Table celled singleLine>
                             <Table.Header>
                                 <Table.Row>
@@ -178,6 +172,7 @@ export default class MyFeedback extends Component {
                                 ))}
                             </Table.Body>
                         </Table>
+                        <Button onClick={this.handleExportFeedback}>ExportFeedback</Button>
                     </Grid.Column>
                 </Grid>
             </Container>

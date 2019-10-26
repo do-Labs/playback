@@ -202,6 +202,10 @@ export default class Feedback extends Component {
 
     };
 
+    handleRemindMe = () => {
+        console.log("Handle Remindme Later")
+    }
+
     render() {
         const {
             error,
@@ -233,10 +237,7 @@ export default class Feedback extends Component {
             <Container>
                 <Logo/>
                 <Grid>
-                    <Grid.Column width={4}>
-                        {/*<NavMenu {...this.props} />*/}
-                    </Grid.Column>
-                    <Grid.Column width={10}>
+                    <Grid.Column>
                         {error && <Message error content={error.message}/>}
                         {isLoading && (
                             <Dimmer active inverted>
@@ -275,6 +276,7 @@ export default class Feedback extends Component {
                             <div className="ui segment">
                                 <center>
                                     <div>
+                                        Leave a rating
                                         <StarRatingComponent
                                             name="rating"
                                             starCount={5}
@@ -285,87 +287,113 @@ export default class Feedback extends Component {
                                 </center>
 
                                 <div className="equal width fields">
-                                    <Form.Field>
-                                        <Form.Input
-                                            name="firstName"
-                                            placeholder="First Name"
-                                            value={firstName}
-                                            onChange={this.handleOnChange}
-                                        />
-                                    </Form.Field>
-
-                                    <Form.Field>
-                                        <Form.Input
-                                            name="lastName"
-                                            placeholder="Last Name"
-                                            value={lastName}
-                                            onChange={this.handleOnChange}
-                                        />
-                                    </Form.Field>
-
+                                    <Grid>
+                                        <Grid.Column width={8}>
+                                            <Form.Field>
+                                                <Form.Input
+                                                    name="firstName"
+                                                    placeholder="First Name"
+                                                    value={firstName}
+                                                    onChange={this.handleOnChange}
+                                                />
+                                            </Form.Field>
+                                        </Grid.Column>
+                                        <Grid.Column width={8}>
+                                            <Form.Field>
+                                                <Form.Input
+                                                    name="lastName"
+                                                    placeholder="Last Name"
+                                                    value={lastName}
+                                                    onChange={this.handleOnChange}
+                                                />
+                                            </Form.Field>
+                                        </Grid.Column>
+                                    </Grid>
                                 </div>
                                 <div className="equal width fields">
-                                    <Form.Field>
-                                        <Form.Input
-                                            name="email"
-                                            placeholder="Email Address"
-                                            value={email}
-                                            onChange={this.handleOnChange}
-                                        />
-                                    </Form.Field>
-
-                                    <Form.Field>
-                                        <Form.Input
-                                            name="phoneNumber"
-                                            placeholder="Phone Number"
-                                            value={phoneNumber}
-                                            onChange={this.handleOnChange}
-                                        />
-                                    </Form.Field>
+                                    <Grid>
+                                        <Grid.Column width={9}>
+                                            <Form.Field>
+                                                <Form.Input
+                                                    name="email"
+                                                    placeholder="Email Address"
+                                                    value={email}
+                                                    onChange={this.handleOnChange}
+                                                />
+                                            </Form.Field>
+                                        </Grid.Column>
+                                        <Grid.Column width={7}>
+                                            <Form.Field>
+                                                <Form.Input
+                                                    name="phoneNumber"
+                                                    placeholder="Phone Number"
+                                                    value={phoneNumber}
+                                                    onChange={this.handleOnChange}
+                                                />
+                                            </Form.Field>
+                                        </Grid.Column>
+                                    </Grid>
                                 </div>
                                 <div className="equal width fields">
-                                    <Form.Field>
-                                        <Form.Input
-                                            name="city"
-                                            placeholder="City"
-                                            value={city}
-                                            onChange={this.handleOnChange}
-                                        />
-                                    </Form.Field>
-                                    <Form.Field>
-                                        <Dropdown
-                                            name="state"
-                                            placeholder="State"
-                                            fluid
-                                            search
-                                            selection
-                                            options={usStates}
-                                            value={state}
-                                            onChange={(event, data) => {
-                                                this.handleSelectChange(event, data);
-                                            }}
-                                        />
-                                    </Form.Field>
-                                    <label>
-                                        <p><span id="isAnonymous"> Anonymous?</span></p>
-                                        <input
-                                            name="isAnonymous"
-                                            type="checkbox"
-                                            checked={this.state.isAnonymous}
-                                            // onChange={this.handleCheckBoxChange}
-                                        />
-                                    </label>
+                                    <Grid>
+                                        <Grid.Column width={8}>
+                                            <Form.Field>
+                                                <Form.Input
+                                                    name="city"
+                                                    placeholder="City"
+                                                    value={city}
+                                                    onChange={this.handleOnChange}
+                                                />
+                                            </Form.Field>
+                                        </Grid.Column>
+                                        <Grid.Column width={8}>
+                                            <Form.Field>
+                                                <Dropdown
+                                                    width={2}
+                                                    name="state"
+                                                    placeholder="State"
+                                                    fluid
+                                                    search
+                                                    selection
+                                                    options={usStates}
+                                                    value={state}
+                                                    onChange={(event, data) => {
+                                                        this.handleSelectChange(event, data);
+                                                    }}
+                                                />
+                                            </Form.Field>
+                                        </Grid.Column>
+                                    </Grid>
                                 </div>
-                                <div>
-                                    <select
-                                        name="wantsToMeet"
-                                        value={wantsToMeet}
-                                        onChange={this.handleOnChange}
-                                    >
-                                        <option placeholder="-">Request Meeting?</option>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
-                                    </select>
+
+
+                                <div className="equal width fields">
+                                    <Grid>
+                                        <Grid.Column width={14}>
+                                            <div>
+                                                <select
+                                                    name="wantsToMeet"
+                                                    value={wantsToMeet}
+                                                    onChange={this.handleOnChange}
+                                                >
+                                                    <option placeholder="-">Request Meeting?</option>
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+                                        </Grid.Column>
+                                        <Grid.Column width={2}>
+                                            <label>
+                                                <p><span id="isAnonymous"> Anonymous?</span></p>
+                                                <input
+                                                    name="isAnonymous"
+                                                    type="checkbox"
+                                                    checked={this.state.isAnonymous}
+                                                    // onChange={this.handleCheckBoxChange}
+                                                />
+                                            </label>
+                                        </Grid.Column>
+                                    </Grid>
                                 </div>
                                 <div className="equal">
                                     <div className="ui form">
@@ -388,6 +416,8 @@ export default class Feedback extends Component {
                             >Submit</Button>
                         </Form>
                         }
+                        <Button loading={isLoading} onClick={this.handleRemindMe}
+                        >RemindMeLater</Button>
                     </Grid.Column>
                 </Grid>
                 {/*<Button onClick={this.handleGetPitch}>GetPitch</Button>*/}
