@@ -5,6 +5,8 @@ import usStates from "../states";
 import firebase from '../Firebase';
 import StarRatingComponent from "react-star-rating-component";
 
+const projectName = "playback-2a438";
+
 export default class Feedback extends Component {
 
     constructor() {
@@ -167,14 +169,15 @@ export default class Feedback extends Component {
             });
     };
 
-    onSubmit = e => {
-        e.preventDefault();
+    onSubmit = async () => {
+        // e.preventDefault();
         this.setState({
             isEnabled: false,
             isLoading: true,
         });
 
-        this.submitFeedback();
+        await this.submitFeedback();
+        await this.handleEmailFeedback();
 
         this.setState({
             isEnabled: false,
@@ -205,6 +208,32 @@ export default class Feedback extends Component {
     handleRemindMe = () => {
         console.log("Handle Remindme Later")
     }
+
+    handleEmailFeedback = () => {
+        const body  = JSON.stringify({
+            to: this.state.presenterEmail,
+            businessID: this.state.businessID,
+            nickname: this.state.nickname,
+        });
+        console.log("BODY: ", body);
+
+        fetch(`http://us-central1-${projectName}.cloudfunctions.net/EmailFeedback`, {
+            method: "POST",
+            headers: new Headers({
+                Authorization: "Bearer " + this.props.token,
+                "Content-Type": "application/json",
+                'cache-control': 'no-cache',
+            }),
+            body
+        })
+            .then( (res)=> {
+                console.log("Emailed user");
+                console.log("RESPONSE: ", res)
+            }).catch( (err)=> {
+            alert("Error sending Email");
+            console.log("Error Emailing User: ", err)
+        })
+    };
 
     render() {
         const {
