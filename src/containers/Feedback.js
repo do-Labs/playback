@@ -43,7 +43,6 @@ export default class Feedback extends Component {
     }
 
     setReminderDate = () => {
-        const event = this.state.event;
         console.log(Date.now());
         // console.log(Date("1495159447834").toDateString());
         // console.log(Date.parse('2019-09-16T20:15:00-04:00'));
