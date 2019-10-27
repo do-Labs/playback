@@ -27,7 +27,7 @@ export default class Pitch extends Component {
             qrPrefix: 'https://blooming-bastion-98391.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
-            businessID: "",
+            businessID: "dHcEljBfajdYx0s6cU9O", // TODO: dev only
         };
     }
 
@@ -246,7 +246,7 @@ export default class Pitch extends Component {
             isLoading,
             editMode,
             pitchTitle,
-            // company,
+            company,
             dateOfPitch,
             presenterName,
             presenterEmail,
@@ -290,6 +290,10 @@ export default class Pitch extends Component {
                                             error={!businessID || businessID === ""}
                                         />
                                     </Form.Field>
+                                    <hr/>
+                                    <h4>
+                                        {company}
+                                    </h4>
                                      <hr/>
                                     <Form.Field>
                                         Pitch Title

@@ -39,7 +39,9 @@ export default class Feedback extends Component {
             comment: "",
             isAnonymous: "",
             wantsToMeet: "",
-            rating: 1,
+            rating1: 0, // communication of business concept
+            rating2: 0, // Validity of problem statement
+            rating3: 0, // value value of solution
         };
     }
 
@@ -145,7 +147,9 @@ export default class Feedback extends Component {
     };
 
     onStarClick(nextValue, prevValue, name) {
-        this.setState({rating: nextValue});
+        const state = this.state;
+        state[name] = nextValue;
+        this.setState(state)
     }
 
     submitFeedback = () => {
@@ -245,7 +249,9 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
-            rating,
+            rating1,
+            rating2,
+            rating3,
             comment,
             wantsToMeet
 
@@ -282,30 +288,30 @@ export default class Feedback extends Component {
                             <div className="ui segment">
                                 <div>
                                     <StarRatingComponent
-                                        name="rating"
+                                        name="rating1"
                                         starCount={5}
-                                        value={rating}
+                                        value={rating1}
                                         onStarClick={this.onStarClick.bind(this)}
                                     />
                                     Communication of business concept
                                 </div>
                                 <div>
                                     <StarRatingComponent
-                                        name="rating"
+                                        name="rating2"
                                         starCount={5}
-                                        value={rating}
+                                        value={rating2}
                                         onStarClick={this.onStarClick.bind(this)}
                                     />
-                                    Business Model
+                                    Problem Validity
                                 </div>
                                 <div>
                                     <StarRatingComponent
-                                        name="rating"
+                                        name="rating3"
                                         starCount={5}
-                                        value={rating}f
+                                        value={rating3}
                                         onStarClick={this.onStarClick.bind(this)}
                                     />
-                                    Confidence in pitch
+                                    Value of Solution
                                 </div>
                                 <hr/>
 
@@ -342,6 +348,7 @@ export default class Feedback extends Component {
                                                     placeholder="Email Address"
                                                     value={email}
                                                     onChange={this.handleOnChange}
+                                                    error={!email || email === ""}
                                                 />
                                             </Form.Field>
                                         </Grid.Column>
@@ -394,7 +401,7 @@ export default class Feedback extends Component {
                                     <Grid>
                                         <Grid.Column width={14}>
                                             <div>
-                                                <p><span id="requestMeeting"> Request Meeting?</span></p>
+                                                <p><span id="requestMeeting">Wanna Get Coffee?</span></p>
                                                 <select
                                                     name="wantsToMeet"
                                                     value={wantsToMeet}
@@ -421,7 +428,7 @@ export default class Feedback extends Component {
                                 <div className="equal">
                                     <div className="ui form">
                                         <div className="field">
-                                            <label>Leave Feedback</label>
+                                            <label>Additional Comments</label>
                                             <textarea
                                                 name="comment"
                                                 value={comment}
