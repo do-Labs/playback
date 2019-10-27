@@ -140,8 +140,8 @@ export default class MyPitches extends Component {
                                     <Table.HeaderCell>Pitch Title</Table.HeaderCell>
                                     <Table.HeaderCell>PresenterName</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
-                                    <Table.HeaderCell>Avg Rating</Table.HeaderCell>
-                                    <Table.HeaderCell>Feedback Count</Table.HeaderCell>
+                                    <Table.HeaderCell>Rating</Table.HeaderCell>
+                                    <Table.HeaderCell>Count</Table.HeaderCell>
                                     <Table.HeaderCell>Action</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>

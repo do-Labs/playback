@@ -277,7 +277,9 @@ export default class Feedback extends Component {
                             <p>Company Name: {company}</p>
                             <p>DateOfPitch: {dateOfPitch}</p>
                             <p>PresenterName: {presenterName}</p>
-                            <p>EventUrl: {eventUrl}</p>
+                            {eventUrl &&
+                                <p>EventUrl: {eventUrl}</p>
+                            }
 
                             <center>
                                 <AddToCalendar

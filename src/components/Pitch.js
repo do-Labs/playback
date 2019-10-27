@@ -13,7 +13,10 @@ export default class Pitch extends Component {
         presenterEmail: this.props.pitch.presenterEmail,
         location: this.props.pitch.location,
         pitchUrl: this.props.pitch.pitchUrl,
-        pitchCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=http://192.168.1.66:3000/feedback/" + this.props.pitch.id,
+        pitchCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://blooming-bastion-98391.herokuapp.com/feedback/" + this.props.pitch.id,
+        eventUrl: "",
+        avgRating: 0,
+        feedbackCount: 0,
 
         isLoading: false,
         error: null,
@@ -40,6 +43,16 @@ export default class Pitch extends Component {
         });
     };
 
+    handleGetFeedbackRatingAverage = () => {
+
+        // get feedback count
+    };
+
+    handleGetFeedbackCount = () => {
+
+    };
+
+
     render() {
 
         const {
@@ -51,6 +64,9 @@ export default class Pitch extends Component {
             presenterName,
             presenterEmail,
             pitchCodeUrl,
+            eventUrl,
+            avgRating,
+            feedbackCount,
 
             error,
             isLoading
@@ -62,6 +78,8 @@ export default class Pitch extends Component {
                 <Table.Cell>{pitchTitle}</Table.Cell>
                 <Table.Cell>{presenterName}</Table.Cell>
                 <Table.Cell>{location}</Table.Cell>
+                <Table.Cell>{avgRating}</Table.Cell>
+                <Table.Cell>{feedbackCount}</Table.Cell>
                 <Table.Cell collapsing>
                     <Button.Group icon>
                         <Modal
@@ -76,11 +94,15 @@ export default class Pitch extends Component {
                                     <p>PitchURL: {pitchUrl}</p>
                                     <p>Presenter Name: {presenterName}</p>
                                     <p>Presenter Email: {presenterEmail}</p>
+                                    <p>Event URL: {eventUrl}</p>
+                                    <p>Average Rating: {avgRating}</p>
+                                    <p>Feedback Count: {feedbackCount}</p>
                                     <img alt="pitchCodeUrl" align="right" className="ui tiny image" src={pitchCodeUrl} />
                                 </div>
                             }/>
                         <Button icon="edit" as={Link} to={`/pitch/${this.props.pitch.id}`}/>
-                        <Button icon="reply" as={Link} to={`/my-feedback/${this.props.pitch.id}`}/>
+                        {/*<Button icon="reply" as={Link} to={`/my-feedback/${this.props.pitch.id}`}/>*/}
+                        <Button as={Link} to={`/my-feedback/${this.props.pitch.id}`}>Feedback</Button>
                         <Modal
                             trigger={<Button icon="delete" onClick={this.handleOpen}/>}
                             open={this.state.modalOpen}

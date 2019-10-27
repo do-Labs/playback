@@ -15,7 +15,7 @@ export default class Pitch extends Component {
             editMode: false,
             isEnabled: true,
             pitchTitle: "",
-            company: "",
+            company: "-",
             dateOfPitch: "",
             presenterName: "",
             presenterEmail: "",
@@ -177,6 +177,7 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
+            eventUrl,
             businessID,
         }).then((docRef) => {
             alert("Pitch Edited Successfully!");
@@ -291,9 +292,7 @@ export default class Pitch extends Component {
                                         />
                                     </Form.Field>
                                     <hr/>
-                                    <h4>
-                                        {company}
-                                    </h4>
+                                    <center><h4>{company}</h4></center>
                                      <hr/>
                                     <Form.Field>
                                         Pitch Title
