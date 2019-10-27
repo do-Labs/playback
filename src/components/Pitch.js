@@ -6,7 +6,7 @@ import firebase from "../Firebase";
 export default class Pitch extends Component {
     state = {
         id: this.props.pitch.id,
-        nickname: this.props.pitch.nickname,
+        pitchTitle: this.props.pitch.pitchTitle,
         company: this.props.pitch.company,
         dateOfPitch: this.props.pitch.dateOfPitch,
         presenterName: this.props.pitch.presenterName,
@@ -44,7 +44,7 @@ export default class Pitch extends Component {
 
         const {
             id,
-            nickname,
+            pitchTitle,
             dateOfPitch,
             company,
             location,
@@ -60,7 +60,7 @@ export default class Pitch extends Component {
         return (
             <Table.Row>
                 <Table.Cell>{dateOfPitch}</Table.Cell>
-                <Table.Cell>{nickname}</Table.Cell>
+                <Table.Cell>{pitchTitle}</Table.Cell>
                 <Table.Cell>{company}</Table.Cell>
                 <Table.Cell>{presenterName}</Table.Cell>
                 <Table.Cell>{location}</Table.Cell>
@@ -68,11 +68,11 @@ export default class Pitch extends Component {
                     <Button.Group icon>
                         <Modal
                             trigger={<Button icon="eye"/>}
-                            header={nickname}
+                            header={pitchTitle}
                             content={
                                 <div>
                                     <p>Id: {id}</p>
-                                    <p>Nickname: {nickname}</p>
+                                    <p>pitchTitle: {pitchTitle}</p>
                                     <p>Date: {dateOfPitch}</p>
                                     <p>Company: {company}</p>
                                     <p>Location: {location}</p>
@@ -93,7 +93,7 @@ export default class Pitch extends Component {
                             {error && <Message error content={error.message}/>}
                             <Header color="red" icon="delete" content="Delete"/>
                             <Modal.Content>
-                                <h3>Do you really want to delete {nickname} ?</h3>
+                                <h3>Do you really want to delete {pitchTitle} ?</h3>
                             </Modal.Content>
                             <Modal.Actions>
                                 <Button basic color="red" inverted onClick={this.handleClose}>

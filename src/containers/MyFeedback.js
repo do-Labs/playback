@@ -152,11 +152,11 @@ export default class MyFeedback extends Component {
                         <Table celled singleLine>
                             <Table.Header>
                                 <Table.Row>
-                                    {/*<Table.HeaderCell>PitchNickname</Table.HeaderCell>*/}
                                     <Table.HeaderCell>Date</Table.HeaderCell>
                                     <Table.HeaderCell>Name</Table.HeaderCell>
                                     <Table.HeaderCell>Rating</Table.HeaderCell>
                                     <Table.HeaderCell>Followup</Table.HeaderCell>
+                                    <Table.HeaderCell>Comment</Table.HeaderCell>
                                     <Table.HeaderCell>Action</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>

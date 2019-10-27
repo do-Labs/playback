@@ -14,11 +14,11 @@ export default class Pitch extends Component {
             isLoading: false,
             editMode: false,
             isEnabled: true,
-            nickname: "",
+            pitchTitle: "",
             company: "",
             dateOfPitch: "",
             presenterName: "",
-            presenterEmail: "humdan@dolabs.io",
+            presenterEmail: "",
             location: "",
             pitchUrl: "",
 
@@ -45,7 +45,7 @@ export default class Pitch extends Component {
                     const pitch = doc.data();
                     this.setState({
                         key: doc.id,
-                        nickname: pitch.nickname,
+                        pitchTitle: pitch.pitchTitle,
                         company: pitch.company,
                         dateOfPitch: pitch.dateOfPitch,
                         presenterName: pitch.presenterName,
@@ -107,7 +107,7 @@ export default class Pitch extends Component {
 
     submitCreate = async () => {
         const {
-            nickname,
+            pitchTitle,
             company,
             dateOfPitch,
             presenterName,
@@ -118,7 +118,7 @@ export default class Pitch extends Component {
         } = this.state;
 
         this.ref.add({
-            nickname,
+            pitchTitle,
             company,
             dateOfPitch,
             presenterName,
@@ -148,7 +148,7 @@ export default class Pitch extends Component {
         const pitchId = this.props.match.params.id;
         console.log("PITCHID: " , pitchId);
         const {
-            nickname,
+            pitchTitle,
             company,
             dateOfPitch,
             presenterName,
@@ -165,7 +165,7 @@ export default class Pitch extends Component {
         // post all pitch info to firebase
 
         pitchRef.set({
-            nickname,
+            pitchTitle,
             company,
             dateOfPitch,
             presenterName,
@@ -240,7 +240,7 @@ export default class Pitch extends Component {
             error,
             isLoading,
             editMode,
-            nickname,
+            pitchTitle,
             // company,
             dateOfPitch,
             presenterName,
@@ -275,17 +275,6 @@ export default class Pitch extends Component {
                                 <h3>Pitch Info</h3>
                                 <div className="ui segment">
                                     <Form.Field>
-                                        Pitch Nickname
-                                        <Form.Input
-                                            name="nickname"
-                                            placeholder="Pitch Nickname"
-                                            value={nickname}
-                                            onChange={this.handleOnChange}
-                                            error={!nickname || nickname === ""}
-                                        />
-                                    </Form.Field>
-
-                                    <Form.Field>
                                         BusinessID (devOnly)
                                         <Form.Input
                                             name="businessID"
@@ -293,6 +282,17 @@ export default class Pitch extends Component {
                                             value={businessID}
                                             onChange={this.handleOnChange}
                                             error={!businessID || businessID === ""}
+                                        />
+                                    </Form.Field>
+                                     <hr/>
+                                    <Form.Field>
+                                        Pitch Title
+                                        <Form.Input
+                                            name="pitchTitle"
+                                            placeholder="Pitch pitchTitle"
+                                            value={pitchTitle}
+                                            onChange={this.handleOnChange}
+                                            error={!pitchTitle || pitchTitle === ""}
                                         />
                                     </Form.Field>
 
@@ -357,7 +357,7 @@ export default class Pitch extends Component {
 
                             <Button loading={isLoading}
                                     disabled={
-                                        !nickname || nickname === "" ||
+                                        !pitchTitle || pitchTitle === "" ||
                                         !presenterName || !presenterName || presenterName === "" ||
                                         !presenterEmail || !presenterEmail || presenterEmail === ""
                                     }

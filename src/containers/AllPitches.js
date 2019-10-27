@@ -21,7 +21,7 @@ export default class AllPitches extends Component {
         const pitches = [];
         querySnapshot.forEach((doc) => {
             const {
-                nickname,
+                pitchTitle,
                 dateOfPitch,
                 company,
                 location,
@@ -33,7 +33,7 @@ export default class AllPitches extends Component {
                 key: doc.id,
                 doc, // DocumentSnapshot
                 id: doc.id,
-                nickname,
+                pitchTitle,
                 dateOfPitch,
                 company,
                 location,
@@ -109,7 +109,7 @@ export default class AllPitches extends Component {
                             <Table.Header>
                                 <Table.Row>
                                     <Table.HeaderCell>DateOfPitch</Table.HeaderCell>
-                                    <Table.HeaderCell>Pitch Nickname</Table.HeaderCell>
+                                    <Table.HeaderCell>Pitch pitchTitle</Table.HeaderCell>
                                     <Table.HeaderCell>Company</Table.HeaderCell>
                                     <Table.HeaderCell>PresenterName</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
