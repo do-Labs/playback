@@ -11,7 +11,9 @@ export default class Feedback extends Component {
         city: this.props.feedback.city,
         state: this.props.feedback.state,
         timeStamp: this.props.feedback.timeStamp,
-        rating: this.props.feedback.rating,
+        rating1: this.props.feedback.rating1,
+        rating2: this.props.feedback.rating2,
+        rating3: this.props.feedback.rating3,
         comment: this.props.feedback.comment,
         isAnonymous: this.props.feedback.isAnonymous,
         wantsToMeet: this.props.feedback.wantsToMeet,
@@ -34,7 +36,7 @@ export default class Feedback extends Component {
             rating3,
         } = this.state;
 
-        const ratingAvg = ( rating1 + rating2 + rating3 ) / 3;
+        const ratingAvg = Math.round( (rating1 + rating2 + rating3)/3 );
         if(ratingAvg){
             this.setState({ ratingAvg: ratingAvg})
         }
@@ -56,6 +58,9 @@ export default class Feedback extends Component {
             city,
             state,
             ratingAvg,
+            rating1,
+            rating2,
+            rating3,
             comment,
             wantsToMeet,
             isAnonymous,
@@ -87,6 +92,10 @@ export default class Feedback extends Component {
                                     <p>Email: {email}</p>
                                     <p>PhoneNumber: {phoneNumber}</p>
                                     <p>Comment: {comment}</p>
+                                    <hr/>
+                                    <p>Communication: {rating1}</p>
+                                    <p>Valid problem Statement: {rating2}</p>
+                                    <p>Valuable Soution: {rating3}</p>
                                 </div>
                             }/>
                     </Button.Group>
