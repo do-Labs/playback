@@ -93,6 +93,7 @@ export default class Feedback extends Component {
                                     <p>PhoneNumber: {phoneNumber}</p>
                                     <p>Comment: {comment}</p>
                                     <hr/>
+                                    <p>Average: {ratingAvg}</p>
                                     <p>Communication: {rating1}</p>
                                     <p>Valid problem Statement: {rating2}</p>
                                     <p>Valuable Soution: {rating3}</p>
