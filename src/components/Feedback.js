@@ -41,6 +41,7 @@ export default class Feedback extends Component {
         return (
             <Table.Row>
                 <Table.Cell>{timeStamp}</Table.Cell>
+                <Table.Cell>{firstName} {lastName}</Table.Cell>
                 <Table.Cell>{rating}</Table.Cell>
                 <Table.Cell>{wantsToMeet}</Table.Cell>
                 <Table.Cell collapsing>

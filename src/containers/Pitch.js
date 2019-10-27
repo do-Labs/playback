@@ -286,7 +286,7 @@ export default class Pitch extends Component {
                                     </Form.Field>
 
                                     <Form.Field>
-                                        BusinessID
+                                        BusinessID (devOnly)
                                         <Form.Input
                                             name="businessID"
                                             placeholder="businessID"

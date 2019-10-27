@@ -153,7 +153,8 @@ export default class MyFeedback extends Component {
                             <Table.Header>
                                 <Table.Row>
                                     {/*<Table.HeaderCell>PitchNickname</Table.HeaderCell>*/}
-                                    <Table.HeaderCell>TimeStamp</Table.HeaderCell>
+                                    <Table.HeaderCell>Date</Table.HeaderCell>
+                                    <Table.HeaderCell>Name</Table.HeaderCell>
                                     <Table.HeaderCell>Rating</Table.HeaderCell>
                                     <Table.HeaderCell>Followup</Table.HeaderCell>
                                     <Table.HeaderCell>Action</Table.HeaderCell>

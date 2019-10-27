@@ -23,34 +23,6 @@ export default class MyPitches extends Component {
         };
     }
 
-    // onCollectionUpdate = (querySnapshot) => {
-    //     const pitches = [];
-    //     querySnapshot.forEach((doc) => {
-    //         const {
-    //             nickname,
-    //             dateOfPitch,
-    //             company,
-    //             location,
-    //             presenterName,
-    //             presenterEmail,
-    //         } = doc.data();
-    //         pitches.push({
-    //             key: doc.id,
-    //             doc, // DocumentSnapshot
-    //             id: doc.id,
-    //             nickname,
-    //             dateOfPitch,
-    //             company,
-    //             location,
-    //             presenterName,
-    //             presenterEmail,
-    //         });
-    //     });
-    //     this.setState({
-    //         pitches
-    //     });
-    // };
-
     onCollectionUpdate = (querySnapshot) => {
         const pitches = [];
         querySnapshot.forEach((doc) => {
@@ -165,7 +137,7 @@ export default class MyPitches extends Component {
                             <Table.Header>
                                 <Table.Row>
                                     <Table.HeaderCell>DateOfPitch</Table.HeaderCell>
-                                    <Table.HeaderCell>Pitch Nickname</Table.HeaderCell>
+                                    <Table.HeaderCell>Pitch Title</Table.HeaderCell>
                                     <Table.HeaderCell>Company</Table.HeaderCell>
                                     <Table.HeaderCell>PresenterName</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>

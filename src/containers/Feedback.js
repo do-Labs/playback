@@ -232,12 +232,10 @@ export default class Feedback extends Component {
         const {
             error,
             isLoading,
-            id,
             nickname,
             company,
             dateOfPitch,
             presenterName,
-            presenterEmail,
 
             firstName,
             lastName,
@@ -265,31 +263,48 @@ export default class Feedback extends Component {
                         )}
 
                         <Form onSubmit={this.onSubmit}>
-                            <h2>Leave Feedback for: {id}</h2>
+                            {/*<h2>Leave Feedback for: {id}</h2>*/}
                             <p>Company: {company}</p>
-                            <p>Pitch Nickname: {nickname}</p>
+                            <p>Pitch Title: {nickname}</p>
                             <p>DateOfPitch: {dateOfPitch}</p>
                             <p>PresenterName: {presenterName}</p>
-                            <p>PresenterEmail: {presenterEmail}</p>
-                            <div className="ui segment">
+                            {/*<p>PresenterEmail: {presenterEmail}</p>*/}
 
-
+                            <center>
                                 <AddToCalendar
                                     buttonLabel="Remind me later"
                                     event={this.state.event}/>
+                            </center>
 
-
-                                <center>
-                                    <div>
-                                        Leave a rating
-                                        <StarRatingComponent
-                                            name="rating"
-                                            starCount={5}
-                                            value={rating}
-                                            onStarClick={this.onStarClick.bind(this)}
-                                        />
-                                    </div>
-                                </center>
+                            <div className="ui segment">
+                                <div>
+                                    <StarRatingComponent
+                                        name="rating"
+                                        starCount={5}
+                                        value={rating}
+                                        onStarClick={this.onStarClick.bind(this)}
+                                    />
+                                    Communication of business concept
+                                </div>
+                                <div>
+                                    <StarRatingComponent
+                                        name="rating"
+                                        starCount={5}
+                                        value={rating}
+                                        onStarClick={this.onStarClick.bind(this)}
+                                    />
+                                    Business Model
+                                </div>
+                                <div>
+                                    <StarRatingComponent
+                                        name="rating"
+                                        starCount={5}
+                                        value={rating}
+                                        onStarClick={this.onStarClick.bind(this)}
+                                    />
+                                    Confidence in pitch
+                                </div>
+                                <hr/>
 
                                 <div className="equal width fields">
                                     <Grid>
@@ -404,7 +419,7 @@ export default class Feedback extends Component {
                                 <div className="equal">
                                     <div className="ui form">
                                         <div className="field">
-                                            <label>Text</label>
+                                            <label>Leave Feedback</label>
                                             <textarea
                                                 name="comment"
                                                 value={comment}
