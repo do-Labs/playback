@@ -46,7 +46,6 @@ export default class Pitch extends Component {
             id,
             pitchTitle,
             dateOfPitch,
-            company,
             location,
             pitchUrl,
             presenterName,
@@ -61,7 +60,6 @@ export default class Pitch extends Component {
             <Table.Row>
                 <Table.Cell>{dateOfPitch}</Table.Cell>
                 <Table.Cell>{pitchTitle}</Table.Cell>
-                <Table.Cell>{company}</Table.Cell>
                 <Table.Cell>{presenterName}</Table.Cell>
                 <Table.Cell>{location}</Table.Cell>
                 <Table.Cell collapsing>
@@ -74,7 +72,6 @@ export default class Pitch extends Component {
                                     <p>Id: {id}</p>
                                     <p>pitchTitle: {pitchTitle}</p>
                                     <p>Date: {dateOfPitch}</p>
-                                    <p>Company: {company}</p>
                                     <p>Location: {location}</p>
                                     <p>PitchURL: {pitchUrl}</p>
                                     <p>Presenter Name: {presenterName}</p>

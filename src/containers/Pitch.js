@@ -21,6 +21,7 @@ export default class Pitch extends Component {
             presenterEmail: "",
             location: "",
             pitchUrl: "",
+            eventUrl: "",
 
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
             qrPrefix: 'https://blooming-bastion-98391.herokuapp.com/feedback/',
@@ -52,6 +53,7 @@ export default class Pitch extends Component {
                         presenterEmail: pitch.presenterEmail,
                         location: pitch.location,
                         pitchUrl: pitch.pitchUrl,
+                        eventUrl: pitch.eventUrl,
                         businessID: pitch.businessID,
                     });
                 } else {
@@ -114,6 +116,7 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
+            eventUrl,
             businessID,
         } = this.state;
 
@@ -125,6 +128,7 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
+            eventUrl,
             businessID,
         }).then( async(docRef) => {
             const pid = docRef._key.path.segments[1];
@@ -155,6 +159,7 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
+            eventUrl,
             businessID,
         } = this.state;
 
@@ -248,6 +253,7 @@ export default class Pitch extends Component {
             location,
             pitchUrl,
             pitchCodeUrl,
+            eventUrl,
             businessID,
 
         } = this.state;
@@ -338,7 +344,18 @@ export default class Pitch extends Component {
                                     </Form.Field>
 
                                     <Form.Field>
-                                        PitchURL
+                                        Event URL
+                                        <Form.Input
+                                            name="eventUrl"
+                                            placeholder="http://"
+                                            value={eventUrl}
+                                            onChange={this.handleOnChange}
+                                            error={!eventUrl || eventUrl === ""}
+                                        />
+                                    </Form.Field>
+
+                                    <Form.Field>
+                                        Pitch Deck URL
                                         <Form.Input
                                             name="pitchUrl"
                                             placeholder="http://"

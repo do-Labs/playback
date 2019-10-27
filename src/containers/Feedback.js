@@ -23,8 +23,9 @@ export default class Feedback extends Component {
             company: "",
             dateOfPitch: "",
             location: "",
-            nickname: "",
+            pitchTitle: "",
             pitchUrl: "",
+            eventUrl: "",
             presenterEmail: "",
             presenterName: "",
 
@@ -109,7 +110,7 @@ export default class Feedback extends Component {
                         company: data.company,
                         dateOfPitch: data.dateOfPitch,
                         location: data.location,
-                        nickname: data.nickname,
+                        pitchTitle: data.pitchTitle,
                         pitchUrl: data.pitchUrl,
                         presenterEmail: data.presenterEmail,
                         presenterName: data.presenterName,
@@ -118,7 +119,7 @@ export default class Feedback extends Component {
                     company: data.company,
                     dateOfPitch: data.dateOfPitch,
                     location: data.location,
-                    nickname: data.nickname,
+                    pitchTitle: data.pitchTitle,
                     pitchUrl: data.pitchUrl,
                     presenterEmail: data.presenterEmail,
                     presenterName: data.presenterName,
@@ -207,7 +208,7 @@ export default class Feedback extends Component {
         const body  = JSON.stringify({
             to: this.state.presenterEmail,
             businessID: this.state.businessID,
-            nickname: this.state.nickname,
+            pitchTitle: this.state.pitchTitle,
         });
         console.log("BODY: ", body);
 
@@ -232,10 +233,11 @@ export default class Feedback extends Component {
         const {
             error,
             isLoading,
-            nickname,
+            pitchTitle,
             company,
             dateOfPitch,
             presenterName,
+            eventUrl,
 
             firstName,
             lastName,
@@ -265,10 +267,11 @@ export default class Feedback extends Component {
                         <Form onSubmit={this.onSubmit}>
                             {/*<h2>Leave Feedback for: {id}</h2>*/}
                             <p>Company: {company}</p>
-                            <p>Pitch Title: {nickname}</p>
+                            <p>Pitch Title: {pitchTitle}</p>
+                            <p>Company Name: {company}</p>
                             <p>DateOfPitch: {dateOfPitch}</p>
                             <p>PresenterName: {presenterName}</p>
-                            {/*<p>PresenterEmail: {presenterEmail}</p>*/}
+                            <p>EventUrl: {eventUrl}</p>
 
                             <center>
                                 <AddToCalendar
@@ -299,7 +302,7 @@ export default class Feedback extends Component {
                                     <StarRatingComponent
                                         name="rating"
                                         starCount={5}
-                                        value={rating}
+                                        value={rating}f
                                         onStarClick={this.onStarClick.bind(this)}
                                     />
                                     Confidence in pitch
@@ -397,9 +400,8 @@ export default class Feedback extends Component {
                                                     value={wantsToMeet}
                                                     onChange={this.handleOnChange}
                                                 >
-                                                    <option placeholder="-">-</option>
-                                                    <option value="yes">Yes</option>
                                                     <option value="no">No</option>
+                                                    <option value="yes">Yes</option>
                                                 </select>
                                             </div>
                                         </Grid.Column>
