@@ -108,6 +108,11 @@ export default class Pitch extends Component {
 
 
     submitCreate = async () => {
+        // null handlers
+        if(!this.state.eventUrl){
+            this.setState({eventUrl : "http://"})
+        }
+
         const {
             pitchTitle,
             company,
@@ -119,6 +124,8 @@ export default class Pitch extends Component {
             eventUrl,
             businessID,
         } = this.state;
+
+
 
         this.ref.add({
             pitchTitle,
@@ -149,6 +156,12 @@ export default class Pitch extends Component {
     };
 
     submitEdit = () => {
+        // null handlers
+        if(!this.state.eventUrl){
+            console.log('no event url');
+            this.setState({eventUrl : "http://"})
+        }
+
         const pitchId = this.props.match.params.id;
         console.log("PITCHID: " , pitchId);
         const {
@@ -353,7 +366,6 @@ export default class Pitch extends Component {
                                             placeholder="http://"
                                             value={eventUrl}
                                             onChange={this.handleOnChange}
-                                            error={!eventUrl || eventUrl === ""}
                                         />
                                     </Form.Field>
 

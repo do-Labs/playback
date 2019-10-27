@@ -27,6 +27,7 @@ export default class Feedback extends Component {
     };
 
     handleAvgRating = () => {
+        console.log('averaging ratings...');
         const {
             rating1,
             rating2,
@@ -76,7 +77,9 @@ export default class Feedback extends Component {
                                 <div>
                                     <p>Id: {id}</p>
                                     <p>TimeStamp: {timeStamp}</p>
-                                    <p>IsAnonymous: {isAnonymous}</p>
+                                    {isAnonymous &&
+                                        <p>IsAnonymous: {isAnonymous}</p>
+                                    }
                                     <p>City: {city}</p>
                                     <p>State: {state}</p>
                                     <p>FirstName: {firstName}</p>
