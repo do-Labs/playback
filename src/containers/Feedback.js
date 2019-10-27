@@ -26,7 +26,7 @@ export default class Feedback extends Component {
             pitchTitle: "",
             pitchUrl: "",
             eventUrl: "",
-            presenterEmail: "",
+            presenterEmail: "humdan@dolabs.io",
             presenterName: "",
 
             // Feedback Data
@@ -449,7 +449,7 @@ export default class Feedback extends Component {
                             <Button loading={isLoading}
                             >Submit</Button>
                         </Form>
-
+                        <Button onClick={this.handleEmailFeedback}>handleEmailFeedback</Button>
                     </Grid.Column>
                 </Grid>
             </Container>
