@@ -139,8 +139,6 @@ export default class Pitch extends Component {
             businessID,
         }).then( async(docRef) => {
             const pid = docRef._key.path.segments[1];
-            console.log("POSTED Pitch Data", docRef);
-            console.log("RESSS", pid);
             //handle response
             this.setState({
                 pitchID: pid,

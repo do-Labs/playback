@@ -37,8 +37,11 @@ export default class NavMenu extends Component {
                     Business
                     <Menu.Menu>
                         <Menu.Item name="new" as={NavLink} to="/business">
-                            Register Startup
+                            Register Business
                         </Menu.Item>
+                        {/*<Menu.Item name="edit" as={NavLink} to={`/business/${this.props.businessID.id}`}>*/}
+                            {/*Edit Business*/}
+                        {/*</Menu.Item>*/}
                     </Menu.Menu>
                 </Menu.Item>
 
@@ -76,24 +79,24 @@ export default class NavMenu extends Component {
                     {/*</Menu.Menu>*/}
                 {/*</Menu.Item>*/}
 
-                <Menu.Item>
-                    {/*<Icon name="large binoculars" />*/}
-                    Explore
-                    <Menu.Menu>
-                        <Menu.Item name="explorestartups" as={NavLink} to="/explore">
-                            Explore Startups
-                        </Menu.Item>
-                        <Menu.Item name="cowork" as={NavLink} to="/explore">
-                            Coworking Spaces
-                        </Menu.Item>
-                        <Menu.Item name="pitchopportunities" as={NavLink} to="/explore">
-                            Pitch Opportunities
-                        </Menu.Item>
-                        <Menu.Item name="search" as={NavLink} to="/search">
-                            Search
-                        </Menu.Item>
-                    </Menu.Menu>
-                </Menu.Item>
+                {/*<Menu.Item>*/}
+                    {/*/!*<Icon name="large binoculars" />*!/*/}
+                    {/*Explore*/}
+                    {/*<Menu.Menu>*/}
+                        {/*<Menu.Item name="explorestartups" as={NavLink} to="/explore">*/}
+                            {/*Explore Startups*/}
+                        {/*</Menu.Item>*/}
+                        {/*<Menu.Item name="cowork" as={NavLink} to="/explore">*/}
+                            {/*Coworking Spaces*/}
+                        {/*</Menu.Item>*/}
+                        {/*<Menu.Item name="pitchopportunities" as={NavLink} to="/explore">*/}
+                            {/*Pitch Opportunities*/}
+                        {/*</Menu.Item>*/}
+                        {/*<Menu.Item name="search" as={NavLink} to="/search">*/}
+                            {/*Search*/}
+                        {/*</Menu.Item>*/}
+                    {/*</Menu.Menu>*/}
+                {/*</Menu.Item>*/}
 
                 <Menu.Item>
                     {/*<Icon name="large binoculars" />*/}
