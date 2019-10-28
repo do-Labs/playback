@@ -7,7 +7,7 @@ export default class Pitch extends Component {
     state = {
         id: this.props.pitch.id,
         pitchTitle: this.props.pitch.pitchTitle,
-        company: this.props.pitch.company,
+        businessName: this.props.pitch.businessName,
         dateOfPitch: this.props.pitch.dateOfPitch,
         presenterName: this.props.pitch.presenterName,
         presenterEmail: this.props.pitch.presenterEmail,

@@ -15,7 +15,7 @@ export default class Pitch extends Component {
             editMode: false,
             isEnabled: true,
             pitchTitle: "",
-            company: "-",
+            businessName: "-",
             dateOfPitch: "",
             presenterName: "",
             presenterEmail: "",
@@ -30,9 +30,21 @@ export default class Pitch extends Component {
         };
     }
 
-    componentDidMount = () => {
+    componentDidMount = async() => {
         const pitchId = this.props.match.params.id;
+
         const businessID = this.props.businessID;
+        const busRef = await firebase.firestore().collection("businesses").doc(businessID);
+        busRef.get().then(async (doc) => {
+            if (doc.exists) {
+               const bus = await doc.data();
+                this.setState({
+                    businessName: bus.name,
+                })
+            }
+        });
+        console.log('busId:', businessID);
+        console.log('businessName:', this.state.businessName);
 
         if (pitchId) {
             this.setState({
@@ -47,7 +59,7 @@ export default class Pitch extends Component {
                     this.setState({
                         key: doc.id,
                         pitchTitle: pitch.pitchTitle,
-                        company: pitch.company,
+                        businessName: pitch.businessName,
                         dateOfPitch: pitch.dateOfPitch,
                         presenterName: pitch.presenterName,
                         presenterEmail: pitch.presenterEmail,
@@ -114,7 +126,7 @@ export default class Pitch extends Component {
 
         const {
             pitchTitle,
-            company,
+            businessName,
             dateOfPitch,
             presenterName,
             presenterEmail,
@@ -128,7 +140,7 @@ export default class Pitch extends Component {
 
         this.ref.add({
             pitchTitle,
-            company,
+            businessName,
             dateOfPitch,
             presenterName,
             presenterEmail,
@@ -163,7 +175,7 @@ export default class Pitch extends Component {
         console.log("PITCHID: " , pitchId);
         const {
             pitchTitle,
-            company,
+            businessName,
             dateOfPitch,
             presenterName,
             presenterEmail,
@@ -181,7 +193,7 @@ export default class Pitch extends Component {
 
         pitchRef.set({
             pitchTitle,
-            company,
+            businessName,
             dateOfPitch,
             presenterName,
             presenterEmail,
@@ -257,7 +269,7 @@ export default class Pitch extends Component {
             isLoading,
             editMode,
             pitchTitle,
-            company,
+            businessName,
             dateOfPitch,
             presenterName,
             presenterEmail,
@@ -288,82 +300,79 @@ export default class Pitch extends Component {
 
                         <Form onSubmit={this.onSubmit}>
                             <div className="ui segment">
-                                <h3>Pitch Info</h3>
-                                <div className="ui segment">
-                                    <center><h4>{company}</h4></center>
-                                     <hr/>
-                                    <Form.Field>
-                                        Pitch Title
-                                        <Form.Input
-                                            name="pitchTitle"
-                                            placeholder="Pitch pitchTitle"
-                                            value={pitchTitle}
-                                            onChange={this.handleOnChange}
-                                            error={!pitchTitle || pitchTitle === ""}
-                                        />
-                                    </Form.Field>
+                                <center><h4>{businessName}</h4></center>
+                                <Form.Field>
+                                    Pitch Title
+                                    <Form.Input
+                                        name="pitchTitle"
+                                        placeholder="Pitch pitchTitle"
+                                        value={pitchTitle}
+                                        onChange={this.handleOnChange}
+                                        error={!pitchTitle || pitchTitle === ""}
+                                    />
+                                </Form.Field>
 
-                                    <Form.Field>
-                                        Date of Pitch
-                                        <Form.Input
-                                            name="dateOfPitch"
-                                            value={dateOfPitch}
-                                            onChange={this.handleOnChange}
-                                            error={!dateOfPitch || dateOfPitch === ""}
-                                        />
-                                    </Form.Field>
+                                <Form.Field>
+                                    Date of Pitch
+                                    <Form.Input
+                                        name="dateOfPitch"
+                                        value={dateOfPitch}
+                                        onChange={this.handleOnChange}
+                                        error={!dateOfPitch || dateOfPitch === ""}
+                                    />
+                                </Form.Field>
 
-                                    <Form.Field>
-                                        Presenter Name
-                                        <Form.Input
-                                            name="presenterName"
-                                            value={presenterName}
-                                            onChange={this.handleOnChange}
-                                            error={!presenterName || presenterName === ""}
-                                        />
-                                    </Form.Field>
+                                <Form.Field>
+                                    Presenter Name
+                                    <Form.Input
+                                        name="presenterName"
+                                        value={presenterName}
+                                        onChange={this.handleOnChange}
+                                        error={!presenterName || presenterName === ""}
+                                    />
+                                </Form.Field>
 
-                                    <Form.Field>
-                                        Presenter Email
-                                        <Form.Input
-                                            name="presenterEmail"
-                                            value={presenterEmail}
-                                            onChange={this.handleOnChange}
-                                            error={!presenterEmail || presenterEmail === ""}
-                                        />
-                                    </Form.Field>
+                                <Form.Field>
+                                    Presenter Email
+                                    <Form.Input
+                                        name="presenterEmail"
+                                        value={presenterEmail}
+                                        onChange={this.handleOnChange}
+                                        error={!presenterEmail || presenterEmail === ""}
+                                    />
+                                </Form.Field>
 
-                                    <Form.Field>
-                                        Location
-                                        <Form.Input
-                                            name="location"
-                                            placeholder="1MC Dallas"
-                                            value={location}
-                                            onChange={this.handleOnChange}
-                                            error={!location || location === ""}
-                                        />
-                                    </Form.Field>
+                                <Form.Field>
+                                    Location
+                                    <Form.Input
+                                        name="location"
+                                        placeholder="1MC Dallas"
+                                        value={location}
+                                        onChange={this.handleOnChange}
+                                        error={!location || location === ""}
+                                    />
+                                </Form.Field>
 
-                                    <Form.Field>
-                                        Event URL
-                                        <Form.Input
-                                            name="eventUrl"
-                                            placeholder="http://"
-                                            value={eventUrl}
-                                            onChange={this.handleOnChange}
-                                        />
-                                    </Form.Field>
+                                <Form.Field>
+                                    Event URL
+                                    <Form.Input
+                                        name="eventUrl"
+                                        placeholder="http://"
+                                        value={eventUrl}
+                                        onChange={this.handleOnChange}
+                                    />
+                                </Form.Field>
 
-                                    <Form.Field>
-                                        Pitch Deck URL
-                                        <Form.Input
-                                            name="pitchUrl"
-                                            placeholder="http://"
-                                            value={pitchUrl}
-                                            onChange={this.handleOnChange}
-                                        />
-                                    </Form.Field>
-                                </div>
+                                <Form.Field>
+                                    Pitch Deck URL
+                                    <Form.Input
+                                        name="pitchUrl"
+                                        placeholder="http://"
+                                        value={pitchUrl}
+                                        onChange={this.handleOnChange}
+                                    />
+                                </Form.Field>
+
                                 <div className="ui">
                                     {pitchCodeUrl && <img alt="pitchCodeUrl" align="right" className="ui tiny image" src={pitchCodeUrl} />}
                                 </div>

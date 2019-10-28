@@ -18,7 +18,6 @@ export default class NavMenu extends Component {
     };
 
     componentDidMount = async () => {
-        console.log("Nav did mount");
         const role = await this.props.role;
         if(role === "admin"){
             this.setState({

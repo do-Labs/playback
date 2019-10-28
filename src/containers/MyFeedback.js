@@ -64,26 +64,6 @@ export default class MyFeedback extends Component {
     };
 
 
-    // componentDidMount = async () => {
-    //     this.setState({ isLoading: true });
-    //     const id = this.props.match.params.id;
-    //     // get custom claims for user
-    //     if (id) {
-    //         console.log('ID: ', id);
-    //         this.feedbackRef = this.refPitches.doc(id).collection('feedback');
-    //         this.unsubscribe = this.feedbackRef.onSnapshot(this.onCollectionUpdate);
-    //         this.setState({
-    //             isLoading: false,
-    //         });
-    //     }
-    //     else {
-    //         console.log("No Id found")
-    //         this.setState({
-    //             isLoading: false,
-    //         });
-    //     }
-    // };
-
     handleOnChange = (e) => {
         const state = this.state;
         state[e.target.name] = e.target.value;
