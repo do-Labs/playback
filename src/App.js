@@ -24,8 +24,6 @@ import {
     Utils
 } from "./containers/index.js"
 import jwtDecode from "jwt-decode";
-// import firebase from "./Firebase";
-
 
 
 class App extends Component {
@@ -35,6 +33,7 @@ class App extends Component {
         username: '',
         token: '',
         userID: '',
+        role: '',
     };
 
     componentDidMount = async () => {
@@ -44,11 +43,21 @@ class App extends Component {
             this.userHasAuthenticated(true, username, token);
             const decoded = jwtDecode(token);
             const userID = decoded.user_id;
-            const businessID = decoded.businessID;
+            // Determine role
+            if(decoded.role === "admin"){
+                this.setState({
+                    role : 'admin',
+                })
+            } else if(decoded.role === "businessUser"){
+                this.setState({
+                    role : 'businessUser',
+                    businessID : decoded.businessID,
+                })
+            }
+
             this.setState({
                 userID: userID,
                 token: token,
-                businessID: businessID
             });
         }
         this.setState({
@@ -67,21 +76,6 @@ class App extends Component {
         // this.checkUserClaims();
     };
 
-    checkUserClaims = () => {
-        const {token} = this.state;
-        console.log("TOKEN:", this.state.token);
-        console.log('token claims:', token.claims)
-        // if (token.claims.admin) {
-        //     console.log("User is an admin!");
-        // }
-        // else if (token.claims.businessID) {
-        //     console.log("Registered Business User Access!");
-        //     console.log(token.claims.businessID);
-        // } else {
-        //     console.log("Guest Access");
-        // }
-    };
-
     setuserClaims = () => {
         const claims = "";
         console.log("claims:", claims);
@@ -98,6 +92,7 @@ class App extends Component {
             username: this.state.username,
             userID: this.state.userID,
             token: this.state.token,
+            role: this.state.role,
             businessID: this.state.businessID,
         };
         return (

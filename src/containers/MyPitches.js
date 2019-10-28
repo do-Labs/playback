@@ -5,7 +5,7 @@ import {
     NavMenu,
     // Pitch
 } from "../components/index";
-import {Container, Dimmer, Grid, Loader, Message, Table, Form, Button} from "semantic-ui-react";
+import {Container, Dimmer, Grid, Loader, Message, Table} from "semantic-ui-react";
 import firebase from '../Firebase';
 
 
@@ -55,10 +55,18 @@ export default class MyPitches extends Component {
         this.setState({isLoading: true});
         const businessID = this.props.businessID;
 
-        const myPitchesRef = await firebase.firestore().collection("pitches");
-        const pitches = await myPitchesRef.where("businessID", "==", businessID);
+        if(!this.props.businessID){
+            this.setState({
+                businessID : "000"
+            })
+        }
+        else {
+            this.setState({
+                businessID : businessID,
+            })
+        }
 
-        this.unsubscribe = pitches.onSnapshot(this.onCollectionUpdate);
+        await this.getMyPitches();
         this.setState({isLoading: false});
     };
 
@@ -86,13 +94,10 @@ export default class MyPitches extends Component {
     };
 
     getMyPitches = async () => {
-        this.setState({isLoading: true});
-
         const myPitchesRef = await firebase.firestore().collection("pitches");
         const pitches = await myPitchesRef.where("businessID", "==", this.state.businessID);
 
         this.unsubscribe = pitches.onSnapshot(this.onCollectionUpdate);
-        this.setState({isLoading: false});
     };
 
 

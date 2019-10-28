@@ -48,7 +48,6 @@ class Login extends Component {
                         token: idTokenResult.token,
                         username: this.state.email,
                         refreshToken: user.user.refreshToken,
-                        // businessID: idTokenResult.claims.businessID,
                     }));
                     this.checkClaims(idTokenResult)
 
@@ -60,7 +59,6 @@ class Login extends Component {
     };
 
     checkClaims = (idToken) => {
-        console.log("IDTOKEN:", idToken);
         if (idToken.claims.admin === true) {
             console.log("User is an admin!");
         }

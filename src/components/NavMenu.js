@@ -6,6 +6,8 @@ import firebase from 'firebase';
 export default class NavMenu extends Component {
     state = {
         userID: this.props.userID,
+        role: this.props.role,
+        isAdmin: false,
     };
 
     handleLogout = async event => {
@@ -15,7 +17,21 @@ export default class NavMenu extends Component {
         sessionStorage.clear();
     };
 
+    componentDidMount = async () => {
+        console.log("Nav did mount");
+        const role = await this.props.role;
+        if(role === "admin"){
+            this.setState({
+                isAdmin : true,
+            })
+        }
+    };
+
     render() {
+        const {
+            isAdmin,
+        } = this.state;
+
         return (
             <Menu vertical>
                 <Menu.Item>
@@ -62,21 +78,12 @@ export default class NavMenu extends Component {
                         <Menu.Item name="new" as={NavLink} to="/pitch">
                             New
                         </Menu.Item>
-                        <Menu.Item name="record" as={NavLink} to="/record-pitch">
-                            Record
-                        </Menu.Item>
+                        {/*<Menu.Item name="record" as={NavLink} to="/record-pitch">*/}
+                            {/*Record*/}
+                        {/*</Menu.Item>*/}
                     </Menu.Menu>
                 </Menu.Item>
 
-                {/*<Menu.Item>*/}
-                    {/*/!*<Icon name="large reply all" />*!/*/}
-                    {/*Feedback*/}
-                    {/*<Menu.Menu>*/}
-                        {/*<Menu.Item name="myFeedback" as={NavLink} to="/my-feedback">*/}
-                            {/*My Feedback*/}
-                        {/*</Menu.Item>*/}
-                    {/*</Menu.Menu>*/}
-                {/*</Menu.Item>*/}
 
                 {/*<Menu.Item>*/}
                     {/*/!*<Icon name="large binoculars" />*!/*/}
@@ -96,42 +103,43 @@ export default class NavMenu extends Component {
                         {/*</Menu.Item>*/}
                     {/*</Menu.Menu>*/}
                 {/*</Menu.Item>*/}
-
-                <Menu.Item>
-                    {/*<Icon name="large binoculars" />*/}
-                    Admin Only
-                    <Menu.Menu>
-                        <Menu.Item name="utils" as={NavLink} to="/utils">
-                            Utils
-                        </Menu.Item>
+                {isAdmin &&
+                    <Menu.Item>
+                        {/*<Icon name="large binoculars" />*/}
+                        Admin Only
+                        <Menu.Menu>
+                            <Menu.Item name="utils" as={NavLink} to="/utils">
+                                Utils
+                            </Menu.Item>
                             Businesses
-                        <Menu.Item name="listallbusinesses" as={NavLink} to="/businesses">
-                            List
-                        </Menu.Item>
+                            <Menu.Item name="listallbusinesses" as={NavLink} to="/businesses">
+                                List
+                            </Menu.Item>
                             Pitches
-                        <Menu.Item name="listallpitches" as={NavLink} to="/pitches">
-                            List
-                        </Menu.Item>
+                            <Menu.Item name="listallpitches" as={NavLink} to="/pitches">
+                                List
+                            </Menu.Item>
                             Users
-                        <Menu.Item name="listallusers" as={NavLink} to="/users">
-                            List
-                        </Menu.Item>
-                        <Menu.Item name="newuser" as={NavLink} to="/user">
-                            Create User
-                        </Menu.Item>
+                            <Menu.Item name="listallusers" as={NavLink} to="/users">
+                                List
+                            </Menu.Item>
+                            <Menu.Item name="newuser" as={NavLink} to="/user">
+                                Create User
+                            </Menu.Item>
                             Feedback
-                        <Menu.Item name="listallfeedback" as={NavLink} to="/all-feedback">
-                            List
-                        </Menu.Item>
-                        <Menu.Item name="newfeedback" as={NavLink} to="/feedback">
-                            Test Feedback
-                        </Menu.Item>
+                            <Menu.Item name="listallfeedback" as={NavLink} to="/all-feedback">
+                                List
+                            </Menu.Item>
+                            <Menu.Item name="newfeedback" as={NavLink} to="/feedback">
+                                Test Feedback
+                            </Menu.Item>
                             Explore
-                        <Menu.Item name="listallexplorestartups" as={NavLink} to="/explore">
-                            List All
-                        </Menu.Item>
-                    </Menu.Menu>
-                </Menu.Item>
+                            <Menu.Item name="listallexplorestartups" as={NavLink} to="/explore">
+                                List All
+                            </Menu.Item>
+                        </Menu.Menu>
+                    </Menu.Item>
+                }
             </Menu>
         );
     }
