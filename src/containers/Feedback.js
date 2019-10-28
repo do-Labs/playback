@@ -47,14 +47,12 @@ export default class Feedback extends Component {
 
     setReminderDate = () => {
         const nowEpoch = Date.now();
-        const laterEpoch = nowEpoch; // add 3 hours
-        const start = moment(laterEpoch).format();
-
+        const start = moment(nowEpoch).format();
 
         this.setState({
             event: {
-                title: 'Remember to leave Feedback',
-                description: `leave your feedback for ${this.state.businessName}`,
+                title: 'Leave Feedback',
+                description: `Leave your feedback for ${this.state.businessName}`,
                 location: 'Wherever you are',
                 startTime: start,
             }
