@@ -72,7 +72,7 @@ export default class Feedback extends Component {
                 <Table.Cell>{firstName} {lastName}</Table.Cell>
                 <Table.Cell>{ratingAvg}</Table.Cell>
                 <Table.Cell>{wantsToMeet}</Table.Cell>
-                <Table.Cell>{comment}</Table.Cell>
+                <Table.Cell><h6>{comment}</h6></Table.Cell>
                 <Table.Cell collapsing>
                     <Button.Group icon>
                         <Modal

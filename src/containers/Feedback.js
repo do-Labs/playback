@@ -482,8 +482,6 @@ export default class Feedback extends Component {
                             <Button loading={isLoading}
                             >Submit</Button>
                         </Form>
-                        <Button onClick={this.handleEmailFeedback}>handleEmailFeedback</Button>
-                        <Button onClick={this.handleAnonymousSignIn}>handleAnonymousSignIn</Button>
                     </Grid.Column>
                 </Grid>
             </Container>
