@@ -5,7 +5,7 @@ import firebase from 'firebase';
 
 export default class NavMenu extends Component {
     state = {
-        userId: this.props.userId,
+        userID: this.props.userID,
     };
 
     handleLogout = async event => {
@@ -13,7 +13,6 @@ export default class NavMenu extends Component {
         await firebase.auth().signOut();
         this.props.userHasAuthenticated(false, "", "");
         sessionStorage.clear();
-
     };
 
     render() {
@@ -23,7 +22,7 @@ export default class NavMenu extends Component {
                     {/*<Icon name="large lock open" />*/}
                     Connected as <strong>{this.props.username}</strong>
                     <Menu.Menu>
-                        <p>{this.props.userId}</p>
+                        <p>{this.props.userID}</p>
                     </Menu.Menu>
                     <Menu.Menu>
                         <Menu.Item onClick={this.handleLogout}>

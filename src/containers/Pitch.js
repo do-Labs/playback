@@ -27,12 +27,12 @@ export default class Pitch extends Component {
             qrPrefix: 'https://blooming-bastion-98391.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
-            businessID: "dHcEljBfajdYx0s6cU9O", // TODO: dev only
         };
     }
 
     componentDidMount = () => {
         const pitchId = this.props.match.params.id;
+        const businessID = this.props.businessID;
 
         if (pitchId) {
             this.setState({
@@ -60,12 +60,11 @@ export default class Pitch extends Component {
                     console.log("No such document!");
                 }
             });
-
-
-            this.setState({
-                isLoading: false,
-            });
         }
+        this.setState({
+            isLoading: false,
+            businessID: businessID,
+        });
 
     };
 
@@ -266,7 +265,6 @@ export default class Pitch extends Component {
             pitchUrl,
             pitchCodeUrl,
             eventUrl,
-            businessID,
 
         } = this.state;
 
@@ -292,17 +290,6 @@ export default class Pitch extends Component {
                             <div className="ui segment">
                                 <h3>Pitch Info</h3>
                                 <div className="ui segment">
-                                    <Form.Field>
-                                        BusinessID (devOnly)
-                                        <Form.Input
-                                            name="businessID"
-                                            placeholder="businessID"
-                                            value={businessID}
-                                            onChange={this.handleOnChange}
-                                            error={!businessID || businessID === ""}
-                                        />
-                                    </Form.Field>
-                                    <hr/>
                                     <center><h4>{company}</h4></center>
                                      <hr/>
                                     <Form.Field>

@@ -19,7 +19,7 @@ export default class MyPitches extends Component {
             error: null,
             isLoading: true,
             pitches: [],
-            businessID: "dHcEljBfajdYx0s6cU9O"
+            businessID: this.props.businessID
         };
     }
 
@@ -53,9 +53,10 @@ export default class MyPitches extends Component {
 
     componentDidMount = async () => {
         this.setState({isLoading: true});
+        const businessID = this.props.businessID;
 
         const myPitchesRef = await firebase.firestore().collection("pitches");
-        const pitches = await myPitchesRef.where("businessID", "==", this.state.businessID);
+        const pitches = await myPitchesRef.where("businessID", "==", businessID);
 
         this.unsubscribe = pitches.onSnapshot(this.onCollectionUpdate);
         this.setState({isLoading: false});
@@ -101,7 +102,6 @@ export default class MyPitches extends Component {
         const {
             error,
             isLoading,
-            businessID,
             pitches
         } = this.state;
 
@@ -122,17 +122,6 @@ export default class MyPitches extends Component {
                                 <Loader inverted/>
                             </Dimmer>
                         )}
-                        <Form>
-                            <Form.Field>
-                                BusinessID (dev Only)
-                                <Form.Input
-                                    name="businessID"
-                                    value={businessID}
-                                    onChange={this.handleOnChange}
-                                />
-                            </Form.Field>
-                            <Button onClick={this.getMyPitches}>Get Pitches</Button>
-                        </Form>
                         <Table celled singleLine>
                             <Table.Header>
                                 <Table.Row>

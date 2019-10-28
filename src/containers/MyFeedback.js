@@ -16,8 +16,7 @@ export default class MyFeedback extends Component {
             error: null,
             isLoading: true,
             feedbacks: [],
-            businessID: "dHcEljBfajdYx0s6cU9O",
-            pitchID: "hj02axeVCqtwh04CA325"
+            businessID: this.props.businessID,
         };
     }
 

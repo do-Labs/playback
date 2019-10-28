@@ -34,7 +34,7 @@ class App extends Component {
         isAuthenticating: true,
         username: '',
         token: '',
-        userId: '',
+        userID: '',
     };
 
     componentDidMount = async () => {
@@ -43,10 +43,12 @@ class App extends Component {
             const { token, username } = JSON.parse(auth);
             this.userHasAuthenticated(true, username, token);
             const decoded = jwtDecode(token);
-            const userId = decoded.user_id;
+            const userID = decoded.user_id;
+            const businessID = decoded.businessID;
             this.setState({
-                userId: userId,
+                userID: userID,
                 token: token,
+                businessID: businessID
             });
         }
         this.setState({
@@ -55,22 +57,48 @@ class App extends Component {
     };
 
 
-    userHasAuthenticated = (authenticated, username, token) => {
+    userHasAuthenticated = async (authenticated, username, token) => {
         this.setState({
             isAuthenticated: authenticated,
             username,
             token,
         });
+
+        // this.checkUserClaims();
     };
+
+    checkUserClaims = () => {
+        const {token} = this.state;
+        console.log("TOKEN:", this.state.token);
+        console.log('token claims:', token.claims)
+        // if (token.claims.admin) {
+        //     console.log("User is an admin!");
+        // }
+        // else if (token.claims.businessID) {
+        //     console.log("Registered Business User Access!");
+        //     console.log(token.claims.businessID);
+        // } else {
+        //     console.log("Guest Access");
+        // }
+    };
+
+    setuserClaims = () => {
+        const claims = "";
+        console.log("claims:", claims);
+        this.setState({
+            claims: claims
+        });
+    };
+
 
     render() {
         const props = {
             isAuthenticated: this.state.isAuthenticated,
             userHasAuthenticated: this.userHasAuthenticated,
-            getClaims: this.getClaims,
             username: this.state.username,
-            userId: this.state.userId,
+            userID: this.state.userID,
             token: this.state.token,
+            businessID: this.state.businessID,
         };
         return (
             !this.state.isAuthenticating &&
@@ -80,6 +108,7 @@ class App extends Component {
                         <Route
                             path="/login"
                             render={() => <Login {...props}/>}
+                            callbackFromParent={this.setuserClaims}
                         />
                         <Route
                             path="/register"

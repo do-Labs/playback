@@ -13,7 +13,7 @@ class Login extends Component {
         user: {},
         results: "",
         showConfirmation: false,
-        error: null
+        error: null,
     };
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
@@ -48,6 +48,7 @@ class Login extends Component {
                         token: idTokenResult.token,
                         username: this.state.email,
                         refreshToken: user.user.refreshToken,
+                        // businessID: idTokenResult.claims.businessID,
                     }));
                     this.checkClaims(idTokenResult)
 
@@ -59,6 +60,7 @@ class Login extends Component {
     };
 
     checkClaims = (idToken) => {
+        console.log("IDTOKEN:", idToken);
         if (idToken.claims.admin === true) {
             console.log("User is an admin!");
         }
@@ -70,6 +72,8 @@ class Login extends Component {
             console.log("Guest Access");
         }
     };
+
+
 
     userAuthenticates = (user) => {
         console.log("userAuthenticates");
@@ -96,11 +100,20 @@ class Login extends Component {
             .then(user => {
                 this.setState({ isLoading: false });
                 this.userAuthenticates(user)
+                console.log("user")
             })
             .catch(err => {
                 console.error(err);
                 this.setState({ error: err })
             })
+    };
+
+    setUserClaims = () => {
+        // this.props.callbackFromParent(setuserClaims);
+    };
+
+    myCallback = (dataFromChild) => {
+        this.setState({ listDataFromChild: dataFromChild });
     };
 
     render() {
