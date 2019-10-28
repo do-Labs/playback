@@ -376,7 +376,6 @@ export default class Pitch extends Component {
                                             placeholder="http://"
                                             value={pitchUrl}
                                             onChange={this.handleOnChange}
-                                            error={!pitchUrl || pitchUrl === ""}
                                         />
                                     </Form.Field>
                                 </div>

@@ -60,7 +60,7 @@ export default class Feedback extends Component {
         this.setState({
             event: {
                 title: 'Remember to leave Feedback',
-                description: `leave your feedback for `,
+                description: `leave your feedback for ${this.state.company}`,
                 location: 'Wherever you are',
                 startTime: start,
             }
@@ -95,7 +95,10 @@ export default class Feedback extends Component {
 
         }
         else {
-            this.setState({ isLoading: false });
+            this.setState({
+                isLoading: false,
+                id: null
+            });
         }
     };
     
@@ -156,8 +159,8 @@ export default class Feedback extends Component {
     }
 
     submitFeedback = async () => {
+        const id = this.state.id;
         const {
-            id,
             firstName,
             lastName,
             email,
@@ -171,7 +174,7 @@ export default class Feedback extends Component {
             isAnonymous,
             wantsToMeet,
         } = this.state;
-        console.log("Submitting Feedback...");
+        console.log("Submitting Feedback...", id);
         const feedbackRef = this.refPitches.doc(id).collection('feedback');
 
         feedbackRef.add({
