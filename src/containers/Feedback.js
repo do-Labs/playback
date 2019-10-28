@@ -20,7 +20,7 @@ export default class Feedback extends Component {
             isLoading: true,
             // // Pitch Data
             businessID: "",
-            company: "",
+            businessName: "",
             dateOfPitch: "",
             location: "",
             pitchTitle: "",
@@ -60,7 +60,7 @@ export default class Feedback extends Component {
         this.setState({
             event: {
                 title: 'Remember to leave Feedback',
-                description: `leave your feedback for ${this.state.company}`,
+                description: `leave your feedback for ${this.state.businessName}`,
                 location: 'Wherever you are',
                 startTime: start,
             }
@@ -76,10 +76,6 @@ export default class Feedback extends Component {
         });
         if (id) {
             console.log('ID: ', id);
-            this.setReminderDate();
-            // get current date
-            // const today = Date.now();
-            // convert current date
             this.setState({
                 id: this.props.match.params.id,
                 isLoading: true,
@@ -87,6 +83,8 @@ export default class Feedback extends Component {
 
             // get pitch data
             await this.handleGetPitchData(id).catch();
+            // set reminder date
+            await this.setReminderDate();
 
             this.setState({
                 isLoading: false,
@@ -115,7 +113,7 @@ export default class Feedback extends Component {
                     pitchData: {
                         key: doc.id,
                         businessID: data.businessID,
-                        company: data.company,
+                        businessName: data.businessName,
                         dateOfPitch: data.dateOfPitch,
                         location: data.location,
                         pitchTitle: data.pitchTitle,
@@ -124,7 +122,7 @@ export default class Feedback extends Component {
                         presenterName: data.presenterName,
                     },
                     businessID: data.businessID,
-                    company: data.company,
+                    businessName: data.businessName,
                     dateOfPitch: data.dateOfPitch,
                     location: data.location,
                     pitchTitle: data.pitchTitle,
@@ -278,7 +276,7 @@ export default class Feedback extends Component {
             error,
             isLoading,
             pitchTitle,
-            company,
+            businessName,
             dateOfPitch,
             presenterName,
             eventUrl,
@@ -312,11 +310,10 @@ export default class Feedback extends Component {
 
                         <Form onSubmit={this.onSubmit}>
                             {/*<h2>Leave Feedback for: {id}</h2>*/}
-                            <p>Company: {company}</p>
-                            <p>Pitch Title: {pitchTitle}</p>
-                            <p>Company Name: {company}</p>
-                            <p>DateOfPitch: {dateOfPitch}</p>
-                            <p>PresenterName: {presenterName}</p>
+                            <p>Business Name:   {businessName}</p>
+                            <p>Pitch Title:   {pitchTitle}</p>
+                            <p>Date Of Pitch:   {dateOfPitch}</p>
+                            <p>Presenter Name:   {presenterName}</p>
                             {eventUrl &&
                                 <p>EventUrl: {eventUrl}</p>
                             }
