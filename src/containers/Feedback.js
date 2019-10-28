@@ -46,16 +46,10 @@ export default class Feedback extends Component {
     }
 
     setReminderDate = () => {
-        console.log(Date.now());
-        // console.log(Date("1495159447834").toDateString());
-        // console.log(Date.parse('2019-09-16T20:15:00-04:00'));
         const nowEpoch = Date.now();
-        console.log('nowEpoch  ', nowEpoch);
         const laterEpoch = nowEpoch; // add 3 hours
-        // const laterEpoch = nowEpoch + 20000000; // add 3 hours
-        console.log('laterEpoch', laterEpoch);
         const start = moment(laterEpoch).format();
-        console.log("moment Start: ", start );
+
 
         this.setState({
             event: {
