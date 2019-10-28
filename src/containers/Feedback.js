@@ -155,9 +155,9 @@ export default class Feedback extends Component {
         this.setState(state)
     }
 
-    submitFeedback = () => {
-        const id = this.state.id;
+    submitFeedback = async () => {
         const {
+            id,
             firstName,
             lastName,
             email,
@@ -171,9 +171,7 @@ export default class Feedback extends Component {
             isAnonymous,
             wantsToMeet,
         } = this.state;
-
         console.log("Submitting Feedback...");
-
         const feedbackRef = this.refPitches.doc(id).collection('feedback');
 
         feedbackRef.add({
@@ -190,7 +188,9 @@ export default class Feedback extends Component {
             comment,
             isAnonymous,
             wantsToMeet,
-        }).then((docRef) => {
+        }).then( async (docRef) => {
+            await this.handleAnonymousSignIn();
+            await this.handleEmailFeedback();
             this.props.history.push('/thankyou');
         })
             .catch((error) => {
@@ -262,7 +262,7 @@ export default class Feedback extends Component {
         })
             .then( (res)=> {
                 console.log("Emailed user");
-                console.log("RESPONSE: ", res)
+                console.log("RESPONSE: ", res.status)
             }).catch( (err)=> {
             alert("Error sending Email");
             console.log("Error Emailing User: ", err)
