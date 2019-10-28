@@ -26,7 +26,7 @@ export default class Feedback extends Component {
             pitchTitle: "",
             pitchUrl: "",
             eventUrl: "",
-            presenterEmail: "humdan@dolabs.io",
+            presenterEmail: "",
             presenterName: "",
 
             // Feedback Data
@@ -38,7 +38,7 @@ export default class Feedback extends Component {
             state: "",
             comment: "",
             isAnonymous: "",
-            wantsToMeet: "",
+            wantsToMeet: "no",
             rating1: 0, // communication of business concept
             rating2: 0, // Validity of problem statement
             rating3: 0, // value value of solution
@@ -87,9 +87,12 @@ export default class Feedback extends Component {
 
             // get pitch data
             await this.handleGetPitchData(id).catch();
+
             this.setState({
                 isLoading: false,
             });
+
+
         }
         else {
             this.setState({ isLoading: false });
@@ -212,17 +215,46 @@ export default class Feedback extends Component {
         console.log("Successfully submitted Feedback");
     };
 
-    handleEmailFeedback = () => {
+    handleAnonymousSignIn = async () => {
+        firebase.auth().signInAnonymously().catch(function(error) {
+            let errorMessage = error.message;
+            alert(errorMessage)
+        });
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log("User is signed in!");
+                this.setState({
+                    token: user.ra
+                })
+            } else {
+                console.log("User is signed out!")
+            }
+        });
+    };
+
+    handleEmailFeedback = async () => {
         const body  = JSON.stringify({
             to: this.state.presenterEmail,
             businessID: this.state.businessID,
             pitchTitle: this.state.pitchTitle,
+            comment: this.state.comment,
+            rating1: this.state.rating1,
+            rating2: this.state.rating2,
+            rating3: this.state.rating3,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            phoneNumber: this.state.phoneNumber,
+            city: this.state.city,
+            state: this.state.state,
+            wantsToMeet: this.state.wantsToMeet,
         });
         console.log("BODY: ", body);
 
-        fetch(`http://us-central1-${projectName}.cloudfunctions.net/EmailFeedback`, {
+        await fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailFeedback`, {
             method: "POST",
             headers: new Headers({
+                Authorization: "Bearer " + this.state.token,
                 "Content-Type": "application/json",
                 'cache-control': 'no-cache',
             }),
@@ -235,6 +267,7 @@ export default class Feedback extends Component {
             alert("Error sending Email");
             console.log("Error Emailing User: ", err)
         })
+
     };
 
     render() {
@@ -450,6 +483,7 @@ export default class Feedback extends Component {
                             >Submit</Button>
                         </Form>
                         <Button onClick={this.handleEmailFeedback}>handleEmailFeedback</Button>
+                        <Button onClick={this.handleAnonymousSignIn}>handleAnonymousSignIn</Button>
                     </Grid.Column>
                 </Grid>
             </Container>
