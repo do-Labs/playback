@@ -97,7 +97,8 @@ export default class Pitch extends Component {
                                     <p>Event URL: {eventUrl}</p>
                                     <p>Average Rating: {avgRating}</p>
                                     <p>Feedback Count: {feedbackCount}</p>
-                                    <img alt="pitchCodeUrl" align="right" className="ui tiny image" src={pitchCodeUrl} />
+                                    <p> </p>
+                                    <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
                                 </div>
                             }/>
                         <Button icon="edit" as={Link} to={`/pitch/${this.props.pitch.id}`}/>

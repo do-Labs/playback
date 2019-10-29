@@ -18,6 +18,7 @@ export default class Feedback extends Component {
         this.state = {
             error: null,
             isLoading: true,
+            isEnabled: true,
             // // Pitch Data
             businessID: "",
             businessName: "",
@@ -151,6 +152,10 @@ export default class Feedback extends Component {
     }
 
     submitFeedback = async () => {
+        this.setState({
+            isEnabled: false,
+            isLoading: true,
+        });
         const id = this.state.id;
         const {
             firstName,
@@ -193,6 +198,10 @@ export default class Feedback extends Component {
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
+                this.setState({
+                    isEnabled: true,
+                    isLoading: false,
+                });
             });
     };
 
@@ -307,6 +316,7 @@ export default class Feedback extends Component {
     render() {
         const {
             error,
+            isEnabled,
             isLoading,
             pitchTitle,
             businessName,
@@ -520,6 +530,12 @@ export default class Feedback extends Component {
                                 </div>
                             </div>
                             <Button loading={isLoading}
+                                    disabled={
+                                        !isEnabled ||
+                                        !rating1 || rating1 === "" ||
+                                        !rating2 || rating2 === "" ||
+                                        !rating3 || rating3 === ""
+                                    }
                             >Submit</Button>
                         </Form>
                     </Grid.Column>

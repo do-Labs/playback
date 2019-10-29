@@ -97,12 +97,10 @@ export default class Business extends Component {
             webpageUrl,
             fundingRound,
         }).then( async (docRef) => {
-            console.log("DocRef: ", docRef);
             const bid = docRef._key.path.segments[1];
-            console.log("bid:", bid)
             await this.handleAddBusinessClaims(bid);
 
-            // this.props.history.push("/")
+            this.props.history.push("/")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
