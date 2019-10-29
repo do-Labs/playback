@@ -3,7 +3,6 @@ import { Button, Form, Grid, Message, Segment } from "semantic-ui-react";
 import Logo from "../components/Logo";
 // import { Redirect } from "react-router-dom";
 import firebase from '../Firebase';
-import { browserHistory } from 'react-router';
 
 const projectName = "playback-2a438";
 

@@ -43,7 +43,7 @@
     "yarn": "^1.9.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` REACT_APP_VERSION=`echo $npm_package_version` REACT_APP_BUILDTIME=`echo $(date +'%Y-%m-%d_%T')` react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
