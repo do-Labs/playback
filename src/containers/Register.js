@@ -48,14 +48,17 @@ class Register extends Component {
             this.setState({ isLoading: true });
             firebase.auth()
                 .createUserWithEmailAndPassword(email, password)
-                .then( async () => {
-                    browserHistory.push('/login');
-                    console.log("Registered new user!");
+                .then( async (response) => {
+                    const uid = response.user.uid;
+                    console.log("Registered new user:", uid);
                     // Get Token
                     await this.signInWithFirebase()
                         .then( async ()=> {
                             // Email Welcome to user
                             await this.handleEmailWelcome(this.state.token);
+                            // post user to /users
+                            await this.handleAddUser(uid);
+
                             this.setState({
                                 email: "",
                                 password: "",
@@ -110,6 +113,23 @@ class Register extends Component {
             }).catch( (err)=> {
             alert("Error sending Email");
             console.log("Error Emailing User: ", err)
+        })
+    };
+
+    handleAddUser = (uid) => {
+        const {
+            email,
+            // role,
+        } = this.state;
+
+        const usersRef = firebase.firestore().collection('users');
+
+        usersRef.add({
+            uid,
+            email,
+            // role,
+        }).then((docRef)=> {
+            console.log("Response Docref:", docRef);
         })
     };
 

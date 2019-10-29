@@ -136,8 +136,6 @@ export default class Pitch extends Component {
             businessID,
         } = this.state;
 
-
-
         this.ref.add({
             pitchTitle,
             businessName,
