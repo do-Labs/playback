@@ -43,6 +43,9 @@ export default class Feedback extends Component {
             rating1: 0, // communication of business concept
             rating2: 0, // Validity of problem statement
             rating3: 0, // value value of solution
+
+            // UserData
+            givenFeedback: [],
         };
     }
 
@@ -276,9 +279,12 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
+            businessID,
+            givenFeedback
         } = this.state;
 
         const role = "audience";
+        givenFeedback.push(businessID);
 
         const usersRef = firebase.firestore().collection('users');
 
@@ -291,6 +297,8 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
+            givenFeedback
+
         }).then((docRef)=> {
             console.log("Response Docref:", docRef);
         })
