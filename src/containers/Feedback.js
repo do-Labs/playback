@@ -447,6 +447,7 @@ export default class Feedback extends Component {
                                                     <option value="CorporateExec">Corporate Exec</option>
                                                     <option value="Investor">Investor</option>
                                                     <option value="Entrepreneur">Entrepreneur</option>
+                                                    <option value="Student">Entrepreneur</option>
                                                 </select>
                                             </div>
                                         </Grid.Column>
@@ -470,6 +471,7 @@ export default class Feedback extends Component {
                                         <div className="field">
                                             <label>Additional Comments</label>
                                             <textarea
+                                                rows="4"
                                                 name="comment"
                                                 value={comment}
                                                 onChange={this.handleOnChange}
