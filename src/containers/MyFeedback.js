@@ -24,6 +24,7 @@ export default class MyFeedback extends Component {
         const feedbacks = [];
         querySnapshot.forEach((doc) => {
             const {
+                role,
                 firstName,
                 lastName,
                 email,
@@ -42,6 +43,7 @@ export default class MyFeedback extends Component {
                 key: doc.id,
                 doc, // DocumentSnapshot
                 id: doc.id,
+                role,
                 firstName,
                 lastName,
                 email,

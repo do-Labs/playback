@@ -36,6 +36,7 @@ export default class Feedback extends Component {
             phoneNumber: "",
             city: "",
             state: "",
+            role: "",
             comment: "",
             isAnonymous: "",
             wantsToMeet: "no",
@@ -157,6 +158,7 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
+            role,
             rating1,
             rating2,
             rating3,
@@ -174,6 +176,7 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
+            role,
             timeStamp: Date.now(),
             rating1,
             rating2,
@@ -240,6 +243,7 @@ export default class Feedback extends Component {
             phoneNumber: this.state.phoneNumber,
             city: this.state.city,
             state: this.state.state,
+            role: this.state.role,
             wantsToMeet: this.state.wantsToMeet,
         });
         console.log("BODY: ", body);
@@ -279,6 +283,7 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
+            role,
             rating1,
             rating2,
             rating3,
@@ -430,7 +435,22 @@ export default class Feedback extends Component {
 
                                 <div className="equal width fields">
                                     <Grid>
-                                        <Grid.Column width={14}>
+                                        <Grid.Column width={8}>
+                                            <div>
+                                                <p><span id="role">Role</span></p>
+                                                <select
+                                                    name="role"
+                                                    value={role}
+                                                    onChange={this.handleOnChange}
+                                                >
+                                                    <option value="Audience">Audience</option>
+                                                    <option value="CorporateExec">Corporate Exec</option>
+                                                    <option value="Investor">Investor</option>
+                                                    <option value="Entrepreneur">Entrepreneur</option>
+                                                </select>
+                                            </div>
+                                        </Grid.Column>
+                                        <Grid.Column width={8}>
                                             <div>
                                                 <p><span id="requestMeeting">Wanna Get Coffee?</span></p>
                                                 <select
@@ -442,17 +462,6 @@ export default class Feedback extends Component {
                                                     <option value="yes">Yes</option>
                                                 </select>
                                             </div>
-                                        </Grid.Column>
-                                        <Grid.Column width={2}>
-                                            {/*<label>*/}
-                                                {/*<p><span id="isAnonymous"> Anonymous?</span></p>*/}
-                                                {/*<input*/}
-                                                    {/*name="isAnonymous"*/}
-                                                    {/*type="checkbox"*/}
-                                                    {/*checked={this.state.isAnonymous}*/}
-                                                    {/*// onChange={this.handleCheckBoxChange}*/}
-                                                {/*/>*/}
-                                            {/*</label>*/}
                                         </Grid.Column>
                                     </Grid>
                                 </div>

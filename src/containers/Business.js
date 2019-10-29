@@ -104,7 +104,7 @@ export default class Business extends Component {
                 webpageUrl: '',
                 fundingRound: '',
             });
-            this.props.history.push("/businesses")
+            this.props.history.push("/")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);

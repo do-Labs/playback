@@ -4,6 +4,7 @@ import {Button, Modal, Table} from "semantic-ui-react";
 export default class Feedback extends Component {
     state = {
         id: this.props.feedback.id,
+        role: this.props.feedback.role,
         firstName: this.props.feedback.firstName,
         lastName: this.props.feedback.lastName,
         email: this.props.feedback.email,
@@ -51,6 +52,7 @@ export default class Feedback extends Component {
         const {
             id,
             timeStamp,
+            role,
             firstName,
             lastName,
             email,
@@ -91,6 +93,7 @@ export default class Feedback extends Component {
                                     <p>LastName: {lastName}</p>
                                     <p>Email: {email}</p>
                                     <p>PhoneNumber: {phoneNumber}</p>
+                                    <p>Role: {role}</p>
                                     <p>Comment: {comment}</p>
                                     <hr/>
                                     <p>Average: {ratingAvg}</p>
