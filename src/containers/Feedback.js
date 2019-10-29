@@ -5,7 +5,6 @@ import usStates from "../states";
 import firebase from '../Firebase';
 import StarRatingComponent from "react-star-rating-component";
 import AddToCalendar from 'react-add-to-calendar';
-// import AddToCalendar from '../components/add-to-calendar';
 const moment = require('moment');
 
 const projectName = "playback-2a438";

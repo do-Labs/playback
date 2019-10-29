@@ -54,7 +54,7 @@ export default class Business extends Component {
                     console.log("No such document!");
                 }
             });
-            //  );
+
 
             this.setState({
                 isLoading: false,

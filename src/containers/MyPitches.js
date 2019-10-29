@@ -33,6 +33,8 @@ export default class MyPitches extends Component {
                 location,
                 presenterName,
                 presenterEmail,
+                eventUrl,
+                pitchUrl,
             } = doc.data();
             pitches.push({
                 key: doc.id,
@@ -44,6 +46,8 @@ export default class MyPitches extends Component {
                 location,
                 presenterName,
                 presenterEmail,
+                eventUrl,
+                pitchUrl,
             });
         });
         this.setState({
