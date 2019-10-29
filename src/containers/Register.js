@@ -29,7 +29,6 @@ class Register extends Component {
             );
             await firebase.auth().currentUser.getIdTokenResult(true)
                 .then(res => {
-                    console.log("IDTOKEN1: ", res.token);
                     this.setState({
                         isLoading: false,
                         token: res.token
@@ -55,14 +54,19 @@ class Register extends Component {
                     // Get Token
                     await this.signInWithFirebase()
                         .then( async ()=> {
-                            console.log("IDTOKEN2: ", this.state.token);
+                            // Email Welcome to user
                             await this.handleEmailWelcome(this.state.token);
+                            this.setState({
+                                email: "",
+                                password: "",
+                                confirmPassword: "",
+                            });
+                        }).catch((err)=>{
+                            console.log("Error emailing user", err)
                         });
-                    // Email Welcome to user
-                    // this.handleEmailWelcome();
                     this.setState({
                         registered: true,
-                        isLoading: false
+                        isLoading: false,
                     });
                 }, error => {
                     console.log("Error registering user");
