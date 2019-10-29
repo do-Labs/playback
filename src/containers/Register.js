@@ -158,6 +158,7 @@ class Register extends Component {
                                 <Form.Field>
                                     <Form.Input
                                         name="confirmPassword"
+                                        type="password"
                                         placeholder="Confirm Password"
                                         value={confirmPassword}
                                         onChange={this.handleChange}
