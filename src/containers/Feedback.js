@@ -68,7 +68,7 @@ export default class Feedback extends Component {
             id: id,
         });
         if (id) {
-            console.log('ID: ', id);
+            // console.log('ID: ', id);
             this.setState({
                 id: this.props.match.params.id,
                 isLoading: true,
@@ -95,13 +95,11 @@ export default class Feedback extends Component {
     
 
     handleGetPitchData = async (id) => {
-        console.log('getting pitch data');
         const refPitch = firebase.firestore().collection('pitches').doc(id);
 
         await refPitch.get().then((doc) => {
             if (doc.exists) {
                 const data = doc.data();
-                console.log("data:", data);
                 this.setState({
                     pitchData: {
                         key: doc.id,
@@ -187,6 +185,7 @@ export default class Feedback extends Component {
         }).then( async (docRef) => {
             await this.handleAnonymousSignIn();
             await this.handleEmailFeedback();
+            await this.handleAddUser();
             this.props.history.push('/thankyou');
         })
             .catch((error) => {
@@ -220,7 +219,8 @@ export default class Feedback extends Component {
             if (user) {
                 console.log("User is signed in!");
                 this.setState({
-                    token: user.ra
+                    token: user.ra,
+                    userID: user.uid
                 })
             } else {
                 console.log("User is signed out!")
@@ -265,6 +265,35 @@ export default class Feedback extends Component {
             console.log("Error Emailing User: ", err)
         })
 
+    };
+
+    handleAddUser = () => {
+        const {
+            userID,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            city,
+            state,
+        } = this.state;
+
+        const role = "audience";
+
+        const usersRef = firebase.firestore().collection('users');
+
+        usersRef.add({
+            userID,
+            role,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            city,
+            state,
+        }).then((docRef)=> {
+            console.log("Response Docref:", docRef);
+        })
     };
 
     render() {
@@ -485,6 +514,7 @@ export default class Feedback extends Component {
                             <Button loading={isLoading}
                             >Submit</Button>
                         </Form>
+                        <Button onClick={this.handleAnonymousSignIn}>handleAnonymousSignIn</Button>
                     </Grid.Column>
                 </Grid>
             </Container>

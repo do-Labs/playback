@@ -13,14 +13,13 @@ class Register extends Component {
         email: "",
         password: "",
         confirmPassword: "",
-        userType: "",
+        role: "",
         user: {},
         showConfirmation: false,
         error: null
     };
 
     signInWithFirebase = async () => {
-        console.log("signInWithFirebase");
         try {
             this.setState({isLoading: true});
             await firebase.auth().signInWithEmailAndPassword(
@@ -50,7 +49,7 @@ class Register extends Component {
                 .createUserWithEmailAndPassword(email, password)
                 .then( async (response) => {
                     const uid = response.user.uid;
-                    console.log("Registered new user:", uid);
+                    // console.log("Registered new user:", uid);
                     // Get Token
                     await this.signInWithFirebase()
                         .then( async ()=> {
@@ -116,20 +115,20 @@ class Register extends Component {
         })
     };
 
-    handleAddUser = (uid) => {
+    handleAddUser = (userID) => {
         const {
             email,
-            // role,
+            role,
         } = this.state;
 
         const usersRef = firebase.firestore().collection('users');
 
         usersRef.add({
-            uid,
+            userID,
             email,
-            // role,
+            role,
         }).then((docRef)=> {
-            console.log("Response Docref:", docRef);
+            // console.log("Response Docref:", docRef);
         })
     };
 
@@ -138,7 +137,7 @@ class Register extends Component {
             email,
             password,
             confirmPassword,
-            // userType,
+            role,
             error,
             registered,
             isLoading,
@@ -189,24 +188,28 @@ class Register extends Component {
                                     />
                                 </Form.Field>
 
-
-                                {/*<select*/}
-                                    {/*name="userType"*/}
-                                    {/*value={userType}*/}
-                                    {/*onChange={this.handleOnChange}*/}
-                                {/*>*/}
-                                    {/*<option placeholder="">User Type</option>*/}
-                                    {/*<option value="admin">Admin</option>*/}
-                                    {/*<option value="startup">Startup</option>*/}
-                                    {/*<option value="general">General</option>*/}
-                                {/*</select>*/}
+                                <div>
+                                    <p><span id="role">Select a Role</span></p>
+                                    <select
+                                        name="role"
+                                        value={role}
+                                        onChange={this.handleOnChange}
+                                    >
+                                        <option value="">-</option>
+                                        <option value="audience">Audience</option>
+                                        <option value="corporateExec">Corporate Exec</option>
+                                        <option value="investor">Investor</option>
+                                        <option value="entrepreneur">Entrepreneur</option>
+                                        <option value="student">Student</option>
+                                    </select>
+                                </div>
 
                                 <Button loading={isLoading}
-                                        // onClick={this.registerUser}
                                         onClick={this.handleSignUp}
                                         disabled={
                                             !email || email === "" ||
                                             !password || password === "" ||
+                                            !role || role === "" ||
                                             !confirmPassword || confirmPassword === ""
                                         }
                                 >Submit</Button>
