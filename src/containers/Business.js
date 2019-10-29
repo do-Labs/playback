@@ -3,6 +3,8 @@ import {Button, Container, Dimmer, Form, Grid, Loader, Message} from "semantic-u
 import {Logo, NavMenu} from "../components/index";
 import firebase from '../Firebase';
 
+const projectName = "playback-2a438";
+
 export default class Business extends Component {
 
     constructor() {
@@ -94,24 +96,19 @@ export default class Business extends Component {
             corpType,
             webpageUrl,
             fundingRound,
-        }).then((docRef) => {
-            this.setState({
-                name: '',
-                type: '',
-                stage: '',
-                numberOfEmployees: '',
-                corpType: '',
-                webpageUrl: '',
-                fundingRound: '',
-            });
-            this.props.history.push("/")
+        }).then( async (docRef) => {
+            console.log("DocRef: ", docRef);
+            const bid = docRef._key.path.segments[1];
+            console.log("bid:", bid)
+            await this.handleAddBusinessClaims(bid);
+
+            // this.props.history.push("/")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
             });
-
-
     };
+
     submitEdit = () => {
         const {
             name,
@@ -173,6 +170,30 @@ export default class Business extends Component {
             isLoading: false,
         });
         console.log("Successfully submitted business");
+    };
+
+    handleAddBusinessClaims = async (bid) => {
+        const body  = JSON.stringify({
+            uid: this.props.userID,
+            bid: bid,
+        });
+
+        await fetch(`https://us-central1-${projectName}.cloudfunctions.net/AddBusinessClaims`, {
+            method: "POST",
+            headers: new Headers({
+                Authorization: "Bearer " + this.props.token,
+                "Content-Type": "application/json",
+                'cache-control': 'no-cache',
+            }),
+            body
+        })
+            .then( (res)=> {
+                console.log("RESPONSE: ", res.status)
+            }).catch( (err)=> {
+                alert("Error setting business claims ");
+                console.log("Error setting business claims: ", err)
+            })
+
     };
 
     render() {

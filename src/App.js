@@ -42,6 +42,7 @@ class App extends Component {
             const { token, username } = JSON.parse(auth);
             this.userHasAuthenticated(true, username, token);
             const decoded = jwtDecode(token);
+            // console.log('decoded', decoded)
             const userID = decoded.user_id;
             // Determine role
             if(decoded.role === "admin"){
@@ -53,6 +54,11 @@ class App extends Component {
                     role : 'businessUser',
                     businessID : decoded.businessID,
                 })
+            } else {
+                this.setState({
+                    role: 'guest',
+                    businessID: null,
+                });
             }
 
             this.setState({
