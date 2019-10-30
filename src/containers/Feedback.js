@@ -294,10 +294,9 @@ export default class Feedback extends Component {
         const role = "audience";
         givenFeedback.push(businessID);
 
-        const usersRef = firebase.firestore().collection('users');
+        const usersRef = firebase.firestore().collection('users').doc(userID);
 
         usersRef.add({
-            userID,
             role,
             firstName,
             lastName,

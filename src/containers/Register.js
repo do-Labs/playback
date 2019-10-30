@@ -55,6 +55,7 @@ class Register extends Component {
                             // Email Welcome to user
                             await this.handleEmailWelcome(this.state.token);
                             // post user to /users
+                            console.log("User created: ", uid);
                             await this.handleAddUser(uid);
 
                             this.setState({
@@ -114,20 +115,19 @@ class Register extends Component {
         })
     };
 
-    handleAddUser = (userID) => {
+    handleAddUser = async (userID) => {
         const {
             email,
             role,
         } = this.state;
 
-        const usersRef = firebase.firestore().collection('users');
+        const usersRef = await firebase.firestore().collection('users').doc(userID);
 
-        usersRef.add({
-            userID,
+        usersRef.set({
             email,
             role,
         }).then((docRef)=> {
-            // console.log("Response Docref:", docRef);
+            console.log("Added User:", docRef);
         })
     };
 

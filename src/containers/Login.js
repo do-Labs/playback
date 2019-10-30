@@ -18,18 +18,6 @@ class Login extends Component {
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
-    registerUser = async event => {
-        console.log("registering new user");
-        event.preventDefault();
-        // try {
-        //     this.setState({isLoading: true});
-        //     console.log("Mock registered!!!")
-        // }
-        // catch (error) {
-        //     this.setState({error, isLoading: false});
-        // }
-    };
-
     signInWithFirebase = async event => {
         console.log("signInWithFirebase");
         event.preventDefault();
@@ -128,7 +116,6 @@ class Login extends Component {
                 >
                     <Grid.Column textAlign="left" style={{ maxWidth: 450 }}>
                         <Segment>
-                            Login Page
                             <Logo />
 
                             {error && <Message error content={error.message} />}
@@ -168,7 +155,7 @@ class Login extends Component {
                                     Confirm login
                                 </Button>}
                             </Form>
-                            <hr/>
+                            {/*<hr/>*/}
                             <Button fluid size="large" loading={isLoading} href="/register">
                                 Register
                             </Button>
