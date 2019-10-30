@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Button, Modal, Table} from "semantic-ui-react";
+const moment = require('moment');
 
 export default class Feedback extends Component {
     state = {
@@ -27,6 +28,8 @@ export default class Feedback extends Component {
 
     componentDidMount = () => {
         this.handleAvgRating();
+        this.handleGetDateTime();
+
     };
 
     handleAvgRating = () => {
@@ -47,11 +50,29 @@ export default class Feedback extends Component {
 
     };
 
+    handleGetDateTime = () => {
+        const { timeStamp } = this.state;
+        const dateTime = moment(timeStamp).format();
+        const date = dateTime.split('T')[0];
+        const timeString = dateTime.split('T')[1];
+        const time = timeString.split('-')[0];
+        console.log("DATE:", date);
+        console.log("Time:", time);
+        this.setState({
+            timeStamp: dateTime,
+            date: date,
+            time: time,
+        })
+
+        //format time to AM PM
+    };
+
     render() {
 
         const {
             id,
-            timeStamp,
+            date,
+            time,
             role,
             firstName,
             lastName,
@@ -70,7 +91,7 @@ export default class Feedback extends Component {
 
         return (
             <Table.Row>
-                <Table.Cell>{timeStamp}</Table.Cell>
+                <Table.Cell>{date} &nbsp;&nbsp; {time}</Table.Cell>
                 <Table.Cell>{firstName} {lastName}</Table.Cell>
                 <Table.Cell>{ratingAvg}</Table.Cell>
                 <Table.Cell>{wantsToMeet}</Table.Cell>
@@ -83,7 +104,7 @@ export default class Feedback extends Component {
                             content={
                                 <div>
                                     <p>Id: {id}</p>
-                                    <p>TimeStamp: {timeStamp}</p>
+                                    <p>Date: {date} &nbsp; Time: {time}</p>
                                     {isAnonymous &&
                                         <p>IsAnonymous: {isAnonymous}</p>
                                     }

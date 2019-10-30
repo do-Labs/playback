@@ -5,7 +5,6 @@ import {
 } from "semantic-ui-react";
 import firebase from '../Firebase';
 
-
 export default class MyFeedback extends Component {
 
     constructor(props) {
