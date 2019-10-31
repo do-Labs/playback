@@ -32,19 +32,22 @@ export default class Pitch extends Component {
 
     componentDidMount = async() => {
         const pitchId = this.props.match.params.id;
-
         const businessID = this.props.businessID;
-        const busRef = await firebase.firestore().collection("businesses").doc(businessID);
-        busRef.get().then(async (doc) => {
-            if (doc.exists) {
-               const bus = await doc.data();
-                this.setState({
-                    businessName: bus.name,
-                })
-            }
-        });
-        console.log('busId:', businessID);
-        console.log('businessName:', this.state.businessName);
+
+        if(businessID){
+            const busRef = await firebase.firestore().collection("businesses").doc(businessID);
+            busRef.get().then(async (doc) => {
+                if (doc.exists) {
+                    const bus = await doc.data();
+                    this.setState({
+                        businessName: bus.name,
+                    })
+                }
+            });
+            console.log('busId:', businessID);
+            console.log('businessName:', this.state.businessName);
+        }
+
 
         if (pitchId) {
             this.setState({

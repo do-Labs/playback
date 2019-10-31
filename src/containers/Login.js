@@ -118,6 +118,7 @@ class Login extends Component {
                         <Segment>
                             <Logo />
 
+                            <center><p>version {process.env.REACT_APP_VERSION}</p></center>
                             {error && <Message error content={error.message} />}
                             <Form>
                                 <Form.Field>
