@@ -13,7 +13,8 @@ export default class Feedback extends Component {
 
     constructor() {
         super();
-        this.refPitches = firebase.firestore().collection('pitches');
+        // this.refPitches = firebase.firestore().collection('pitches');
+        this.ref = firebase.firestore();
         this.state = {
             error: null,
             isLoading: true,
@@ -61,24 +62,22 @@ export default class Feedback extends Component {
                 startTime: start,
             }
         })
-
     };
 
     componentDidMount = async () => {
-        const id = this.props.match.params.id;
+        const pid = this.props.match.params.id;
         this.setState({
             isLoading: true,
-            id: id,
+            pitchID: pid,
         });
-        if (id) {
+        if (pid) {
             // console.log('ID: ', id);
             this.setState({
-                id: this.props.match.params.id,
                 isLoading: true,
             });
 
             // get pitch data
-            await this.handleGetPitchData(id).catch();
+            await this.handleGetPitchData(pid).catch();
             // set reminder date
             await this.setReminderDate();
 
@@ -91,14 +90,14 @@ export default class Feedback extends Component {
         else {
             this.setState({
                 isLoading: false,
-                id: null
+                pitchID: null
             });
         }
     };
     
 
-    handleGetPitchData = async (id) => {
-        const refPitch = firebase.firestore().collection('pitches').doc(id);
+    handleGetPitchData = async (pid) => {
+        const refPitch = firebase.firestore().collection('pitches').doc(pid);
 
         await refPitch.get().then((doc) => {
             if (doc.exists) {
@@ -155,7 +154,7 @@ export default class Feedback extends Component {
             isEnabled: false,
             isLoading: true,
         });
-        const id = this.state.id;
+        const pid = this.state.pitchID;
         const {
             firstName,
             lastName,
@@ -171,10 +170,10 @@ export default class Feedback extends Component {
             isAnonymous,
             wantsToMeet,
         } = this.state;
-        console.log("Submitting Feedback...", id);
-        const feedbackRef = this.refPitches.doc(id).collection('feedback');
+        console.log("Submitting Feedback...", pid);
+        const feedbackRef = await this.ref.collection('pitches').doc(pid).collection('feedback');
 
-        feedbackRef.add({
+        await feedbackRef.add({
             firstName,
             lastName,
             email,
@@ -190,9 +189,12 @@ export default class Feedback extends Component {
             isAnonymous,
             wantsToMeet,
         }).then( async (docRef) => {
-            await this.handleAnonymousSignIn();
-            await this.handleEmailFeedback();
-            await this.handleAddUser();
+            await this.handleAnonymousSignIn()
+                .then( async (response)=> {
+                    console.log("SignInRes:", response);
+                    await this.handleAddUser();
+                });
+            // await this.handleEmailFeedback();
             this.props.history.push('/thankyou');
         })
             .catch((error) => {
@@ -278,7 +280,7 @@ export default class Feedback extends Component {
 
     };
 
-    handleAddUser = () => {
+    handleAddUser = async () => {
         const {
             userID,
             firstName,
@@ -290,13 +292,18 @@ export default class Feedback extends Component {
             businessID,
             givenFeedback
         } = this.state;
+        console.log("userID:", userID);
 
         const role = "audience";
-        givenFeedback.push(businessID);
+        await givenFeedback.push(businessID);
 
-        const usersRef = firebase.firestore().collection('users').doc(userID);
+        // const feedbackRef = await this.refPitches.doc(id).collection('feedback');
+        // const usersRef = firebase.firestore().collection('users').doc(userID);
+        const usersRef = this.ref.collection('users').doc(userID);
 
-        usersRef.add({
+        console.log("usersRef:", usersRef);
+
+        await usersRef.set({
             role,
             firstName,
             lastName,
@@ -306,9 +313,7 @@ export default class Feedback extends Component {
             state,
             givenFeedback
 
-        }).then((docRef)=> {
-            console.log("Response Docref:", docRef);
-        })
+        }).catch()
     };
 
     render() {

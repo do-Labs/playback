@@ -5,20 +5,19 @@ import {Link} from "react-router-dom";
 
 export default class User extends Component {
   state = {
-    uid: this.props.user.UID,
+    uid: this.props.user.id,
     isLoading: false,
     error: null,
     modalOpen: false,
     firstName: this.props.user.firstName,
     lastName: this.props.user.lastName,
     status: this.props.user.status,
-    phoneNumber: this.props.user.PhoneNumber,
-    email: this.props.user.Email,
-    globalRole: this.props.user.CustomClaims.GlobalRole,
+    phoneNumber: this.props.user.phoneNumber,
+    email: this.props.user.email,
     address: this.props.user.address,
     picture: this.props.user.picture,
     position: this.props.user.position,
-    businessRoles: this.props.user.CustomClaims.BusinessRoles,
+    // businessRole: this.props.user.CustomClaims.BusinessRoles,
   };
 
   handleOpen = () => this.setState({modalOpen: true});
@@ -119,8 +118,6 @@ export default class User extends Component {
       uid,
       firstName,
       lastName,
-      globalRole,
-      status,
       email,
       phoneNumber,
     } = this.state;
@@ -128,8 +125,6 @@ export default class User extends Component {
     return (
      <Table.Row>
        <Table.Cell>{email}</Table.Cell>
-       <Table.Cell>{status}</Table.Cell>
-       <Table.Cell>{globalRole}</Table.Cell>
        <Table.Cell collapsing>
          <Button.Group icon>
            <Modal
@@ -141,8 +136,6 @@ export default class User extends Component {
                 <p>FirstName: {firstName}</p>
                 <p>LastName: {lastName}</p>
                 <p>Phone#: {phoneNumber}</p>
-                <p>Status: {status}</p>
-                <p>GlobalRole: {globalRole}</p>
                 <Button
                     onClick={this.resetUserPassword}>Force Password Reset
                 </Button>

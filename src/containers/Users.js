@@ -2,20 +2,53 @@ import React, {Component} from "react";
 import {Button, Container, Icon, Grid, Table, Message, Dimmer, Loader} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import {User, NavMenu, Logo} from "../components/index";
+import firebase from "../Firebase";
 
 export default class Users extends Component {
-  state = {
-    error: null,
-    isLoading: true,
-    users: []
-  };
 
- componentDidMount () {
-    this.setState({ isLoading: true });
+    constructor(props) {
+        super(props);
+        this.ref = firebase.firestore().collection('users');
+        this.unsubscribe = null;
+        this.state = {
+            error: null,
+            isLoading: true,
+            users: []
+        };
+    }
 
+    onCollectionUpdate = (querySnapshot) => {
+        const users = [];
+        querySnapshot.forEach((doc) => {
+            const {
+                firstName,
+                lastName,
+                email,
+                role,
 
-  };
+            } = doc.data();
+            users.push({
+                key: doc.id,
+                doc, // DocumentSnapshot
+                id: doc.id,
+                firstName,
+                lastName,
+                email,
+                role
 
+            });
+            console.log("BID: ", doc.id)
+        });
+        this.setState({
+            users
+        });
+    };
+
+    componentDidMount = () => {
+        this.setState({ isLoading: true });
+        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+        this.setState({ isLoading: false });
+    };
   handleDelete = (uid) => {
     this.setState({users: this.state.users.filter(user => user.UID !== uid)})
   };
@@ -25,7 +58,7 @@ export default class Users extends Component {
   };
 
   render() {
-    const {error, isLoading} = this.state;
+    const {error, isLoading, users} = this.state;
 
     return (
      <Container>
@@ -57,12 +90,12 @@ export default class Users extends Component {
                </Table.Row>
              </Table.Header>
              <Table.Body>
-               {this.state.users.map(user => (
+               {users.map(user => (
                 <User
-                 key={user.UID}
-                 user={user}
-                 {...this.props}
-                 handleDisable={this.handleDisable}
+                    key={Math.random()}
+                    user={user}
+                    {...this.props}
+                    handleDisable={this.handleDisable}
                 />
                ))}
              </Table.Body>
