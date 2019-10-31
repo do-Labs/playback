@@ -192,9 +192,10 @@ export default class Feedback extends Component {
             await this.handleAnonymousSignIn()
                 .then( async ()=> {
                     await this.handleAddUser();
+                    // await this.handleEmailFeedback();
+                    this.props.history.push('/thankyou');
+
                 });
-            // await this.handleEmailFeedback();
-            this.props.history.push('/thankyou');
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
