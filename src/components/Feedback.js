@@ -93,9 +93,10 @@ export default class Feedback extends Component {
             <Table.Row>
                 <Table.Cell>{date} &nbsp;&nbsp; {time}</Table.Cell>
                 <Table.Cell>{firstName} {lastName}</Table.Cell>
+                <Table.Cell>{email}</Table.Cell>
                 <Table.Cell>{ratingAvg}</Table.Cell>
                 <Table.Cell>{wantsToMeet}</Table.Cell>
-                <Table.Cell><h6>{comment}</h6></Table.Cell>
+                {/*<Table.Cell><h6>{comment}</h6></Table.Cell>*/}
                 <Table.Cell collapsing>
                     <Button.Group icon>
                         <Modal

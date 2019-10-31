@@ -11,13 +11,9 @@ export default class User extends Component {
     modalOpen: false,
     firstName: this.props.user.firstName,
     lastName: this.props.user.lastName,
-    status: this.props.user.status,
+    role: this.props.user.role,
     phoneNumber: this.props.user.phoneNumber,
     email: this.props.user.email,
-    address: this.props.user.address,
-    picture: this.props.user.picture,
-    position: this.props.user.position,
-    // businessRole: this.props.user.CustomClaims.BusinessRoles,
   };
 
   handleOpen = () => this.setState({modalOpen: true});
@@ -118,6 +114,7 @@ export default class User extends Component {
       uid,
       firstName,
       lastName,
+      role,
       email,
       phoneNumber,
     } = this.state;
@@ -125,6 +122,9 @@ export default class User extends Component {
     return (
      <Table.Row>
        <Table.Cell>{email}</Table.Cell>
+       <Table.Cell>{firstName}</Table.Cell>
+       <Table.Cell>{lastName}</Table.Cell>
+       <Table.Cell>{role}</Table.Cell>
        <Table.Cell collapsing>
          <Button.Group icon>
            <Modal

@@ -69,7 +69,7 @@ export default class Users extends Component {
          </Grid.Column>
          <Grid.Column width={12}>
            <h2>
-             Users List
+             Users
              <Button secondary animated='fade' as={Link} to="/user" style={{float: "right"}}>
                <Button.Content visible>Add User</Button.Content>
                <Button.Content hidden><Icon name="add"/></Button.Content>
@@ -85,7 +85,9 @@ export default class Users extends Component {
              <Table.Header>
                <Table.Row>
                  <Table.HeaderCell>Email</Table.HeaderCell>
-                 <Table.HeaderCell>Status</Table.HeaderCell>
+                 <Table.HeaderCell>FirstName</Table.HeaderCell>
+                 <Table.HeaderCell>LastName</Table.HeaderCell>
+                 <Table.HeaderCell>Role</Table.HeaderCell>
                  <Table.HeaderCell>Action</Table.HeaderCell>
                </Table.Row>
              </Table.Header>
