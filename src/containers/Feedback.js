@@ -190,8 +190,10 @@ export default class Feedback extends Component {
             wantsToMeet,
         }).then( async (docRef) => {
             await this.handleAnonymousSignIn()
-                .then( async ()=> {
-                    await this.handleAddUser();
+                .then( async (user)=> {
+                    setTimeout(async () => {
+                        await this.handleAddUser();
+                        }, 1000);
                     // await this.handleEmailFeedback();
                     this.props.history.push('/thankyou');
 
@@ -238,6 +240,7 @@ export default class Feedback extends Component {
             } else {
                 console.log("User is signed out!")
             }
+            return user
         });
     };
 
