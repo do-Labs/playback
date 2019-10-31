@@ -47,6 +47,13 @@ export default class Pitch extends Component {
             console.log('busId:', businessID);
             console.log('businessName:', this.state.businessName);
         }
+        else {
+            this.setState({
+                error: {
+                    message: "No Registered Business Found!"
+                }
+            })
+        }
 
 
         if (pitchId) {

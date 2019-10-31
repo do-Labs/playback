@@ -488,7 +488,7 @@ export default class Feedback extends Component {
                                                     <option value="CorporateExec">Corporate Exec</option>
                                                     <option value="Investor">Investor</option>
                                                     <option value="Entrepreneur">Entrepreneur</option>
-                                                    <option value="Student">Entrepreneur</option>
+                                                    <option value="Student">Student</option>
                                                 </select>
                                             </div>
                                         </Grid.Column>

@@ -105,7 +105,7 @@ export default class Pitch extends Component {
                         {/*<Button icon="reply" as={Link} to={`/my-feedback/${this.props.pitch.id}`}/>*/}
                         <Button as={Link} to={`/my-feedback/${this.props.pitch.id}`}>Feedback</Button>
                         <Modal
-                            trigger={<Button icon="delete" onClick={this.handleOpen}/>}
+                            // trigger={<Button icon="delete" onClick={this.handleOpen}/>}
                             open={this.state.modalOpen}
                             onClose={this.handleClose}
                             basic

@@ -109,10 +109,11 @@ export default class AllPitches extends Component {
                             <Table.Header>
                                 <Table.Row>
                                     <Table.HeaderCell>DateOfPitch</Table.HeaderCell>
-                                    <Table.HeaderCell>Pitch pitchTitle</Table.HeaderCell>
-                                    <Table.HeaderCell>Company</Table.HeaderCell>
+                                    <Table.HeaderCell>Title</Table.HeaderCell>
                                     <Table.HeaderCell>PresenterName</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
+                                    <Table.HeaderCell>Rating</Table.HeaderCell>
+                                    <Table.HeaderCell>Count</Table.HeaderCell>
                                     <Table.HeaderCell>Action</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
