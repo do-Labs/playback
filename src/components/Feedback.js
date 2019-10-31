@@ -56,8 +56,6 @@ export default class Feedback extends Component {
         const date = dateTime.split('T')[0];
         const timeString = dateTime.split('T')[1];
         const time = timeString.split('-')[0];
-        console.log("DATE:", date);
-        console.log("Time:", time);
         this.setState({
             timeStamp: dateTime,
             date: date,

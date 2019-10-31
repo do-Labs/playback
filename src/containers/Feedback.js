@@ -190,8 +190,7 @@ export default class Feedback extends Component {
             wantsToMeet,
         }).then( async (docRef) => {
             await this.handleAnonymousSignIn()
-                .then( async (response)=> {
-                    console.log("SignInRes:", response);
+                .then( async ()=> {
                     await this.handleAddUser();
                 });
             // await this.handleEmailFeedback();
@@ -259,7 +258,6 @@ export default class Feedback extends Component {
             role: this.state.role,
             wantsToMeet: this.state.wantsToMeet,
         });
-        console.log("BODY: ", body);
 
         await fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailFeedback`, {
             method: "POST",
@@ -271,8 +269,7 @@ export default class Feedback extends Component {
             body
         })
             .then( (res)=> {
-                console.log("Emailed user");
-                console.log("RESPONSE: ", res.status)
+                console.log("res: ", res.status)
             }).catch( (err)=> {
             alert("Error sending Email");
             console.log("Error Emailing User: ", err)
@@ -297,11 +294,8 @@ export default class Feedback extends Component {
         const role = "audience";
         await givenFeedback.push(businessID);
 
-        // const feedbackRef = await this.refPitches.doc(id).collection('feedback');
-        // const usersRef = firebase.firestore().collection('users').doc(userID);
-        const usersRef = this.ref.collection('users').doc(userID);
 
-        console.log("usersRef:", usersRef);
+        const usersRef = this.ref.collection('users').doc(userID);
 
         await usersRef.set({
             role,
@@ -311,8 +305,7 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
-            givenFeedback
-
+            givenFeedback,
         }).catch()
     };
 
@@ -339,7 +332,6 @@ export default class Feedback extends Component {
             rating3,
             comment,
             wantsToMeet
-
         } = this.state;
 
 
@@ -364,7 +356,6 @@ export default class Feedback extends Component {
                             {eventUrl &&
                                 <p>EventUrl: {eventUrl}</p>
                             }
-
                             <center>
                                 <AddToCalendar
                                     buttonLabel="Remind me later"
@@ -379,7 +370,7 @@ export default class Feedback extends Component {
                                         value={rating1}
                                         onStarClick={this.onStarClick.bind(this)}
                                     />
-                                    Communication of business concept
+                                    Communication of Concept
                                 </div>
                                 <div>
                                     <StarRatingComponent
