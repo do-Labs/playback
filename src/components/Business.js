@@ -7,7 +7,7 @@ export default class Business extends Component {
     state = {
         id: this.props.business.id,
         name: this.props.business.name,
-        type: this.props.business.type,
+        industry: this.props.business.industry,
         stage: this.props.business.stage,
         corpType: this.props.business.corpType,
         webpageUrl: this.props.business.webpageUrl,
@@ -45,7 +45,7 @@ export default class Business extends Component {
         const {
             id,
             name,
-            type,
+            industry,
             stage,
             corpType,
             webpageUrl,
@@ -58,7 +58,7 @@ export default class Business extends Component {
         return (
             <Table.Row>
                 <Table.Cell>{name}</Table.Cell>
-                <Table.Cell>{type}</Table.Cell>
+                <Table.Cell>{industry}</Table.Cell>
                 <Table.Cell>{stage}</Table.Cell>
                 <Table.Cell collapsing>
                     <Button.Group icon>
@@ -68,8 +68,8 @@ export default class Business extends Component {
                             content={
                                 <div>
                                     <p>Id: {id}</p>
-                                    <p>stage: {stage}</p>
-                                    <p>Type: {type}</p>
+                                    <p>Stage: {stage}</p>
+                                    <p>Industry: {industry}</p>
                                     <p>CorpType: {corpType}</p>
                                     <p>WebpageUrl: {webpageUrl}</p>
                                     <p>Funding Round: {fundingRound}</p>

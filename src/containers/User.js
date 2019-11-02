@@ -145,6 +145,7 @@ export default class User extends Component {
 
             userId,
             email,
+            password,
             role,
             // company,
         } = this.state;
@@ -174,8 +175,9 @@ export default class User extends Component {
                             }
 
                             <div className="ui segment">
-                                <div className="ui container equal width fields">
+                                <div className="ui container equal width">
                                     <Form.Field>
+                                        <label>Email</label>
                                         <Form.Input
                                             id="email"
                                             name="email"
@@ -185,9 +187,19 @@ export default class User extends Component {
                                             error={!email || email === ""}
                                         />
                                     </Form.Field>
-                                </div>
 
-                                <div className="ui container equal width fields">
+                                    <Form.Field>
+                                        <label>Password</label>
+                                        <Form.Input
+                                            id="password"
+                                            name="password"
+                                            value={password}
+                                            onChange={this.handleOnChange}
+                                            error={!password || password === ""}
+                                        />
+                                    </Form.Field>
+
+                                    <label>Role</label>
                                     <select
                                         name="role"
                                         value={role}
@@ -199,7 +211,9 @@ export default class User extends Component {
                                         <option value="Guest">Guest</option>
                                         <option value="Admin">Admin</option>
                                     </select>
+
                                 </div>
+
                             </div>
 
 

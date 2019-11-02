@@ -17,7 +17,7 @@ export default class Business extends Component {
             isEnabled: true,
 
             name: "",
-            type: "",
+            industry: "",
             stage: "",
             numberOfEmployees: "",
             corpType: "",
@@ -43,7 +43,7 @@ export default class Business extends Component {
                     this.setState({
                         key: doc.id,
                         name: business.name,
-                        type: business.type,
+                        industry: business.industry,
                         stage: business.stage,
                         numberOfEmployees: business.numberOfEmployees,
                         corpType: business.corpType,
@@ -78,7 +78,7 @@ export default class Business extends Component {
     submitCreate = () => {
         const {
             name,
-            type,
+            industry,
             stage,
             numberOfEmployees,
             corpType,
@@ -90,7 +90,7 @@ export default class Business extends Component {
 
         this.ref.add({
             name,
-            type,
+            industry,
             stage,
             numberOfEmployees,
             corpType,
@@ -110,7 +110,7 @@ export default class Business extends Component {
     submitEdit = () => {
         const {
             name,
-            type,
+            industry,
             stage,
             numberOfEmployees,
             corpType,
@@ -126,7 +126,7 @@ export default class Business extends Component {
 
         busRef.set({
             name,
-            type,
+            industry,
             stage,
             numberOfEmployees,
             corpType,
@@ -135,7 +135,7 @@ export default class Business extends Component {
         }).then((docRef) => {
             this.setState({
                 name: '',
-                type: '',
+                industry: '',
                 stage: '',
                 numberOfEmployees: '',
                 corpType: '',
@@ -201,7 +201,7 @@ export default class Business extends Component {
             editMode,
             isEnabled,
             name,
-            type,
+            industry,
             stage,
             numberOfEmployees,
             corpType,
@@ -230,10 +230,10 @@ export default class Business extends Component {
                         <Form onSubmit={this.onSubmit}>
                             <div className="ui segment">
                                 <h3>Basic Info</h3>
+                                <label>Business Name</label>
                                 <Form.Field>
                                     <Form.Input
                                         name="name"
-                                        placeholder="Business Name"
                                         value={name}
                                         onChange={this.handleOnChange}
                                         error={!name || name === ""}
@@ -241,65 +241,93 @@ export default class Business extends Component {
                                 </Form.Field>
 
                                 <div className="equal width fields">
-                                    <select
-                                        name="type"
-                                        value={type}
-                                        onChange={this.handleOnChange}
-                                    >
-                                        <option placeholder="-">Business Type</option>
-                                        <option value="tech">Tech</option>
-                                        <option value="nonprofit">NonProfit</option>
-                                    </select>
-
-                                    <select
-                                        name="stage"
-                                        value={stage}
-                                        onChange={this.handleOnChange}
-                                    >
-                                        <option value="">Stage</option>
-                                        <option value="ideation">Ideation</option>
-                                        <option value="inProduction">In Production</option>
-                                        <option value="revenueGenerating">Revenue Generating</option>
-                                        <option value="readyToScale">Ready to Scale</option>
-                                        <option value="massProfit">Mass Profit</option>
-                                    </select>
-
-                                    <select
-                                        name="fundingRound"
-                                        value={fundingRound}
-                                        onChange={this.handleOnChange}
-                                    >
-                                        <option placeholder="-">Funding Round</option>
-                                        <option value="Self">Self</option>
-                                        <option value="Seed">Seed</option>
-                                        <option value="SeriesA">SeriesA</option>
-                                        <option value="SeriesB">SeriesB</option>
-                                    </select>
+                                    <div>
+                                        <label>Industry</label>
+                                        <select
+                                            name="industry"
+                                            value={industry}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option placeholder=""> </option>
+                                            <option value="tech">Tech</option>
+                                            <option value="nonprofit">NonProfit</option>
+                                            <option value="e-commerce">E-Commerce</option>
+                                            <option value="healthcare">Healthcare</option>
+                                            <option value="financial-services">Financial Services</option>
+                                            <option value="logistics">Logistics</option>
+                                            <option value="construction">Construction</option>
+                                            <option value="realestate">Real Estate</option>
+                                            <option value="retail">Retail</option>
+                                            <option value="consulting">Consulting</option>
+                                            <option value="general-contracting">Contracting</option>
+                                            <option value="agriculture">Agriculture</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label>Stage</label>
+                                        <select
+                                            name="stage"
+                                            value={stage}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option value="">Business Stage</option>
+                                            <option value="ideation">Ideation</option>
+                                            <option value="inProduction">In Production</option>
+                                            <option value="revenueGenerating">Revenue Generating</option>
+                                            <option value="readyToScale">Ready to Scale</option>
+                                            <option value="massProfit">Mass Profit</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label>Funding Round</label>
+                                        <select
+                                            name="fundingRound"
+                                            value={fundingRound}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option placeholder="-">Funding Round</option>
+                                            <option value="Self">Self</option>
+                                            <option value="Seed">Seed</option>
+                                            <option value="SeriesA">SeriesA</option>
+                                            <option value="SeriesB">SeriesB</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div className="equal width fields">
-                                    <select
-                                        name="corpType"
-                                        value={corpType}
-                                        onChange={this.handleOnChange}
-                                    >
-                                        <option placeholder="">Corp Type</option>
-                                        <option value="llc">LLC</option>
-                                        <option value="llp">LLP</option>
-                                        <option value="scorp">S Corp</option>
-                                    </select>
-                                    <select
-                                        name="numberOfEmployees"
-                                        value={numberOfEmployees}
-                                        onChange={this.handleOnChange}
-                                    >
-                                        <option value=""># of Employees</option>
-                                        <option value="1">1</option>
-                                        <option value="2-5">2-5</option>
-                                        <option value="5-10">5-10</option>
-                                        <option value="10-25">10-25</option>
-                                        <option value="25-100">25-100</option>
-                                    </select>
+                                    <div>
+                                        <label>Corp Type</label>
+                                        <select
+                                            name="corpType"
+                                            value={corpType}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option value=""> </option>
+                                            <option value="soleProprietor">Sole Prop</option>
+                                            <option value="llc">LLC</option>
+                                            <option value="llp">LLP</option>
+                                            <option value="scorp">S Corp</option>
+                                            <option value="partnership">Partnership</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label># of Employees</label>
+                                        <select
+                                            name="numberOfEmployees"
+                                            value={numberOfEmployees}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option value=""> </option>
+                                            <option value="1">1</option>
+                                            <option value="2-5">2-5</option>
+                                            <option value="5-10">5-10</option>
+                                            <option value="10-25">10-25</option>
+                                            <option value="25-100">25-100</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>Business URL</label>
                                     <Form.Field>
                                         <Form.Input
                                             name="webpageUrl"
@@ -315,7 +343,7 @@ export default class Business extends Component {
                             <Button loading={isLoading}
                                     disabled={
                                         !isEnabled || !name || name === "" ||
-                                        !type || type === "" || !stage || stage === "" ||
+                                        !industry || industry === "" || !stage || stage === "" ||
                                         !corpType || corpType === "" || !webpageUrl || webpageUrl === "" ||
                                         !stage || stage === ""
                                     }

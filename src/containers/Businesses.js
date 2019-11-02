@@ -23,7 +23,7 @@ export default class Businesses extends Component {
         querySnapshot.forEach((doc) => {
             const {
                 name,
-                type,
+                industry,
                 stage,
                 corpType,
                 webpageUrl,
@@ -35,7 +35,7 @@ export default class Businesses extends Component {
                 doc, // DocumentSnapshot
                 id: doc.id,
                 name,
-                type,
+                industry,
                 stage,
                 corpType,
                 webpageUrl,
@@ -91,7 +91,7 @@ export default class Businesses extends Component {
              <Table.Header>
                <Table.Row>
                  <Table.HeaderCell>Name</Table.HeaderCell>
-                 <Table.HeaderCell>Type</Table.HeaderCell>
+                 <Table.HeaderCell>Industry</Table.HeaderCell>
                  <Table.HeaderCell>Stage</Table.HeaderCell>
                  <Table.HeaderCell>Action</Table.HeaderCell>
                </Table.Row>

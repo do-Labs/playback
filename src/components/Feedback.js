@@ -102,17 +102,16 @@ export default class Feedback extends Component {
                             header={<h2>{date} {time}</h2>}
                             content={
                                 <div>
-                                    <p>Id: {id}</p>
                                     {isAnonymous &&
                                         <p>IsAnonymous: {isAnonymous}</p>
                                     }
-                                    <p>City: {city}</p>
-                                    <p>State: {state}</p>
                                     <p>FirstName: {firstName}</p>
                                     <p>LastName: {lastName}</p>
                                     <p>Email: {email}</p>
                                     <p>PhoneNumber: {phoneNumber}</p>
                                     <p>Role: {role}</p>
+                                    <p>City: {city}</p>
+                                    <p>State: {state}</p>
                                     <p>Comment: {comment}</p>
                                     <hr/>
                                     <p>Average: {ratingAvg}</p>
