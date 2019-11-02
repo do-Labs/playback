@@ -78,6 +78,7 @@ export default class Feedback extends Component {
 
             // get pitch data
             await this.handleGetPitchData(pid).catch();
+            await this.handleGetBusinessData().catch();
             // set reminder date
             await this.setReminderDate();
 
@@ -122,6 +123,25 @@ export default class Feedback extends Component {
                     pitchUrl: data.pitchUrl,
                     presenterEmail: data.presenterEmail,
                     presenterName: data.presenterName,
+                })
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+        // this.unsubscribe = await refPitch.onSnapshot(this.onCollectionUpdate);
+    };
+
+    handleGetBusinessData = async () => {
+        const refBus = firebase.firestore().collection('businesses').doc(this.state.businessID);
+
+        await refBus.get().then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                this.setState({
+                    webpageUrl: data.webpageUrl
                 })
             } else {
                 // doc.data() will be undefined in this case
@@ -324,6 +344,8 @@ export default class Feedback extends Component {
             presenterName,
             eventUrl,
 
+            webpageUrl,
+
             firstName,
             lastName,
             email,
@@ -353,7 +375,7 @@ export default class Feedback extends Component {
 
                         <Form onSubmit={this.onSubmit}>
                             {/*<h2>Leave Feedback for: {id}</h2>*/}
-                            <p>Business Name:   {businessName}</p>
+                            <p>Business Name: <a href={webpageUrl}>{businessName}</a> </p>
                             <p>Pitch Title:   {pitchTitle}</p>
                             <p>Date Of Pitch:   {dateOfPitch}</p>
                             <p>Presenter Name:   {presenterName}</p>
