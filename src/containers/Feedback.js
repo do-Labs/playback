@@ -299,7 +299,7 @@ export default class Feedback extends Component {
         await givenFeedback.push(businessID);
 
 
-        const usersRef = this.ref.collection('users').doc(userID);
+        const usersRef = await this.ref.collection('users').doc(userID);
 
         await usersRef.set({
             role,
