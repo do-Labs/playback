@@ -99,11 +99,10 @@ export default class Feedback extends Component {
                     <Button.Group icon>
                         <Modal
                             trigger={<Button icon="eye"/>}
-                            header={id}
+                            header={<h2>{date} {time}</h2>}
                             content={
                                 <div>
                                     <p>Id: {id}</p>
-                                    <p>Date: {date} &nbsp; Time: {time}</p>
                                     {isAnonymous &&
                                         <p>IsAnonymous: {isAnonymous}</p>
                                     }
