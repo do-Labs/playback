@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, Grid, Message, Segment } from "semantic-ui-react";
 import Logo from "../components/Logo";
-// import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import firebase from '../Firebase';
 
 const projectName = "playback-2a438";
@@ -21,7 +21,7 @@ class Register extends Component {
     signInWithFirebase = async () => {
         try {
             this.setState({isLoading: true});
-            await firebase.auth().signInWithEmailAndPassword(
+            const user = await firebase.auth().signInWithEmailAndPassword(
                 this.state.email,
                 this.state.password
             );
@@ -31,6 +31,12 @@ class Register extends Component {
                         isLoading: false,
                         token: res.token
                     });
+                    this.userAuthenticatesWithFirebase(user, res.token);
+                    sessionStorage.setItem('auth', JSON.stringify({
+                        token: res.token,
+                        username: this.state.email,
+                        refreshToken: user.user.refreshToken,
+                    }));
                     return res.token;
                 }).catch();
         }
@@ -48,7 +54,6 @@ class Register extends Component {
                 .createUserWithEmailAndPassword(email, password)
                 .then( async (response) => {
                     const uid = response.user.uid;
-                    // console.log("Registered new user:", uid);
                     // Get Token
                     await this.signInWithFirebase()
                         .then( async ()=> {
@@ -57,12 +62,12 @@ class Register extends Component {
                             // post user to /users
                             console.log("User created: ", uid);
                             await this.handleAddUser(uid);
-
                             this.setState({
                                 email: "",
                                 password: "",
                                 confirmPassword: "",
                             });
+
                         }).catch((err)=>{
                             console.log("Error emailing user", err)
                         });
@@ -76,7 +81,7 @@ class Register extends Component {
                         error: error.message,
                         isLoading: false
                     });
-                });
+                })
         }
         else {
             this.setState({ error: "Passwords do not match" });
@@ -131,6 +136,40 @@ class Register extends Component {
         })
     };
 
+    handleSignIn = async () => {
+        try {
+            this.setState({isLoading: true});
+            const user = await firebase.auth().signInWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+            );
+            firebase.auth().currentUser.getIdTokenResult(true)
+                .then(idTokenResult => {
+                    console.log("User Authenticated with Firebase");
+                    this.setState({user, isLoading: false});
+                    this.userAuthenticatesWithFirebase(user, idTokenResult.token);
+                    sessionStorage.setItem('auth', JSON.stringify({
+                        token: idTokenResult.token,
+                        username: this.state.email,
+                        refreshToken: user.user.refreshToken,
+                    }));
+
+                }).catch();
+        }
+        catch (error) {
+            this.setState({error, isLoading: false});
+        }
+    };
+
+    userAuthenticatesWithFirebase = (user, token) => {
+        console.log("userAuthenticatesWithFirebase");
+        this.props.userHasAuthenticated(
+            true,
+            user.user.email,
+            token,
+        );
+    };
+
     render() {
         const {
             email,
@@ -142,7 +181,9 @@ class Register extends Component {
             isLoading,
         } = this.state;
 
-        return (
+        return this.props.isAuthenticated ? (
+            <Redirect to="/" />
+        ) : (
             <div style={{ height: "100%", paddingTop: "10%" }}>
                 <Grid
                     textAlign="center"

@@ -18,7 +18,7 @@ export default class Pitch extends Component {
             businessName: "-",
             dateOfPitch: "",
             presenterName: "",
-            presenterEmail: "",
+            // presenterEmail: this.props.username,
             location: "",
             pitchUrl: "",
             eventUrl: "",
@@ -33,6 +33,7 @@ export default class Pitch extends Component {
     componentDidMount = async() => {
         const pitchId = this.props.match.params.id;
         const businessID = this.props.businessID;
+        const username = this.props.username;
 
         if(businessID){
             const busRef = await firebase.firestore().collection("businesses").doc(businessID);
@@ -44,8 +45,9 @@ export default class Pitch extends Component {
                     })
                 }
             });
-            console.log('busId:', businessID);
-            console.log('businessName:', this.state.businessName);
+            this.setState({
+                presenterEmail: username
+            })
         }
         else {
             this.setState({

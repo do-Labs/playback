@@ -5,8 +5,9 @@ import {
     NavMenu,
     // Pitch
 } from "../components/index";
-import {Container, Dimmer, Grid, Loader, Message, Table} from "semantic-ui-react";
+import {Button, Container, Dimmer, Grid, Icon, Loader, Message, Table} from "semantic-ui-react";
 import firebase from '../Firebase';
+import {Link} from "react-router-dom";
 
 
 export default class MyPitches extends Component {
@@ -124,6 +125,10 @@ export default class MyPitches extends Component {
                     <Grid.Column width={12}>
                         <h2>
                             My Pitches
+                            <Button secondary animated='fade' as={Link} to="/pitch" style={{float: "right"}}>
+                                <Button.Content visible>Add Pitch</Button.Content>
+                                <Button.Content hidden><Icon name="add"/></Button.Content>
+                            </Button>
                         </h2>
                         {error && <Message error content={error.message}/>}
                         {isLoading && (
