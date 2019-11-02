@@ -37,7 +37,6 @@ export default class Users extends Component {
                 role
 
             });
-            console.log("BID: ", doc.id)
         });
         this.setState({
             users

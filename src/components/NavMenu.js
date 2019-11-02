@@ -8,6 +8,7 @@ export default class NavMenu extends Component {
         userID: this.props.userID,
         role: this.props.role,
         isAdmin: false,
+        isBusinessUser: false,
     };
 
     handleLogout = async event => {
@@ -24,11 +25,18 @@ export default class NavMenu extends Component {
                 isAdmin : true,
             })
         }
+        else if(role === "businessUser"){
+            this.setState({
+                isBusinessUser : true,
+            })
+        }
     };
 
     render() {
         const {
             isAdmin,
+            isBusinessUser,
+
         } = this.state;
 
         return (
@@ -50,12 +58,16 @@ export default class NavMenu extends Component {
                     {/*<Icon name="large building" />*/}
                     Business
                     <Menu.Menu>
-                        <Menu.Item name="new" as={NavLink} to="/business">
-                            Register Business
-                        </Menu.Item>
-                        {/*<Menu.Item name="edit" as={NavLink} to={`/business/${this.props.businessID.id}`}>*/}
-                            {/*Edit Business*/}
-                        {/*</Menu.Item>*/}
+                        {!isBusinessUser &&
+                            <Menu.Item name="new" as={NavLink} to="/business">
+                                Register Business
+                            </Menu.Item>
+                        }
+                        {isBusinessUser &&
+                            <Menu.Item name="edit" as={NavLink} to={`/business/${this.props.businessID.id}`}>
+                                Edit Business
+                            </Menu.Item>
+                        }
                     </Menu.Menu>
                 </Menu.Item>
 
@@ -67,22 +79,23 @@ export default class NavMenu extends Component {
                     {/*</Menu.Menu>*/}
                 {/*</Menu.Item>*/}
 
-                <Menu.Item>
-                    {/*<Icon name="large microphone" />*/}
-                    Pitch
-                    <Menu.Menu>
-                        <Menu.Item name="myPitches" as={NavLink} to="/my-pitches">
-                            My Pitches
-                        </Menu.Item>
-                        <Menu.Item name="new" as={NavLink} to="/pitch">
-                            New
-                        </Menu.Item>
-                        {/*<Menu.Item name="record" as={NavLink} to="/record-pitch">*/}
+                {isBusinessUser &&
+                    <Menu.Item>
+                        {/*<Icon name="large microphone" />*/}
+                        Pitch
+                        <Menu.Menu>
+                            <Menu.Item name="myPitches" as={NavLink} to="/my-pitches">
+                                My Pitches
+                            </Menu.Item>
+                            <Menu.Item name="new" as={NavLink} to="/pitch">
+                                New
+                            </Menu.Item>
+                            {/*<Menu.Item name="record" as={NavLink} to="/record-pitch">*/}
                             {/*Record*/}
-                        {/*</Menu.Item>*/}
-                    </Menu.Menu>
-                </Menu.Item>
-
+                            {/*</Menu.Item>*/}
+                        </Menu.Menu>
+                    </Menu.Item>
+                }
 
                 {/*<Menu.Item>*/}
                     {/*/!*<Icon name="large binoculars" />*!/*/}

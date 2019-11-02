@@ -68,7 +68,6 @@ export default class Feedback extends Component {
     render() {
 
         const {
-            id,
             date,
             time,
             role,
