@@ -51,6 +51,9 @@ export default class NavMenu extends Component {
                         <Menu.Item onClick={this.handleLogout}>
                             Logout
                         </Menu.Item>
+                        <Menu.Item name="editProfile" as={NavLink} to={`/user/${this.props.userID}`}>
+                            Edit Profile
+                        </Menu.Item>
                     </Menu.Menu>
                 </Menu.Item>
 

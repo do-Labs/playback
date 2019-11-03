@@ -12,35 +12,28 @@ export default class User extends Component {
 
         userId: "",
 
-        email: "",
-        password: "playback2020",
-        confirmPassword: "playback2020",
+        email: this.props.username,
+        password: "",
+        confirmPassword: "",
         userType: "",
         role: "",
         company: "",
 
         isEnabled: true,
+        editMode: false,
     };
 
     componentDidMount = () => {
         this.setState({isLoading: true});
-        // const userId = this.props.match.params.id;
-
-        // Get Businesses List
-        // getBusinessesList(this.props)
-        //     .then(businessesList => {
-        //         this.setState({
-        //             isLoading: false,
-        //             businessesList: businessesList
-        //         });
-        //     })
-        //     .catch(error => {
-        //         this.setState({
-        //             isLoading: false,
-        //             error
-        //         });
-        //     });
-
+        // const userID = this.props.match.params.userID;
+        const pathname = this.props.location.pathname;
+        const userID = pathname.split('/user/')[1];
+        if(userID){
+            console.log("UID:", userID);
+            this.setState({
+                editMode: true,
+            })
+        }
 
         this.setState({
             isLoading: false,
@@ -98,13 +91,27 @@ export default class User extends Component {
         }
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
-        this.setState({
-            // isEnabled: false,
-            isLoading: true,
-        });
-        this.submitCreate();
+    handleEdit = (event) => {
+        event.preventDefault();
+        const userID = this.props.match.params.id;
+        console.log("userID: " , userID);
+        const { email, firstName, lastName, phoneNumber, position  } = this.state;
+
+        const userRef = firebase.firestore().collection('users').doc(userID);
+        userRef.set({
+            email,
+            firstName,
+            lastName,
+            phoneNumber,
+            position,
+        }).then((docRef) => {
+            alert("User Edited Successfully!");
+            this.props.history.push("/")
+        })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+
     };
 
     verifyUserEmail = () => {
@@ -142,12 +149,17 @@ export default class User extends Component {
             error,
             isLoading,
             isEnabled,
+            editMode,
 
             userId,
             email,
             password,
             role,
-            // company,
+
+            firstName,
+            lastName,
+            phoneNumber,
+            position,
         } = this.state;
 
         return (
@@ -158,7 +170,8 @@ export default class User extends Component {
                         <NavMenu {...this.props} />
                     </Grid.Column>
                     <Grid.Column width={12}>
-                        <h2>Create User</h2>
+                        {!editMode && <h2>Create User</h2>}
+                        {editMode && <h2>Edit Profile</h2>}
                         {error && <Message error content={error.message}/>}
                         {isLoading && (
                             <Dimmer active inverted>
@@ -166,59 +179,136 @@ export default class User extends Component {
                             </Dimmer>
                         )}
 
-                        <Form id="userForm" onSubmit={this.handleSignUp}>
+                        <Form id="userForm">
 
                             {userId &&
-                            <div className="ui segment">
-                                <h5>UserID: {userId}</h5>
-                            </div>
+                                <div className="ui segment">
+                                    <h5>UserID: {userId}</h5>
+                                </div>
                             }
 
-                            <div className="ui segment">
-                                <div className="ui container equal width">
-                                    <Form.Field>
-                                        <label>Email</label>
-                                        <Form.Input
-                                            id="email"
-                                            name="email"
-                                            placeholder="Email Address"
-                                            value={email}
+                            {!editMode &&
+                                <div className="ui segment">
+                                    <div className="ui container equal width">
+                                        <Form.Field>
+                                            <label>Email</label>
+                                            <Form.Input
+                                                id="email"
+                                                name="email"
+                                                placeholder="Email Address"
+                                                value={email}
+                                                onChange={this.handleOnChange}
+                                                error={!email || email === ""}
+                                            />
+                                        </Form.Field>
+
+                                        <Form.Field>
+                                            <label>Password</label>
+                                            <Form.Input
+                                                id="password"
+                                                name="password"
+                                                value={password}
+                                                onChange={this.handleOnChange}
+                                                error={!password || password === ""}
+                                            />
+                                        </Form.Field>
+
+                                        <label>Role</label>
+                                        <select
+                                            name="role"
+                                            value={role}
                                             onChange={this.handleOnChange}
-                                            error={!email || email === ""}
-                                        />
-                                    </Form.Field>
-
-                                    <Form.Field>
-                                        <label>Password</label>
-                                        <Form.Input
-                                            id="password"
-                                            name="password"
-                                            value={password}
-                                            onChange={this.handleOnChange}
-                                            error={!password || password === ""}
-                                        />
-                                    </Form.Field>
-
-                                    <label>Role</label>
-                                    <select
-                                        name="role"
-                                        value={role}
-                                        onChange={this.handleOnChange}
-                                    >
-                                        <option value="">Select User Role</option>
-                                        <option value="User">User</option>
-                                        <option value="Investor">Investor</option>
-                                        <option value="Guest">Guest</option>
-                                        <option value="Admin">Admin</option>
-                                    </select>
-
+                                        >
+                                            <option value="">Select User Role</option>
+                                            <option value="User">User</option>
+                                            <option value="Investor">Investor</option>
+                                            <option value="Guest">Guest</option>
+                                            <option value="Admin">Admin</option>
+                                        </select>
+                                    </div>
                                 </div>
+                            }
 
-                            </div>
+                            {editMode &&
+                                <div className="ui segment">
+                                    <div className="ui container equal width padded">
+                                        <h4>{email}</h4>
 
+                                    </div>
+                                    <div className="equal width fields">
+                                        <Grid>
+                                            <Grid.Column width={8}>
+                                                <label>First Name</label>
+                                                <Form.Field>
+                                                    <Form.Input
+                                                        name="firstName"
+                                                        value={firstName}
+                                                        onChange={this.handleOnChange}
+                                                    />
+                                                </Form.Field>
+                                            </Grid.Column>
+                                            <Grid.Column width={8}>
+                                                <label>Last Name</label>
+                                                <Form.Field>
+                                                    <Form.Input
+                                                        name="lastName"
+                                                        value={lastName}
+                                                        onChange={this.handleOnChange}
+                                                    />
+                                                </Form.Field>
+                                            </Grid.Column>
+                                        </Grid>
+                                    </div>
 
+                                    <div className="equal width fields">
+                                        <Grid>
+                                            <Grid.Column width={8}>
+                                                <label>Phone Number</label>
+                                                <Form.Field>
+                                                    <Form.Input
+                                                        name="phoneNumber"
+                                                        value={phoneNumber}
+                                                        onChange={this.handleOnChange}
+                                                    />
+                                                </Form.Field>
+                                            </Grid.Column>
+                                            <Grid.Column width={8}>
+                                                <label>Business Position</label>
+                                                <select
+                                                    name="position"
+                                                    value={position}
+                                                    onChange={this.handleOnChange}
+                                                >
+                                                    <option value=""> </option>
+                                                    <option value="CEO">CEO</option>
+                                                    <option value="CFO">CFO</option>
+                                                    <option value="COO">COO</option>
+                                                    <option value="CTO">CTO</option>
+                                                    <option value="BoardMember">Board Member</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </Grid.Column>
+                                        </Grid>
+                                    </div>
+                                </div>
+                            }
 
-                            <Form.Button
+                            {!editMode &&
+                                <Button
+                                    onClick={this.handleSignUp}
+                                    loading={isLoading}
+                                    disabled={
+                                        (!isEnabled) ||
+                                        (!email && email === "") ||
+                                        (!role && role === "")
+                                    }
+                                >
+                                    Submit
+                                </Button>
+                            }
+                            {editMode &&
+                            <Button
+                                onClick={this.handleEdit}
                                 loading={isLoading}
                                 disabled={
                                     (!isEnabled) ||
@@ -227,7 +317,8 @@ export default class User extends Component {
                                 }
                             >
                                 Submit
-                            </Form.Button>
+                            </Button>
+                            }
                         </Form>
                     </Grid.Column>
 

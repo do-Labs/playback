@@ -147,6 +147,11 @@ class App extends Component {
                             props={props}
                         />
                         <PrivateRoute
+                            path="/user/:id"
+                            component={User}
+                            props={props}
+                        />
+                        <PrivateRoute
                             path="/pitches"
                             component={Pitches}
                             props={props}
