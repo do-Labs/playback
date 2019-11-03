@@ -64,7 +64,7 @@ export default class NavMenu extends Component {
                             </Menu.Item>
                         }
                         {isBusinessUser &&
-                            <Menu.Item name="edit" as={NavLink} to={`/business/${this.props.businessID.id}`}>
+                            <Menu.Item name="edit" as={NavLink} to={`/business/${this.props.businessID}`}>
                                 Edit Business
                             </Menu.Item>
                         }

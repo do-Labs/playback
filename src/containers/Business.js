@@ -27,7 +27,7 @@ export default class Business extends Component {
     }
 
     componentDidMount = () => {
-        const businessId = this.props.match.params.id;
+        const businessId = this.props.businessID;
 
         if (businessId) { // EDIT MODE
             this.setState({
