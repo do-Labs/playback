@@ -41,17 +41,28 @@ export default class AllPitches extends Component {
                 presenterName,
                 presenterEmail,
             });
-            console.log("PITCHID: ", doc.id)
         });
         this.setState({
             pitches
         });
     };
 
-    componentDidMount = () => {
+    componentDidMount = async() => {
         this.setState({isLoading: true});
-        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-        this.setState({isLoading: false});
+        const pathname = this.props.location.pathname;
+        const bid = pathname.split('/pitches/')[1];
+        if(bid){
+            await this.getPitches(bid);
+            this.setState({
+                businessID: bid,
+                isLoading: false
+            });
+        }
+        else{
+            this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+            this.setState({isLoading: false});
+        }
+
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -81,6 +92,13 @@ export default class AllPitches extends Component {
     //     });
     // }
 
+    getPitches = async (businessID) => {
+        const pitchesRef = await firebase.firestore().collection("pitches");
+        const pitches = await pitchesRef.where("businessID", "==", businessID);
+
+        this.unsubscribe = pitches.onSnapshot(this.onCollectionUpdate);
+    };
+
     render() {
         const cProps = {
             onBusinessDeleted: this.getBusinessesList
@@ -97,7 +115,7 @@ export default class AllPitches extends Component {
                     </Grid.Column>
                     <Grid.Column width={12}>
                         <h2>
-                            Pitches List
+                            Pitches
                         </h2>
                         {error && <Message error content={error.message}/>}
                         {isLoading && (

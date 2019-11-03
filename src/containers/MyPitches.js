@@ -62,7 +62,7 @@ export default class MyPitches extends Component {
 
         if(!this.props.businessID){
             this.setState({
-                businessID : "000"
+                businessID : null
             })
         }
         else {

@@ -42,7 +42,6 @@ export default class Businesses extends Component {
                 fundingRound,
                 numberOfEmployees,
             });
-            console.log("BID: ", doc.id)
         });
         this.setState({
             businesses
