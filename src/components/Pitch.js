@@ -17,6 +17,7 @@ export default class Pitch extends Component {
         eventUrl: this.props.pitch.eventUrl,
         avgRating: 0,
         feedbackCount: 0,
+        likes: 0,
 
         isLoading: false,
         error: null,
@@ -67,6 +68,7 @@ export default class Pitch extends Component {
             eventUrl,
             avgRating,
             feedbackCount,
+            likes,
 
             error,
             isLoading
@@ -80,6 +82,7 @@ export default class Pitch extends Component {
                 <Table.Cell>{location}</Table.Cell>
                 <Table.Cell>{avgRating}</Table.Cell>
                 <Table.Cell>{feedbackCount}</Table.Cell>
+                <Table.Cell>{likes}</Table.Cell>
                 <Table.Cell collapsing>
                     <Button.Group icon>
                         <Modal

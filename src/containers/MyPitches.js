@@ -145,6 +145,7 @@ export default class MyPitches extends Component {
                                     <Table.HeaderCell>Location</Table.HeaderCell>
                                     <Table.HeaderCell>Rating</Table.HeaderCell>
                                     <Table.HeaderCell>Count</Table.HeaderCell>
+                                    <Table.HeaderCell>Likes</Table.HeaderCell>
                                     <Table.HeaderCell>Action</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
