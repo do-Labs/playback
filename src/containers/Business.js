@@ -71,10 +71,6 @@ export default class Business extends Component {
         this.setState(state);
     };
 
-    handleSelectChange = (e, {name, value}) => {
-        this.setState({[name]: value});
-    };
-
     submitCreate = () => {
         this.handleAddBusiness();
     };
