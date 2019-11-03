@@ -10,7 +10,7 @@ export default class User extends Component {
         isLoading: false,
         isHidden: true,
 
-        userId: "",
+        userID: "",
 
         email: this.props.username,
         password: "",
@@ -29,10 +29,27 @@ export default class User extends Component {
         const pathname = this.props.location.pathname;
         const userID = pathname.split('/user/')[1];
         if(userID){
-            console.log("UID:", userID);
+            const userRef = firebase.firestore().collection('users').doc(userID);
             this.setState({
                 editMode: true,
-            })
+            });
+            userRef.get().then((doc) => {
+                if (doc.exists) {
+                    const user = doc.data();
+                    this.setState({
+                        key: doc.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        phoneNumber: user.phoneNumber,
+                        position: user.position,
+
+                    });
+                } else {
+                    console.log("No such document!");
+                }
+            });
+
+
         }
 
         this.setState({
@@ -91,27 +108,26 @@ export default class User extends Component {
         }
     };
 
-    handleEdit = (event) => {
+    handleEdit = async (event) => {
         event.preventDefault();
-        const userID = this.props.match.params.id;
+        const userID = this.props.userID;
         console.log("userID: " , userID);
         const { email, firstName, lastName, phoneNumber, position  } = this.state;
 
-        const userRef = firebase.firestore().collection('users').doc(userID);
-        userRef.set({
+        const userRef = await firebase.firestore().collection('users').doc(userID);
+        await userRef.set({
             email,
             firstName,
             lastName,
             phoneNumber,
             position,
         }).then((docRef) => {
-            alert("User Edited Successfully!");
+            alert("Profile Edited Successfully!");
             this.props.history.push("/")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
             });
-
     };
 
     verifyUserEmail = () => {
@@ -312,8 +328,10 @@ export default class User extends Component {
                                 loading={isLoading}
                                 disabled={
                                     (!isEnabled) ||
-                                    (!email && email === "") ||
-                                    (!role && role === "")
+                                    (!firstName && firstName === "") ||
+                                    (!lastName && lastName === "") ||
+                                    (!phoneNumber && phoneNumber === "") ||
+                                    (!position && position === "")
                                 }
                             >
                                 Submit

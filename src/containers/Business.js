@@ -76,6 +76,10 @@ export default class Business extends Component {
     };
 
     submitCreate = () => {
+        this.handleAddBusiness();
+    };
+
+    handleAddBusiness = () => {
         const {
             name,
             industry,
@@ -96,6 +100,11 @@ export default class Business extends Component {
             corpType,
             webpageUrl,
             fundingRound,
+            user: {
+                userID: this.props.userID,
+                email: this.props.username,
+            }
+
         }).then( async (docRef) => {
             const bid = docRef._key.path.segments[1];
             await this.handleAddBusinessClaims(bid);
