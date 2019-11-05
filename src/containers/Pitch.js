@@ -2,7 +2,10 @@ import React, {Component} from "react";
 import {Button, Container, Dimmer, Form, Grid, Loader, Message} from "semantic-ui-react";
 import {NavMenu, Logo} from "../components/index";
 import firebase from '../Firebase';
+// import RecordPitch from "../containers/RecordPitch";
+import { ZiggeoRecorder } from 'react-ziggeo';
 const projectName = "playback-2a438";
+const ziggeoAPIKey = "47a5c78a5b0a1dcf28ba33ca0bd6ee46";
 
 export default class Pitch extends Component {
 
@@ -18,6 +21,7 @@ export default class Pitch extends Component {
             businessName: "-",
             dateOfPitch: "",
             presenterName: "",
+            presenterEmail: "",
             // presenterEmail: this.props.username,
             location: "",
             pitchUrl: "",
@@ -27,6 +31,9 @@ export default class Pitch extends Component {
             qrPrefix: 'https://blooming-bastion-98391.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
+
+            isRecordingPitch: false,
+            videoTag: "",
         };
     }
 
@@ -146,6 +153,7 @@ export default class Pitch extends Component {
             pitchUrl,
             eventUrl,
             businessID,
+            videoTag,
         } = this.state;
 
         this.ref.add({
@@ -158,6 +166,7 @@ export default class Pitch extends Component {
             pitchUrl,
             eventUrl,
             businessID,
+            videoTag,
         }).then( async(docRef) => {
             const pid = docRef._key.path.segments[1];
             //handle response
@@ -272,6 +281,36 @@ export default class Pitch extends Component {
         })
     };
 
+    handleToggleRecord = () => {
+        if(this.state.isRecordingPitch){
+            this.setState({
+                isRecordingPitch: false
+            })
+        }
+        else{
+            this.setState({
+                isRecordingPitch: true
+            })
+        }
+    };
+
+    recorderUploaded = () => {
+        console.log('Recorder onRecorderUploaded');
+    };
+
+    setVideoTag = (videoID) => {
+        this.setState({
+            videoTag: videoID
+        })
+    };
+
+    recorderUploading = async (embedding) => {
+        console.log('Recorder recorderUploading', embedding);
+        const pitchVideoID = await embedding.video;
+        // this.setVideoTag(pitchVideoID);
+        return pitchVideoID
+    };
+
 
     render() {
         const {
@@ -285,8 +324,10 @@ export default class Pitch extends Component {
             presenterEmail,
             location,
             pitchUrl,
-            pitchCodeUrl,
+            // pitchCodeUrl,
             eventUrl,
+
+            isRecordingPitch
 
         } = this.state;
 
@@ -309,94 +350,116 @@ export default class Pitch extends Component {
                         )}
 
                         <Form onSubmit={this.onSubmit}>
-                            <div className="ui segment">
-                                <center><h4>{businessName}</h4></center>
-                                <Form.Field>
-                                    Pitch Title
-                                    <Form.Input
-                                        name="pitchTitle"
-                                        placeholder="Pitch pitchTitle"
-                                        value={pitchTitle}
-                                        onChange={this.handleOnChange}
-                                        error={!pitchTitle || pitchTitle === ""}
-                                    />
-                                </Form.Field>
 
-                                <Form.Field>
-                                    Date of Pitch
-                                    <Form.Input
-                                        name="dateOfPitch"
-                                        value={dateOfPitch}
-                                        onChange={this.handleOnChange}
-                                        error={!dateOfPitch || dateOfPitch === ""}
-                                    />
-                                </Form.Field>
+                            {!isRecordingPitch &&
+                                <div className="ui segment">
+                                    <center><h4>{businessName}</h4></center>
+                                    <Form.Field>
+                                        Pitch Title
+                                        <Form.Input
+                                            name="pitchTitle"
+                                            placeholder="Pitch pitchTitle"
+                                            value={pitchTitle}
+                                            onChange={this.handleOnChange}
+                                            error={!pitchTitle || pitchTitle === ""}
+                                        />
+                                    </Form.Field>
 
-                                <Form.Field>
-                                    Presenter Name
-                                    <Form.Input
-                                        name="presenterName"
-                                        value={presenterName}
-                                        onChange={this.handleOnChange}
-                                        error={!presenterName || presenterName === ""}
-                                    />
-                                </Form.Field>
+                                    <Form.Field>
+                                        Date of Pitch
+                                        <Form.Input
+                                            name="dateOfPitch"
+                                            value={dateOfPitch}
+                                            onChange={this.handleOnChange}
+                                            error={!dateOfPitch || dateOfPitch === ""}
+                                        />
+                                    </Form.Field>
 
-                                <Form.Field>
-                                    Presenter Email
-                                    <Form.Input
-                                        name="presenterEmail"
-                                        value={presenterEmail}
-                                        onChange={this.handleOnChange}
-                                        error={!presenterEmail || presenterEmail === ""}
-                                    />
-                                </Form.Field>
+                                    <Form.Field>
+                                        Presenter Name
+                                        <Form.Input
+                                            name="presenterName"
+                                            value={presenterName}
+                                            onChange={this.handleOnChange}
+                                            error={!presenterName || presenterName === ""}
+                                        />
+                                    </Form.Field>
 
-                                <Form.Field>
-                                    Location
-                                    <Form.Input
-                                        name="location"
-                                        placeholder="1MC Dallas"
-                                        value={location}
-                                        onChange={this.handleOnChange}
-                                        error={!location || location === ""}
-                                    />
-                                </Form.Field>
+                                    <Form.Field>
+                                        Presenter Email
+                                        <Form.Input
+                                            name="presenterEmail"
+                                            value={presenterEmail}
+                                            onChange={this.handleOnChange}
+                                            error={!presenterEmail || presenterEmail === ""}
+                                        />
+                                    </Form.Field>
 
-                                <Form.Field>
-                                    Event URL
-                                    <Form.Input
-                                        name="eventUrl"
-                                        placeholder="http://"
-                                        value={eventUrl}
-                                        onChange={this.handleOnChange}
-                                    />
-                                </Form.Field>
+                                    <Form.Field>
+                                        Location
+                                        <Form.Input
+                                            name="location"
+                                            placeholder="1MC Dallas"
+                                            value={location}
+                                            onChange={this.handleOnChange}
+                                            error={!location || location === ""}
+                                        />
+                                    </Form.Field>
 
-                                <Form.Field>
-                                    Pitch Deck URL
-                                    <Form.Input
-                                        name="pitchUrl"
-                                        placeholder="http://"
-                                        value={pitchUrl}
-                                        onChange={this.handleOnChange}
-                                    />
-                                </Form.Field>
+                                    <Form.Field>
+                                        Event URL
+                                        <Form.Input
+                                            name="eventUrl"
+                                            placeholder="http://"
+                                            value={eventUrl}
+                                            onChange={this.handleOnChange}
+                                        />
+                                    </Form.Field>
 
-                                <div className="ui">
-                                    {pitchCodeUrl && <img alt="pitchCodeUrl" align="right" className="ui tiny image" src={pitchCodeUrl} />}
+                                    <Form.Field>
+                                        Pitch Deck URL
+                                        <Form.Input
+                                            name="pitchUrl"
+                                            placeholder="http://"
+                                            value={pitchUrl}
+                                            onChange={this.handleOnChange}
+                                        />
+                                    </Form.Field>
+
+                                    <Button onClick={this.handleToggleRecord}>RecordPitch</Button>
+
+                                    {/*<div className="ui">*/}
+                                        {/*{pitchCodeUrl && <img alt="pitchCodeUrl" align="right" className="ui tiny image" src={pitchCodeUrl} />}*/}
+                                    {/*</div>*/}
                                 </div>
+                            }
 
-                            </div>
+                            {isRecordingPitch &&
+                                <div>
+                                    <ZiggeoRecorder
+                                        apiKey={ziggeoAPIKey}
+                                        height={400}
+                                        width={800}
+                                        preventReRenderOnUpdate={false}
+                                        // onRecording={this.handleIsRecording}
+                                        onUploading={this.recorderUploading}
+                                        onUploaded={this.recorderUploaded}
+                                    />
+                                    <Button onClick={this.handleToggleRecord}>Back</Button>
+                                </div>
+                            }
 
 
-                            <Button loading={isLoading}
-                                    disabled={
-                                        !pitchTitle || pitchTitle === "" ||
-                                        !presenterName || !presenterName || presenterName === "" ||
-                                        !presenterEmail || !presenterEmail || presenterEmail === ""
-                                    }
-                            >Submit</Button>
+                            {!isRecordingPitch &&
+                                <Button loading={isLoading}
+                                        disabled={
+                                            !pitchTitle || pitchTitle === "" ||
+                                            !presenterName || !presenterName || presenterName === "" ||
+                                            !presenterEmail || !presenterEmail || presenterEmail === ""
+                                        }
+                                >Submit</Button>
+                            }
+
                         </Form>
                     </Grid.Column>
                 </Grid>
