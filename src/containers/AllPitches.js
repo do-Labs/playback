@@ -22,7 +22,7 @@ export default class AllPitches extends Component {
         querySnapshot.forEach((doc) => {
             const {
                 pitchTitle,
-                dateOfPitch,
+                pitchDate,
                 company,
                 location,
                 pitchUrl,
@@ -34,7 +34,7 @@ export default class AllPitches extends Component {
                 doc, // DocumentSnapshot
                 id: doc.id,
                 pitchTitle,
-                dateOfPitch,
+                pitchDate,
                 company,
                 location,
                 pitchUrl,

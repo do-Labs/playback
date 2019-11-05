@@ -20,7 +20,8 @@ export default class Pitch extends Component {
             isEnabled: true,
             pitchTitle: "",
             businessName: "-",
-            dateOfPitch: "",
+            // dateOfPitch: "",
+            pitchDate: "",
             presenterName: "",
             // presenterEmail: this.props.username,
             location: "",
@@ -79,7 +80,8 @@ export default class Pitch extends Component {
                         key: doc.id,
                         pitchTitle: pitch.pitchTitle,
                         businessName: pitch.businessName,
-                        dateOfPitch: pitch.dateOfPitch,
+                        pitchDate: pitch.pitchDate,
+                        // dateOfPitch: pitch.dateOfPitch,
                         presenterName: pitch.presenterName,
                         presenterEmail: pitch.presenterEmail,
                         location: pitch.location,
@@ -146,7 +148,8 @@ export default class Pitch extends Component {
         const {
             pitchTitle,
             businessName,
-            dateOfPitch,
+            // dateOfPitch,
+            pitchDate,
             presenterName,
             presenterEmail,
             location,
@@ -159,7 +162,8 @@ export default class Pitch extends Component {
         this.ref.add({
             pitchTitle,
             businessName,
-            dateOfPitch,
+            // dateOfPitch,
+            pitchDate,
             presenterName,
             presenterEmail,
             location,
@@ -197,7 +201,8 @@ export default class Pitch extends Component {
         const {
             pitchTitle,
             businessName,
-            dateOfPitch,
+            // dateOfPitch,
+            pitchDate,
             presenterName,
             presenterEmail,
             location,
@@ -215,7 +220,8 @@ export default class Pitch extends Component {
         pitchRef.set({
             pitchTitle,
             businessName,
-            dateOfPitch,
+            // dateOfPitch,
+            pitchDate,
             presenterName,
             presenterEmail,
             location,
@@ -290,9 +296,22 @@ export default class Pitch extends Component {
     };
 
     handleDateChange = date => {
+
+        console.log("Date:", date.toString());
+        console.log("DateArray:", date.toString().split(' '));
+        const dateData = date.toString().split(' ');
+        const day = dateData[0];
+        const month = dateData[1];
+        const dateOfMonth = dateData[2];
+        const year = dateData[3];
+
+        const dateFormatted = month + "/" + dateOfMonth + "/" + year;
+
         this.setState({
-            dateOfPitch: date
+            pitchDate: dateFormatted,
+            // dateOfPitch: dateFormatted
         });
+
     };
 
     handleToggleRecord = () => {
@@ -333,7 +352,8 @@ export default class Pitch extends Component {
             editMode,
             pitchTitle,
             businessName,
-            dateOfPitch,
+            // dateOfPitch,
+            pitchDate,
             presenterName,
             presenterEmail,
             location,
@@ -377,8 +397,9 @@ export default class Pitch extends Component {
                                     <p> </p>
                                     <p> </p>
                                     <h4>Pitch Info</h4>
-                                    <p>pitchTitle: {pitchTitle}</p>
-                                    <p>Date: {dateOfPitch}</p>
+                                    <p>Pitch Title: {pitchTitle}</p>
+                                    {/*<p>Pitch Date: {dateOfPitch}</p>*/}
+                                    <p>Pitch Date: {pitchDate}</p>
                                     <p>Location: {location}</p>
                                     <p>PitchURL: {pitchUrl}</p>
                                     <p>Presenter Name: {presenterName}</p>
@@ -395,8 +416,8 @@ export default class Pitch extends Component {
                                 <center><h4>{presenterEmail}</h4></center>
 
                                 <div className="equal width fields">
-                                    <label>Pitch Title</label>
                                     <Form.Field>
+                                        <label>Pitch Title</label>
                                         <Form.Input
                                             name="pitchTitle"
                                             placeholder="Pitch pitchTitle"
@@ -406,11 +427,26 @@ export default class Pitch extends Component {
                                         />
                                     </Form.Field>
 
-                                    <label>Pitch Date</label>
-                                    <DatePicker
-                                        selected={this.state.dateOfPitch}
-                                        onChange={this.handleDateChange}
-                                    />
+                                    {!editMode &&
+                                        <div>
+                                            <label>Pitch Date</label>
+                                            <DatePicker
+                                                selected={this.state.dateOfPitch}
+                                                onChange={this.handleDateChange}
+                                                value={this.state.pitchDate}
+                                            />
+                                        </div>
+                                    }
+
+                                    {editMode &&
+                                    <div>
+                                        <Form.Field>
+                                            <h4>Pitch Date</h4>
+                                            <h5>{pitchDate}</h5>
+                                        </Form.Field>
+                                    </div>
+                                    }
+
 
                                 </div>
 
@@ -463,6 +499,7 @@ export default class Pitch extends Component {
 
                             {isRecordingPitch &&
                             <div>
+                                <center><p>This is a beta feature and may not function as expected</p></center>
                                 <ZiggeoRecorder
                                     apiKey={ziggeoAPIKey}
                                     height={400}

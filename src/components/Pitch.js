@@ -8,7 +8,7 @@ export default class Pitch extends Component {
         id: this.props.pitch.id,
         pitchTitle: this.props.pitch.pitchTitle,
         businessName: this.props.pitch.businessName,
-        dateOfPitch: this.props.pitch.dateOfPitch,
+        pitchDate: this.props.pitch.pitchDate,
         presenterName: this.props.pitch.presenterName,
         presenterEmail: this.props.pitch.presenterEmail,
         location: this.props.pitch.location,
@@ -58,7 +58,7 @@ export default class Pitch extends Component {
         const {
             id,
             pitchTitle,
-            dateOfPitch,
+            pitchDate,
             location,
             pitchUrl,
             presenterName,
@@ -74,7 +74,7 @@ export default class Pitch extends Component {
 
         return (
             <Table.Row>
-                <Table.Cell>{dateOfPitch}</Table.Cell>
+                <Table.Cell>{pitchDate}</Table.Cell>
                 <Table.Cell>{pitchTitle}</Table.Cell>
                 <Table.Cell>{presenterName}</Table.Cell>
                 <Table.Cell>{location}</Table.Cell>
@@ -88,8 +88,8 @@ export default class Pitch extends Component {
                             content={
                                 <div>
                                     <p>Id: {id}</p>
-                                    <p>pitchTitle: {pitchTitle}</p>
-                                    <p>Date: {dateOfPitch}</p>
+                                    <p>Title: {pitchTitle}</p>
+                                    <p>Date: {pitchDate}</p>
                                     <p>Location: {location}</p>
                                     <p>PitchURL: {pitchUrl}</p>
                                     <p>Presenter Name: {presenterName}</p>
@@ -105,7 +105,7 @@ export default class Pitch extends Component {
                         {/*<Button icon="reply" as={Link} to={`/my-feedback/${this.props.pitch.id}`}/>*/}
                         <Button as={Link} to={`/my-feedback/${this.props.pitch.id}`}>Feedback</Button>
                         <Modal
-                            // trigger={<Button icon="delete" onClick={this.handleOpen}/>}
+                            trigger={<Button icon="delete" onClick={this.handleOpen}/>}
                             open={this.state.modalOpen}
                             onClose={this.handleClose}
                             basic
