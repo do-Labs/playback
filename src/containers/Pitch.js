@@ -4,8 +4,9 @@ import {NavMenu, Logo} from "../components/index";
 import firebase from '../Firebase';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { ZiggeoRecorder } from 'react-ziggeo';
 const projectName = "playback-2a438";
+const ziggeoAPIKey = "47a5c78a5b0a1dcf28ba33ca0bd6ee46";
 
 export default class Pitch extends Component {
 
@@ -30,7 +31,9 @@ export default class Pitch extends Component {
             qrPrefix: 'https://blooming-bastion-98391.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
-            modalOpen: false
+            modalOpen: false,
+            isRecordingPitch: false,
+            videoTag: "",
         };
     }
 
@@ -150,6 +153,7 @@ export default class Pitch extends Component {
             pitchUrl,
             eventUrl,
             businessID,
+            videoTag,
         } = this.state;
 
         this.ref.add({
@@ -162,6 +166,7 @@ export default class Pitch extends Component {
             pitchUrl,
             eventUrl,
             businessID,
+            videoTag,
         }).then( async(docRef) => {
             const pid = docRef._key.path.segments[1];
             //handle response
@@ -290,6 +295,36 @@ export default class Pitch extends Component {
         });
     };
 
+    handleToggleRecord = () => {
+        if(this.state.isRecordingPitch){
+            this.setState({
+                isRecordingPitch: false
+            })
+        }
+        else{
+            this.setState({
+                isRecordingPitch: true
+            })
+        }
+    };
+
+    recorderUploaded = () => {
+        console.log('Recorder onRecorderUploaded');
+    };
+
+    setVideoTag = (videoID) => {
+        this.setState({
+            videoTag: videoID
+        })
+    };
+
+    recorderUploading = async (embedding) => {
+        console.log('Recorder recorderUploading', embedding);
+        const pitchVideoID = await embedding.video;
+        // this.setVideoTag(pitchVideoID);
+        return pitchVideoID
+    };
+
 
     render() {
         const {
@@ -305,6 +340,8 @@ export default class Pitch extends Component {
             pitchUrl,
             pitchCodeUrl,
             eventUrl,
+
+            isRecordingPitch
 
         } = this.state;
 
@@ -351,6 +388,8 @@ export default class Pitch extends Component {
                             }/>
 
                         <Form onSubmit={this.onSubmit}>
+
+                            {!isRecordingPitch &&
                             <div className="ui segment">
                                 <center><h4>{businessName}</h4></center>
                                 <center><h4>{presenterEmail}</h4></center>
@@ -374,9 +413,6 @@ export default class Pitch extends Component {
                                     />
 
                                 </div>
-
-
-
 
 
                                 <Form.Field>
@@ -419,10 +455,29 @@ export default class Pitch extends Component {
                                         onChange={this.handleOnChange}
                                     />
                                 </Form.Field>
+                                <Button onClick={this.handleToggleRecord}>RecordPitch</Button>
 
                             </div>
+                            }
 
 
+                            {isRecordingPitch &&
+                            <div>
+                                <ZiggeoRecorder
+                                    apiKey={ziggeoAPIKey}
+                                    height={400}
+                                    width={800}
+                                    preventReRenderOnUpdate={false}
+                                    // onRecording={this.handleIsRecording}
+                                    onUploading={this.recorderUploading}
+                                    onUploaded={this.recorderUploaded}
+                                />
+                                <Button onClick={this.handleToggleRecord}>Back</Button>
+                            </div>
+                            }
+
+
+                            {!isRecordingPitch &&
                             <Button loading={isLoading}
                                     disabled={
                                         !pitchTitle || pitchTitle === "" ||
@@ -430,6 +485,7 @@ export default class Pitch extends Component {
                                         !presenterEmail || !presenterEmail || presenterEmail === ""
                                     }
                             >Submit</Button>
+                            }
                         </Form>
                     </Grid.Column>
                 </Grid>
