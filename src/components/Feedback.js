@@ -104,21 +104,23 @@ export default class Feedback extends Component {
                                         <p>IsAnonymous: {isAnonymous}</p>
                                     }
                                     <p><b>Date: </b>{date}</p>
-                                    <p><b>FirstName:</b> {firstName}</p>
-                                    <p><b>LastName:</b> {lastName}</p>
+                                    {firstName && <p><b>FirstName:</b> {firstName}</p> }
+                                    {lastName && <p><b>LastName:</b> {lastName}</p> }
                                     <p><b>Email:</b> {email}</p>
-                                    <p><b>PhoneNumber:</b> {phoneNumber}</p>
+                                    {phoneNumber && <p><b>PhoneNumber:</b> {phoneNumber}</p> }
                                     <p><b>Role:</b> {role}</p>
-                                    <p><b>City:</b> {city}</p>
-                                    <p><b>State:</b> {state}</p>
-                                    <div className="ui segment">
-                                        <p><b>Comment:</b> {comment}</p>
-                                    </div>
+                                    {city && <p><b>City:</b> {city}</p> }
+                                    {state && <p><b>State:</b> {state}</p> }
+                                    {comment &&
+                                        <div className="ui segment">
+                                            <p><b>Comment:</b> {comment}</p>
+                                        </div>
+                                    }
                                     <hr/>
-                                <p><b>Average:</b> {ratingAvg}</p>
-                                <p><b>Communication:</b> {rating1}</p>
-                                <p><b>Valid problem Statement:</b> {rating2}</p>
-                                <p><b>Valuable Soution:</b> {rating3}</p>
+                                    <p><b>Average:</b> {ratingAvg}</p>
+                                    {rating1 && <p><b>Communication:</b> {rating1}</p> }
+                                    {rating2 && <p><b>Valid problem Statement:</b> {rating2}</p> }
+                                    {rating3 && <p><b>Valuable Soution:</b> {rating3}</p> }
                                 </div>
                             }/>
                     </Button.Group>

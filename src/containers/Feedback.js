@@ -37,7 +37,7 @@ export default class Feedback extends Component {
             phoneNumber: "",
             city: "",
             state: "",
-            role: "",
+            role: "Audience",
             comment: "",
             isAnonymous: "",
             wantsToMeet: "no",
@@ -310,12 +310,12 @@ export default class Feedback extends Component {
             phoneNumber,
             city,
             state,
+            role,
             businessID,
             givenFeedback
         } = this.state;
         console.log("userID:", userID);
 
-        const role = "audience";
         await givenFeedback.push(businessID);
 
 
@@ -552,9 +552,7 @@ export default class Feedback extends Component {
                             <Button loading={isLoading}
                                     disabled={
                                         !isEnabled ||
-                                        !rating1 || rating1 === "" ||
-                                        !rating2 || rating2 === "" ||
-                                        !rating3 || rating3 === ""
+                                        !email || email === ""
                                     }
                             >Submit</Button>
                         </Form>
