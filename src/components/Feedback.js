@@ -33,7 +33,6 @@ export default class Feedback extends Component {
     };
 
     handleAvgRating = () => {
-        console.log('averaging ratings...');
         const {
             rating1,
             rating2,
@@ -69,7 +68,7 @@ export default class Feedback extends Component {
 
         const {
             date,
-            time,
+            // time,
             role,
             firstName,
             lastName,
@@ -98,25 +97,28 @@ export default class Feedback extends Component {
                     <Button.Group icon>
                         <Modal
                             trigger={<Button icon="eye"/>}
-                            header={<h2>{date} {time}</h2>}
+                            header={<h2>{date}</h2>}
                             content={
                                 <div>
                                     {isAnonymous &&
                                         <p>IsAnonymous: {isAnonymous}</p>
                                     }
-                                    <p>FirstName: {firstName}</p>
-                                    <p>LastName: {lastName}</p>
-                                    <p>Email: {email}</p>
-                                    <p>PhoneNumber: {phoneNumber}</p>
-                                    <p>Role: {role}</p>
-                                    <p>City: {city}</p>
-                                    <p>State: {state}</p>
-                                    <p>Comment: {comment}</p>
+                                    <p><b>Date: </b>{date}</p>
+                                    <p><b>FirstName:</b> {firstName}</p>
+                                    <p><b>LastName:</b> {lastName}</p>
+                                    <p><b>Email:</b> {email}</p>
+                                    <p><b>PhoneNumber:</b> {phoneNumber}</p>
+                                    <p><b>Role:</b> {role}</p>
+                                    <p><b>City:</b> {city}</p>
+                                    <p><b>State:</b> {state}</p>
+                                    <div className="ui segment">
+                                        <p><b>Comment:</b> {comment}</p>
+                                    </div>
                                     <hr/>
-                                    <p>Average: {ratingAvg}</p>
-                                    <p>Communication: {rating1}</p>
-                                    <p>Valid problem Statement: {rating2}</p>
-                                    <p>Valuable Soution: {rating3}</p>
+                                <p><b>Average:</b> {ratingAvg}</p>
+                                <p><b>Communication:</b> {rating1}</p>
+                                <p><b>Valid problem Statement:</b> {rating2}</p>
+                                <p><b>Valuable Soution:</b> {rating3}</p>
                                 </div>
                             }/>
                     </Button.Group>
