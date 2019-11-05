@@ -21,7 +21,7 @@ export default class Pitch extends Component {
             pitchTitle: "",
             businessName: "-",
             // dateOfPitch: "",
-            pitchDate: "",
+            pitchDate: "MM-DD-YYYY",
             presenterName: "",
             // presenterEmail: this.props.username,
             location: "",
@@ -305,7 +305,7 @@ export default class Pitch extends Component {
         const dateOfMonth = dateData[2];
         const year = dateData[3];
 
-        const dateFormatted = month + "/" + dateOfMonth + "/" + year;
+        const dateFormatted = month + "-" + dateOfMonth + "-" + year;
 
         this.setState({
             pitchDate: dateFormatted,
@@ -417,7 +417,7 @@ export default class Pitch extends Component {
 
                                 <div className="equal width fields">
                                     <Form.Field>
-                                        <label>Pitch Title</label>
+                                        <h4>Pitch Title</h4>
                                         <Form.Input
                                             name="pitchTitle"
                                             placeholder="Pitch pitchTitle"
@@ -429,7 +429,7 @@ export default class Pitch extends Component {
 
                                     {!editMode &&
                                         <div>
-                                            <label>Pitch Date</label>
+                                            <h4>Pitch Date</h4>
                                             <DatePicker
                                                 selected={this.state.dateOfPitch}
                                                 onChange={this.handleDateChange}
@@ -452,7 +452,7 @@ export default class Pitch extends Component {
 
 
                                 <Form.Field>
-                                    Presenter Name
+                                    <h4>Presenter Name</h4>
                                     <Form.Input
                                         name="presenterName"
                                         value={presenterName}
@@ -462,7 +462,7 @@ export default class Pitch extends Component {
                                 </Form.Field>
 
                                 <Form.Field>
-                                    Pitch Location
+                                    <h4>Pitch Location</h4>
                                     <Form.Input
                                         name="location"
                                         placeholder="1MC Dallas"
@@ -473,7 +473,7 @@ export default class Pitch extends Component {
                                 </Form.Field>
 
                                 <Form.Field>
-                                    Event URL
+                                    <h4>Event URL</h4>
                                     <Form.Input
                                         name="eventUrl"
                                         placeholder="http://"
@@ -483,7 +483,7 @@ export default class Pitch extends Component {
                                 </Form.Field>
 
                                 <Form.Field>
-                                    Pitch Deck URL
+                                    <h4>Pitch Deck URL</h4>
                                     <Form.Input
                                         name="pitchUrl"
                                         placeholder="http://"
@@ -492,7 +492,6 @@ export default class Pitch extends Component {
                                     />
                                 </Form.Field>
                                 <Button onClick={this.handleToggleRecord}>RecordPitch</Button>
-
                             </div>
                             }
 
