@@ -9,6 +9,8 @@ const projectName = "playback-2a438";
 class Register extends Component {
     state = {
         isLoading: false,
+        firstName: "",
+        lastName: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -122,6 +124,8 @@ class Register extends Component {
 
     handleAddUser = async (userID) => {
         const {
+            firstName,
+            lastName,
             email,
             role,
         } = this.state;
@@ -129,6 +133,8 @@ class Register extends Component {
         const usersRef = await firebase.firestore().collection('users').doc(userID);
 
         usersRef.set({
+            firstName,
+            lastName,
             email,
             role,
         }).then((docRef)=> {
