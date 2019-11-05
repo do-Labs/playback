@@ -172,6 +172,8 @@ class Register extends Component {
 
     render() {
         const {
+            firstName,
+            lastName,
             email,
             password,
             confirmPassword,
@@ -198,6 +200,26 @@ class Register extends Component {
                             {error &&  !registered && <Message error content={error.message}>{this.state.error}</Message>}
                             {registered && <Message success >Success!  Click back to login</Message> }
                             <Form>
+                                <div className="equal width fields">
+                                    <Form.Field>
+                                        <label>First Name</label>
+                                        <Form.Input
+                                            name="firstName"
+                                            placeholder="FirstName"
+                                            value={firstName}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Form.Field>
+                                    <Form.Field>
+                                        <label>Last Name</label>
+                                        <Form.Input
+                                            name="lastName"
+                                            placeholder="lastName"
+                                            value={lastName}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Form.Field>
+                                </div>
                                 <Form.Field>
                                     <label>Email</label>
                                     <Form.Input
@@ -229,32 +251,33 @@ class Register extends Component {
                                 </Form.Field>
 
                                 <div>
-                                    <p><span id="role">Select a Role</span></p>
-                                    <select
-                                        name="role"
-                                        value={role}
-                                        onChange={this.handleOnChange}
-                                    >
-                                        <option value="">-</option>
-                                        <option value="audience">Audience</option>
-                                        <option value="corporateExec">Corporate Exec</option>
-                                        <option value="investor">Investor</option>
-                                        <option value="entrepreneur">Entrepreneur</option>
-                                        <option value="student">Student</option>
-                                    </select>
+                                    <Form.Field>
+                                        <label>Select a Role</label>
+                                        <select
+                                            name="role"
+                                            value={role}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option value="">-</option>
+                                            <option value="audience">Audience</option>
+                                            <option value="corporateExec">Corporate Exec</option>
+                                            <option value="investor">Investor</option>
+                                            <option value="entrepreneur">Entrepreneur</option>
+                                            <option value="student">Student</option>
+                                        </select>
+                                    </Form.Field>
                                 </div>
-
-                                <Button loading={isLoading}
-                                        onClick={this.handleSignUp}
-                                        disabled={
-                                            !email || email === "" ||
-                                            !password || password === "" ||
-                                            !role || role === "" ||
-                                            !confirmPassword || confirmPassword === ""
-                                        }
-                                >Submit</Button>
                             </Form>
                         </Segment>
+                        <Button loading={isLoading}
+                                onClick={this.handleSignUp}
+                                disabled={
+                                    !email || email === "" ||
+                                    !password || password === "" ||
+                                    !role || role === "" ||
+                                    !confirmPassword || confirmPassword === ""
+                                }
+                        >Submit</Button>
                     </Grid.Column>
                 </Grid>
             </div>
