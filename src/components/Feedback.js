@@ -88,7 +88,7 @@ export default class Feedback extends Component {
 
         return (
             <Table.Row>
-                <Table.Cell>{date} &nbsp;&nbsp; {time}</Table.Cell>
+                <Table.Cell>{date}</Table.Cell>
                 <Table.Cell>{firstName} {lastName}</Table.Cell>
                 <Table.Cell>{email}</Table.Cell>
                 <Table.Cell>{ratingAvg}</Table.Cell>

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Container, Dimmer, Form, Grid, Loader, Message} from "semantic-ui-react";
+import {Button, Container, Dimmer, Form, Grid, Loader, Message, Modal} from "semantic-ui-react";
 import {NavMenu, Logo} from "../components/index";
 import firebase from '../Firebase';
 const projectName = "playback-2a438";
@@ -27,6 +27,7 @@ export default class Pitch extends Component {
             qrPrefix: 'https://blooming-bastion-98391.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
+            modalOpen: false
         };
     }
 
@@ -166,8 +167,10 @@ export default class Pitch extends Component {
             });
             await this.createQRCode(pid);
             await this.handleEmailQR();
-
-            // this.props.history.push("/pitches")
+            // Show Modal with info
+            await this.handleOpen();
+            // if OK then nav to my-pitches
+            // this.props.history.push("/my-pitches")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
@@ -272,6 +275,12 @@ export default class Pitch extends Component {
         })
     };
 
+    handleOpen = () => this.setState({modalOpen: true});
+    handleClose = () => {
+        this.setState({modalOpen: false});
+        this.props.history.push("/my-pitches");
+    };
+
 
     render() {
         const {
@@ -308,9 +317,34 @@ export default class Pitch extends Component {
                             </Dimmer>
                         )}
 
+                        <Modal
+                            open={this.state.modalOpen}
+                            onClose={this.handleClose}
+                            content={
+                                <div>
+                                    <div>
+                                        <center>
+                                            <h4>Attach this QR Code to the last slide in your presentation</h4>
+                                            <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
+                                        </center>
+                                    </div>
+                                    <p> </p>
+                                    <p> </p>
+                                    <h4>Pitch Info</h4>
+                                    <p>pitchTitle: {pitchTitle}</p>
+                                    <p>Date: {dateOfPitch}</p>
+                                    <p>Location: {location}</p>
+                                    <p>PitchURL: {pitchUrl}</p>
+                                    <p>Presenter Name: {presenterName}</p>
+                                    <p>Presenter Email: {presenterEmail}</p>
+                                    <p>Event URL: {eventUrl}</p>
+                                </div>
+                            }/>
+
                         <Form onSubmit={this.onSubmit}>
                             <div className="ui segment">
                                 <center><h4>{businessName}</h4></center>
+                                <center><h4>{presenterEmail}</h4></center>
                                 <Form.Field>
                                     Pitch Title
                                     <Form.Input
@@ -343,17 +377,7 @@ export default class Pitch extends Component {
                                 </Form.Field>
 
                                 <Form.Field>
-                                    Presenter Email
-                                    <Form.Input
-                                        name="presenterEmail"
-                                        value={presenterEmail}
-                                        onChange={this.handleOnChange}
-                                        error={!presenterEmail || presenterEmail === ""}
-                                    />
-                                </Form.Field>
-
-                                <Form.Field>
-                                    Location
+                                    Pitch Location
                                     <Form.Input
                                         name="location"
                                         placeholder="1MC Dallas"

@@ -105,7 +105,7 @@ export default class Business extends Component {
             const bid = docRef._key.path.segments[1];
             await this.handleAddBusinessClaims(bid);
 
-            this.props.history.push("/")
+            this.props.history.push("/my-pitches")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
@@ -266,6 +266,7 @@ export default class Business extends Component {
                                             <option value="consulting">Consulting</option>
                                             <option value="general-contracting">Contracting</option>
                                             <option value="agriculture">Agriculture</option>
+                                            <option value="other">Other</option>
                                         </select>
                                     </div>
                                     <div>
@@ -308,6 +309,7 @@ export default class Business extends Component {
                                             onChange={this.handleOnChange}
                                         >
                                             <option value=""> </option>
+                                            <option value="none">None</option>
                                             <option value="soleProprietor">Sole Prop</option>
                                             <option value="llc">LLC</option>
                                             <option value="llp">LLP</option>
