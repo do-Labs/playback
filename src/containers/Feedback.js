@@ -22,7 +22,7 @@ export default class Feedback extends Component {
             // // Pitch Data
             businessID: "",
             businessName: "",
-            dateOfPitch: "",
+            pitchDate: "",
             location: "",
             pitchTitle: "",
             pitchUrl: "",
@@ -108,7 +108,7 @@ export default class Feedback extends Component {
                         key: doc.id,
                         businessID: data.businessID,
                         businessName: data.businessName,
-                        dateOfPitch: data.dateOfPitch,
+                        pitchDate: data.pitchDate,
                         location: data.location,
                         pitchTitle: data.pitchTitle,
                         pitchUrl: data.pitchUrl,
@@ -117,7 +117,7 @@ export default class Feedback extends Component {
                     },
                     businessID: data.businessID,
                     businessName: data.businessName,
-                    dateOfPitch: data.dateOfPitch,
+                    pitchDate: data.pitchDate,
                     location: data.location,
                     pitchTitle: data.pitchTitle,
                     pitchUrl: data.pitchUrl,
@@ -340,7 +340,7 @@ export default class Feedback extends Component {
             isLoading,
             pitchTitle,
             businessName,
-            dateOfPitch,
+            pitchDate,
             presenterName,
             eventUrl,
 
@@ -377,7 +377,7 @@ export default class Feedback extends Component {
                             {/*<h2>Leave Feedback for: {id}</h2>*/}
                             <p>Business Name: <a href={webpageUrl}>{businessName}</a> </p>
                             <p>Pitch Title:   {pitchTitle}</p>
-                            <p>Date Of Pitch:   {dateOfPitch}</p>
+                            <p>Pitch Date:   {pitchDate}</p>
                             <p>Presenter Name:   {presenterName}</p>
                             {eventUrl &&
                                 <p>EventUrl: {eventUrl}</p>
