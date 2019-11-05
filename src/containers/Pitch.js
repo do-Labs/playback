@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import {Button, Container, Dimmer, Form, Grid, Loader, Message, Modal} from "semantic-ui-react";
 import {NavMenu, Logo} from "../components/index";
 import firebase from '../Firebase';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const projectName = "playback-2a438";
 
 export default class Pitch extends Component {
@@ -281,6 +284,12 @@ export default class Pitch extends Component {
         this.props.history.push("/my-pitches");
     };
 
+    handleDateChange = date => {
+        this.setState({
+            dateOfPitch: date
+        });
+    };
+
 
     render() {
         const {
@@ -345,26 +354,30 @@ export default class Pitch extends Component {
                             <div className="ui segment">
                                 <center><h4>{businessName}</h4></center>
                                 <center><h4>{presenterEmail}</h4></center>
-                                <Form.Field>
-                                    Pitch Title
-                                    <Form.Input
-                                        name="pitchTitle"
-                                        placeholder="Pitch pitchTitle"
-                                        value={pitchTitle}
-                                        onChange={this.handleOnChange}
-                                        error={!pitchTitle || pitchTitle === ""}
-                                    />
-                                </Form.Field>
 
-                                <Form.Field>
-                                    Date of Pitch
-                                    <Form.Input
-                                        name="dateOfPitch"
-                                        value={dateOfPitch}
-                                        onChange={this.handleOnChange}
-                                        error={!dateOfPitch || dateOfPitch === ""}
+                                <div className="equal width fields">
+                                    <label>Pitch Title</label>
+                                    <Form.Field>
+                                        <Form.Input
+                                            name="pitchTitle"
+                                            placeholder="Pitch pitchTitle"
+                                            value={pitchTitle}
+                                            onChange={this.handleOnChange}
+                                            error={!pitchTitle || pitchTitle === ""}
+                                        />
+                                    </Form.Field>
+
+                                    <label>Pitch Date</label>
+                                    <DatePicker
+                                        selected={this.state.dateOfPitch}
+                                        onChange={this.handleDateChange}
                                     />
-                                </Form.Field>
+
+                                </div>
+
+
+
+
 
                                 <Form.Field>
                                     Presenter Name
@@ -406,10 +419,6 @@ export default class Pitch extends Component {
                                         onChange={this.handleOnChange}
                                     />
                                 </Form.Field>
-
-                                <div className="ui">
-                                    {pitchCodeUrl && <img alt="pitchCodeUrl" align="right" className="ui tiny image" src={pitchCodeUrl} />}
-                                </div>
 
                             </div>
 

@@ -4,9 +4,9 @@
   "private": true,
   "homepage": "http://playback.dolabs.io",
   "author": {
-    "name" : "Humdan",
-    "email" : "humdan@dolabs.io",
-    "url" : "http://dolabs.io"
+    "name": "Humdan",
+    "email": "humdan@dolabs.io",
+    "url": "http://dolabs.io"
   },
   "engines": {
     "node": "8"
@@ -27,6 +27,7 @@
     "react": "^16.5.2",
     "react-add-to-calendar": "^0.1.5",
     "react-bootstrap": "^1.0.0-beta.5",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.5.2",
     "react-json-tree": "^0.11.2",
     "react-router": "^3.0.0",
