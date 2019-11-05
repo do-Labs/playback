@@ -300,7 +300,7 @@ export default class Pitch extends Component {
         console.log("Date:", date.toString());
         console.log("DateArray:", date.toString().split(' '));
         const dateData = date.toString().split(' ');
-        const day = dateData[0];
+        // const day = dateData[0];
         const month = dateData[1];
         const dateOfMonth = dateData[2];
         const year = dateData[3];
