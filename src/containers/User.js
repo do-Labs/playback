@@ -16,8 +16,13 @@ export default class User extends Component {
         password: "",
         confirmPassword: "",
         userType: "",
-        role: "",
         company: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        role: "",
+        position: "",
+        dateOfBirth: "",
 
         isEnabled: true,
         editMode: false,
@@ -72,18 +77,19 @@ export default class User extends Component {
         //     userType,
         //     role,
         //     company,
+        //     position,
+        //     dateOfBirth,
         // } = this.state;
 
-        this.handleSignUp(e);
+        this.handleCreateUser(e);
 
         // POST User to back end
-
 
         // this.verifyUserEmail(this.state.email);
         // this.resetUserPassword(this.state.email);
     };
 
-    handleSignUp = (event) => {
+    handleCreateUser = (event) => {
         console.log("Handling Signup:", event);
         event.preventDefault();
         const { confirmPassword, email, password } = this.state;
@@ -112,7 +118,7 @@ export default class User extends Component {
         event.preventDefault();
         const userID = this.props.userID;
         console.log("userID: " , userID);
-        const { email, firstName, lastName, phoneNumber, position  } = this.state;
+        const { email, firstName, lastName, phoneNumber, position, dateOfBirth  } = this.state;
 
         const userRef = await firebase.firestore().collection('users').doc(userID);
         await userRef.set({
@@ -121,6 +127,7 @@ export default class User extends Component {
             lastName,
             phoneNumber,
             position,
+            dateOfBirth,
         }).then((docRef) => {
             alert("Profile Edited Successfully!");
             this.props.history.push("/")
@@ -176,6 +183,7 @@ export default class User extends Component {
             lastName,
             phoneNumber,
             position,
+            dateOfBirth,
         } = this.state;
 
         return (
@@ -304,6 +312,17 @@ export default class User extends Component {
                                                     <option value="other">Other</option>
                                                 </select>
                                             </Grid.Column>
+                                            <Grid.Column width={8}>
+                                                <label>Date of Birth</label>
+                                                <Form.Field>
+                                                    <Form.Input
+                                                        name="dateOfBirth"
+                                                        value={dateOfBirth}
+                                                        placeholder="MM/DD/YYYY"
+                                                        onChange={this.handleOnChange}
+                                                    />
+                                                </Form.Field>
+                                            </Grid.Column>
                                         </Grid>
                                     </div>
                                 </div>
@@ -311,7 +330,7 @@ export default class User extends Component {
 
                             {!editMode &&
                                 <Button
-                                    onClick={this.handleSignUp}
+                                    onClick={this.handleCreateUser}
                                     loading={isLoading}
                                     disabled={
                                         (!isEnabled) ||
@@ -339,9 +358,6 @@ export default class User extends Component {
                             }
                         </Form>
                     </Grid.Column>
-
-                    <Button onClick={this.verifyUserEmail}>VerifyUserEmail</Button>
-
                 </Grid>
 
             </Container>
