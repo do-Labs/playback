@@ -156,10 +156,10 @@ class Login extends Component {
                                     Confirm login
                                 </Button>}
                             </Form>
-                            {/*<hr/>*/}
-                            {/*<Button fluid size="large" loading={isLoading} href="/register">*/}
-                                {/*Register*/}
-                            {/*</Button>*/}
+                            <hr/>
+                            <Button fluid size="large" loading={isLoading} href="/register">
+                                Register
+                            </Button>
                         </Segment>
                     </Grid.Column>
                 </Grid>

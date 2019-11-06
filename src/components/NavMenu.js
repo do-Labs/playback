@@ -93,9 +93,6 @@ export default class NavMenu extends Component {
                             <Menu.Item name="new" as={NavLink} to="/pitch">
                                 New
                             </Menu.Item>
-                            {/*<Menu.Item name="record" as={NavLink} to="/record-pitch">*/}
-                            {/*Record*/}
-                            {/*</Menu.Item>*/}
                         </Menu.Menu>
                     </Menu.Item>
                 }

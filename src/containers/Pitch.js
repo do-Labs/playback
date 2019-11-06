@@ -494,7 +494,7 @@ export default class Pitch extends Component {
                                         onChange={this.handleOnChange}
                                     />
                                 </Form.Field>
-                                {/*<Button onClick={this.handleToggleRecord}>RecordPitch</Button>*/}
+                                <Button onClick={this.handleToggleRecord}>RecordPitch</Button>
                             </div>
                             }
 
@@ -511,7 +511,7 @@ export default class Pitch extends Component {
                                     onUploading={this.recorderUploading}
                                     onUploaded={this.recorderUploaded}
                                 />
-                                <Button onClick={this.handleToggleRecord}>Back</Button>
+                                {/*<Button onClick={this.handleToggleRecord}>Back</Button>*/}
                             </div>
                             }
 
