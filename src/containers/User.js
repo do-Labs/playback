@@ -47,6 +47,7 @@ export default class User extends Component {
                         lastName: user.lastName,
                         phoneNumber: user.phoneNumber,
                         position: user.position,
+                        dateOfBirth: user.dateOfBirth,
 
                     });
                 } else {

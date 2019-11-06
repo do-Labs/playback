@@ -6,7 +6,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ZiggeoRecorder } from 'react-ziggeo';
 const projectName = "playback-2a438";
-const ziggeoAPIKey = "47a5c78a5b0a1dcf28ba33ca0bd6ee46";
+// const ziggeoAPIKey = require('config').config.ziggeoAPIKey;
+const ziggeoAPIKey = process.env.REACT_APP_ziggeoAPIKey;
+
 
 export default class Pitch extends Component {
 
