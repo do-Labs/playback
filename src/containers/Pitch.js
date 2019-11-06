@@ -342,7 +342,8 @@ export default class Pitch extends Component {
     recorderUploading = async (embedding) => {
         console.log('Recorder recorderUploading', embedding);
         const pitchVideoID = await embedding.video;
-        // this.setVideoTag(pitchVideoID);
+        this.setVideoTag(pitchVideoID);
+        console.log('id:', pitchVideoID)
         return pitchVideoID
     };
 
