@@ -341,9 +341,9 @@ export default class Pitch extends Component {
 
     recorderUploading = async (embedding) => {
         console.log('Recorder recorderUploading', embedding);
-        const pitchVideoID = await embedding.video;
+        const pitchVideoID = embedding.video;
         this.setVideoTag(pitchVideoID);
-        console.log('id:', pitchVideoID)
+        console.log('id:', pitchVideoID);
         return pitchVideoID
     };
 
@@ -494,7 +494,7 @@ export default class Pitch extends Component {
                                         onChange={this.handleOnChange}
                                     />
                                 </Form.Field>
-                                <Button onClick={this.handleToggleRecord}>RecordPitch</Button>
+                                {/*<Button onClick={this.handleToggleRecord}>RecordPitch</Button>*/}
                             </div>
                             }
 
