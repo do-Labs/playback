@@ -157,9 +157,9 @@ class Login extends Component {
                                 </Button>}
                             </Form>
                             <hr/>
-                            <Button fluid size="large" loading={isLoading} href="/register">
-                                Register
-                            </Button>
+                            {/*<Button fluid size="large" loading={isLoading} href="/register">*/}
+                                {/*Register*/}
+                            {/*</Button>*/}
                         </Segment>
                     </Grid.Column>
                 </Grid>
