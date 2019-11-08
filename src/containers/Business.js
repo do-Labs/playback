@@ -102,6 +102,7 @@ export default class Business extends Component {
             }
 
         }).then( async (docRef) => {
+            console.log("added business")
             const bid = docRef._key.path.segments[1];
             await this.handleAddBusinessClaims(bid);
 
@@ -173,7 +174,6 @@ export default class Business extends Component {
             isEnabled: false,
             isLoading: false,
         });
-        console.log("Successfully submitted business");
     };
 
     handleAddBusinessClaims = async (bid) => {
@@ -277,7 +277,7 @@ export default class Business extends Component {
                                             value={stage}
                                             onChange={this.handleOnChange}
                                         >
-                                            <option value="">Business Stage</option>
+                                            <option placeholder=""> </option>
                                             <option value="ideation">Ideation</option>
                                             <option value="inProduction">In Production</option>
                                             <option value="revenueGenerating">Revenue Generating</option>
@@ -292,7 +292,7 @@ export default class Business extends Component {
                                             value={fundingRound}
                                             onChange={this.handleOnChange}
                                         >
-                                            <option placeholder="-">Funding Round</option>
+                                            <option placeholder=""> </option>
                                             <option value="Self">Self</option>
                                             <option value="Seed">Seed</option>
                                             <option value="SeriesA">SeriesA</option>
@@ -339,7 +339,7 @@ export default class Business extends Component {
                                     <Form.Field>
                                         <Form.Input
                                             name="webpageUrl"
-                                            placeholder="Business URL"
+                                            placeholder=""
                                             value={webpageUrl}
                                             onChange={this.handleOnChange}
                                         />

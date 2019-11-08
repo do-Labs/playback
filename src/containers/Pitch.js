@@ -20,9 +20,9 @@ export default class Pitch extends Component {
             isLoading: false,
             editMode: false,
             isEnabled: true,
+
             pitchTitle: "",
             businessName: "-",
-            // dateOfPitch: "",
             pitchDate: "MM-DD-YYYY",
             presenterName: "",
             // presenterEmail: this.props.username,
@@ -73,7 +73,6 @@ export default class Pitch extends Component {
                 isLoading: true,
                 editMode: true,
             });
-            console.log("Editing Pitch: " + pitchId);
             const ref = firebase.firestore().collection('pitches').doc(pitchId);
             ref.get().then((doc) => {
                 if (doc.exists) {
@@ -83,7 +82,6 @@ export default class Pitch extends Component {
                         pitchTitle: pitch.pitchTitle,
                         businessName: pitch.businessName,
                         pitchDate: pitch.pitchDate,
-                        // dateOfPitch: pitch.dateOfPitch,
                         presenterName: pitch.presenterName,
                         presenterEmail: pitch.presenterEmail,
                         location: pitch.location,
@@ -126,14 +124,7 @@ export default class Pitch extends Component {
             qrPrefix,
         } = this.state;
 
-        // let pitchCodeQR = qrMakerUrl + 'www.playback.io/feedback/' + qrData;
         let pitchCodeQR = qrMakerUrl + qrPrefix + qrData;
-
-
-        console.log(`QRData: ${qrData}`);
-        console.log(`pitchcodeQR: ${pitchCodeQR}`);
-
-
         this.setState({
             pitchCodeUrl: pitchCodeQR,
             isLoading: false,
@@ -150,7 +141,6 @@ export default class Pitch extends Component {
         const {
             pitchTitle,
             businessName,
-            // dateOfPitch,
             pitchDate,
             presenterName,
             presenterEmail,
@@ -164,7 +154,6 @@ export default class Pitch extends Component {
         this.ref.add({
             pitchTitle,
             businessName,
-            // dateOfPitch,
             pitchDate,
             presenterName,
             presenterEmail,
@@ -222,7 +211,6 @@ export default class Pitch extends Component {
         pitchRef.set({
             pitchTitle,
             businessName,
-            // dateOfPitch,
             pitchDate,
             presenterName,
             presenterEmail,
@@ -311,7 +299,6 @@ export default class Pitch extends Component {
 
         this.setState({
             pitchDate: dateFormatted,
-            // dateOfPitch: dateFormatted
         });
 
     };
@@ -355,7 +342,6 @@ export default class Pitch extends Component {
             editMode,
             pitchTitle,
             businessName,
-            // dateOfPitch,
             pitchDate,
             presenterName,
             presenterEmail,
@@ -401,7 +387,6 @@ export default class Pitch extends Component {
                                     <p> </p>
                                     <h4>Pitch Info</h4>
                                     <p>Pitch Title: {pitchTitle}</p>
-                                    {/*<p>Pitch Date: {dateOfPitch}</p>*/}
                                     <p>Pitch Date: {pitchDate}</p>
                                     <p>Location: {location}</p>
                                     <p>PitchURL: {pitchUrl}</p>

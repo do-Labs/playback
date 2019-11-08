@@ -41,6 +41,7 @@ export default class User extends Component {
             userRef.get().then((doc) => {
                 if (doc.exists) {
                     const user = doc.data();
+                    console.log("Got doc", user);
                     this.setState({
                         key: doc.id,
                         firstName: user.firstName,
@@ -48,6 +49,7 @@ export default class User extends Component {
                         phoneNumber: user.phoneNumber,
                         position: user.position,
                         dateOfBirth: user.dateOfBirth,
+                        role: user.role,
 
                     });
                 } else {

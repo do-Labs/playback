@@ -82,7 +82,7 @@ class App extends Component {
         // this.checkUserClaims();
     };
 
-    setuserClaims = () => {
+    setUserClaims = () => {
         const claims = "";
         console.log("claims:", claims);
         this.setState({
@@ -109,7 +109,7 @@ class App extends Component {
                         <Route
                             path="/login"
                             render={() => <Login {...props}/>}
-                            callbackFromParent={this.setuserClaims}
+                            callbackFromParent={this.setUserClaims}
                         />
                         <Route
                             path="/register"
