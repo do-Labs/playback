@@ -33,6 +33,7 @@ export default class MyPitches extends Component {
                 company,
                 location,
                 presenterName,
+                pitchRole,
                 presenterEmail,
                 eventUrl,
                 pitchUrl,
@@ -46,6 +47,7 @@ export default class MyPitches extends Component {
                 company,
                 location,
                 presenterName,
+                pitchRole,
                 presenterEmail,
                 eventUrl,
                 pitchUrl,
@@ -142,6 +144,7 @@ export default class MyPitches extends Component {
                                     <Table.HeaderCell>PitchDate</Table.HeaderCell>
                                     <Table.HeaderCell>Pitch Title</Table.HeaderCell>
                                     <Table.HeaderCell>PresenterName</Table.HeaderCell>
+                                    <Table.HeaderCell>Role</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
                                     <Table.HeaderCell>Rating</Table.HeaderCell>
                                     <Table.HeaderCell>Count</Table.HeaderCell>

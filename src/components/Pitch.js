@@ -7,6 +7,7 @@ export default class Pitch extends Component {
     state = {
         id: this.props.pitch.id,
         pitchTitle: this.props.pitch.pitchTitle,
+        pitchRole: this.props.pitch.pitchRole,
         businessName: this.props.pitch.businessName,
         pitchDate: this.props.pitch.pitchDate,
         presenterName: this.props.pitch.presenterName,
@@ -58,6 +59,7 @@ export default class Pitch extends Component {
         const {
             id,
             pitchTitle,
+            pitchRole,
             pitchDate,
             location,
             pitchUrl,
@@ -77,6 +79,7 @@ export default class Pitch extends Component {
                 <Table.Cell>{pitchDate}</Table.Cell>
                 <Table.Cell>{pitchTitle}</Table.Cell>
                 <Table.Cell>{presenterName}</Table.Cell>
+                <Table.Cell>{pitchRole}</Table.Cell>
                 <Table.Cell>{location}</Table.Cell>
                 <Table.Cell>{avgRating}</Table.Cell>
                 <Table.Cell>{feedbackCount}</Table.Cell>
@@ -93,6 +96,7 @@ export default class Pitch extends Component {
                                     <p>Location: {location}</p>
                                     <p>PitchURL: {pitchUrl}</p>
                                     <p>Presenter Name: {presenterName}</p>
+                                    <p>Presenter Name: {pitchRole}</p>
                                     <p>Presenter Email: {presenterEmail}</p>
                                     <p>Event URL: {eventUrl}</p>
                                     <p>Average Rating: {avgRating}</p>

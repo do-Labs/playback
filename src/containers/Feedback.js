@@ -29,6 +29,7 @@ export default class Feedback extends Component {
             eventUrl: "",
             presenterEmail: "",
             presenterName: "",
+            pitchRole: "",
 
             // Feedback Data
             firstName: "",
@@ -114,6 +115,7 @@ export default class Feedback extends Component {
                         pitchUrl: data.pitchUrl,
                         presenterEmail: data.presenterEmail,
                         presenterName: data.presenterName,
+                        pitchRole: data.pitchRole,
                     },
                     businessID: data.businessID,
                     businessName: data.businessName,
@@ -123,6 +125,7 @@ export default class Feedback extends Component {
                     pitchUrl: data.pitchUrl,
                     presenterEmail: data.presenterEmail,
                     presenterName: data.presenterName,
+                    pitchRole: data.pitchRole,
                 })
             } else {
                 // doc.data() will be undefined in this case
@@ -342,6 +345,7 @@ export default class Feedback extends Component {
             businessName,
             pitchDate,
             presenterName,
+            pitchRole,
             eventUrl,
 
             webpageUrl,
@@ -375,12 +379,13 @@ export default class Feedback extends Component {
 
                         <Form onSubmit={this.onSubmit}>
                             {/*<h2>Leave Feedback for: {id}</h2>*/}
-                            <p>Business Name: <a href={webpageUrl}>{businessName}</a> </p>
-                            <p>Pitch Title:   {pitchTitle}</p>
-                            <p>Pitch Date:   {pitchDate}</p>
-                            <p>Presenter Name:   {presenterName}</p>
+                            <p><b>Business Name:</b> <a href={webpageUrl}>{businessName}</a> </p>
+                            <p><b>Pitch Title:</b>   {pitchTitle}</p>
+                            <p><b>Pitch Date:</b>   {pitchDate}</p>
+                            <p><b>Presenter Name:</b>   {presenterName}</p>
+                            <p><b>Role:</b>   {pitchRole}</p>
                             {eventUrl &&
-                                <p>EventUrl: {eventUrl}</p>
+                            <p><b>EventUrl:</b> {eventUrl}</p>
                             }
                             <center>
                                 <AddToCalendar

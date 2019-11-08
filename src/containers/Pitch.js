@@ -6,7 +6,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ZiggeoRecorder } from 'react-ziggeo';
 const projectName = "playback-2a438";
-// const ziggeoAPIKey = require('config').config.ziggeoAPIKey;
 const ziggeoAPIKey = process.env.REACT_APP_ziggeoAPIKey;
 
 
@@ -22,6 +21,7 @@ export default class Pitch extends Component {
             isEnabled: true,
 
             pitchTitle: "",
+            pitchRole: "",
             businessName: "-",
             pitchDate: "MM-DD-YYYY",
             presenterName: "",
@@ -80,6 +80,7 @@ export default class Pitch extends Component {
                     this.setState({
                         key: doc.id,
                         pitchTitle: pitch.pitchTitle,
+                        pitchRole: pitch.pitchRole,
                         businessName: pitch.businessName,
                         pitchDate: pitch.pitchDate,
                         presenterName: pitch.presenterName,
@@ -115,7 +116,7 @@ export default class Pitch extends Component {
         this.setState({isLoading: true});
 
         // QR Template:
-        // http://www.app.com/instance/{id}/feedbackPortal/instance/{id}
+        // http://www.app.com/instance/{id}/feedbackl/instance/{id}
         // QR Template (display to public for POST to specific
         // pitches/{pitchID}/feedback/
 
@@ -140,6 +141,7 @@ export default class Pitch extends Component {
 
         const {
             pitchTitle,
+            pitchRole,
             businessName,
             pitchDate,
             presenterName,
@@ -153,6 +155,7 @@ export default class Pitch extends Component {
 
         this.ref.add({
             pitchTitle,
+            pitchRole,
             businessName,
             pitchDate,
             presenterName,
@@ -191,8 +194,8 @@ export default class Pitch extends Component {
         console.log("PITCHID: " , pitchId);
         const {
             pitchTitle,
+            pitchRole,
             businessName,
-            // dateOfPitch,
             pitchDate,
             presenterName,
             presenterEmail,
@@ -210,6 +213,7 @@ export default class Pitch extends Component {
 
         pitchRef.set({
             pitchTitle,
+            pitchRole,
             businessName,
             pitchDate,
             presenterName,
@@ -341,6 +345,7 @@ export default class Pitch extends Component {
             isLoading,
             editMode,
             pitchTitle,
+            pitchRole,
             businessName,
             pitchDate,
             presenterName,
@@ -389,8 +394,9 @@ export default class Pitch extends Component {
                                     <p>Pitch Title: {pitchTitle}</p>
                                     <p>Pitch Date: {pitchDate}</p>
                                     <p>Location: {location}</p>
-                                    <p>PitchURL: {pitchUrl}</p>
+                                    <p>PitchDeckURL: {pitchUrl}</p>
                                     <p>Presenter Name: {presenterName}</p>
+                                    <p>Role: {pitchRole}</p>
                                     <p>Presenter Email: {presenterEmail}</p>
                                     <p>Event URL: {eventUrl}</p>
                                 </div>
@@ -405,7 +411,7 @@ export default class Pitch extends Component {
 
                                 <div className="equal width fields">
                                     <Form.Field>
-                                        <h4>Pitch Title</h4>
+                                        <h4>Title</h4>
                                         <Form.Input
                                             name="pitchTitle"
                                             placeholder="Pitch pitchTitle"
@@ -414,6 +420,27 @@ export default class Pitch extends Component {
                                             error={!pitchTitle || pitchTitle === ""}
                                         />
                                     </Form.Field>
+
+                                    <div>
+                                        <h4>Role</h4>
+                                        <select
+                                            name="pitchRole"
+                                            value={pitchRole}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option placeholder=""> </option>
+                                            <option value="entrepreneur">Entrepreneur</option>
+                                            <option value="educator">Educator</option>
+                                            <option value="investor">Investor</option>
+                                            <option value="mentor">Mentor</option>
+                                            <option value="non-profit">Non-Profit</option>
+                                            <option value="academic-researcher">Academic Researcher</option>
+                                            <option value="community-advocate">Community Advocate</option>
+                                            <option value="government-employee">Government Employee</option>
+                                            <option value="economic-development">Economic Development</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
 
                                     {!editMode &&
                                         <div>
@@ -450,7 +477,7 @@ export default class Pitch extends Component {
                                 </Form.Field>
 
                                 <Form.Field>
-                                    <h4>Pitch Location</h4>
+                                    <h4>Location</h4>
                                     <Form.Input
                                         name="location"
                                         placeholder="1MC Dallas"
