@@ -421,27 +421,6 @@ export default class Pitch extends Component {
                                         />
                                     </Form.Field>
 
-                                    <div>
-                                        <h4>Role</h4>
-                                        <select
-                                            name="pitchRole"
-                                            value={pitchRole}
-                                            onChange={this.handleOnChange}
-                                        >
-                                            <option placeholder=""> </option>
-                                            <option value="entrepreneur">Entrepreneur</option>
-                                            <option value="educator">Educator</option>
-                                            <option value="investor">Investor</option>
-                                            <option value="mentor">Mentor</option>
-                                            <option value="non-profit">Non-Profit</option>
-                                            <option value="academic-researcher">Academic Researcher</option>
-                                            <option value="community-advocate">Community Advocate</option>
-                                            <option value="government-employee">Government Employee</option>
-                                            <option value="economic-development">Economic Development</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-
                                     {!editMode &&
                                         <div>
                                             <h4>Pitch Date</h4>
@@ -465,16 +444,38 @@ export default class Pitch extends Component {
 
                                 </div>
 
+                                <div className="equal width fields">
+                                    <Form.Field>
+                                        <h4>Presenter Name</h4>
+                                        <Form.Input
+                                            name="presenterName"
+                                            value={presenterName}
+                                            onChange={this.handleOnChange}
+                                            error={!presenterName || presenterName === ""}
+                                        />
+                                    </Form.Field>
 
-                                <Form.Field>
-                                    <h4>Presenter Name</h4>
-                                    <Form.Input
-                                        name="presenterName"
-                                        value={presenterName}
-                                        onChange={this.handleOnChange}
-                                        error={!presenterName || presenterName === ""}
-                                    />
-                                </Form.Field>
+                                    <Form.Field>
+                                        <h4>Role</h4>
+                                        <select
+                                            name="pitchRole"
+                                            value={pitchRole}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option placeholder=""> </option>
+                                            <option value="entrepreneur">Entrepreneur</option>
+                                            <option value="educator">Educator</option>
+                                            <option value="investor">Investor</option>
+                                            <option value="mentor">Mentor</option>
+                                            <option value="non-profit">Non-Profit</option>
+                                            <option value="academic-researcher">Academic Researcher</option>
+                                            <option value="community-advocate">Community Advocate</option>
+                                            <option value="government-employee">Government Employee</option>
+                                            <option value="economic-development">Economic Development</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </Form.Field>
+                                </div>
 
                                 <Form.Field>
                                     <h4>Location</h4>

@@ -170,6 +170,10 @@ export default class User extends Component {
 
     };
 
+    handleChangePassword = () => {
+        console.log("TODO: Handling change password")
+    };
+
     render() {
         const {
             error,
@@ -328,6 +332,11 @@ export default class User extends Component {
                                             </Grid.Column>
                                         </Grid>
                                     </div>
+                                    <Button
+                                        onClick={this.handleChangePassword}
+                                    >
+                                        Change Password
+                                    </Button>
                                 </div>
                             }
 
