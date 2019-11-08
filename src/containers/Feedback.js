@@ -427,9 +427,9 @@ export default class Feedback extends Component {
                                     <Grid>
                                         <Grid.Column width={8}>
                                             <Form.Field>
+                                                <label><span id="firstName">First Name</span></label>
                                                 <Form.Input
                                                     name="firstName"
-                                                    placeholder="First Name"
                                                     value={firstName}
                                                     onChange={this.handleOnChange}
                                                 />
@@ -437,9 +437,9 @@ export default class Feedback extends Component {
                                         </Grid.Column>
                                         <Grid.Column width={8}>
                                             <Form.Field>
+                                                <label><span id="lastName">Last Name</span></label>
                                                 <Form.Input
                                                     name="lastName"
-                                                    placeholder="Last Name"
                                                     value={lastName}
                                                     onChange={this.handleOnChange}
                                                 />
@@ -451,9 +451,9 @@ export default class Feedback extends Component {
                                     <Grid>
                                         <Grid.Column width={9}>
                                             <Form.Field>
+                                                <label><span id="email">Email</span></label>
                                                 <Form.Input
                                                     name="email"
-                                                    placeholder="Email Address"
                                                     value={email}
                                                     onChange={this.handleOnChange}
                                                     error={!email || email === ""}
@@ -462,9 +462,10 @@ export default class Feedback extends Component {
                                         </Grid.Column>
                                         <Grid.Column width={7}>
                                             <Form.Field>
+                                                <label><span id="phoneNumber">Phone#</span></label>
                                                 <Form.Input
                                                     name="phoneNumber"
-                                                    placeholder="Phone Number"
+                                                    placeholder=""
                                                     value={phoneNumber}
                                                     onChange={this.handleOnChange}
                                                 />
@@ -476,7 +477,7 @@ export default class Feedback extends Component {
                                     <Grid>
                                         <Grid.Column width={8}>
                                             <Form.Field>
-                                                <label><span id="cityy">City</span></label>
+                                                <label><span id="city">City</span></label>
                                                 <Form.Input
                                                     name="city"
                                                     value={city}
@@ -525,7 +526,7 @@ export default class Feedback extends Component {
                                         </Grid.Column>
                                         <Grid.Column width={8}>
                                             <div>
-                                                <label><span id="requestMeeting">Wanna Get Coffee?</span></label>
+                                                <label><span id="wantsToMeet">Wanna Get Coffee?</span></label>
                                                 <select
                                                     name="wantsToMeet"
                                                     value={wantsToMeet}
