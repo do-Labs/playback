@@ -7,6 +7,7 @@ import {NavMenu, Logo} from "../components/index";
 export default class User extends Component {
     state = {
         error: null,
+        message: null,
         isLoading: false,
         isHidden: true,
 
@@ -170,20 +171,57 @@ export default class User extends Component {
 
     };
 
+
+
     handleChangePassword = () => {
-        console.log("TODO: Handling change password")
+        this.setState({isLoading: true});
+        const {
+            password,
+            confirmPassword
+        } = this.state;
+        console.log("TODO: Handling change password");
+        if(confirmPassword === password) {
+            firebase.auth().currentUser.updatePassword(password).then(()=>{
+                this.setState({
+                    message: {
+                        message: "Updated password!"
+                    }
+                });
+
+                console.log("Changed password");
+
+            }).catch((err)=>{
+                console.log("err:", err);
+                this.setState({
+                    error: {
+                        message: err.code
+                    }
+                });
+                console.log("Error changing password")
+            });
+        } else {
+            this.setState({
+                error: {
+                    message: "Passwords do not match"
+                }
+            })
+        }
+        this.setState({isLoading: false})
     };
 
     render() {
         const {
             error,
+            message,
             isLoading,
             isEnabled,
             editMode,
+            password,
+            confirmPassword,
+
 
             userId,
             email,
-            password,
             role,
 
             firstName,
@@ -204,6 +242,7 @@ export default class User extends Component {
                         {!editMode && <h2>Create User</h2>}
                         {editMode && <h2>Edit Profile</h2>}
                         {error && <Message error content={error.message}/>}
+                        {message && <Message success >Success! </Message>}
                         {isLoading && (
                             <Dimmer active inverted>
                                 <Loader inverted/>
@@ -331,6 +370,28 @@ export default class User extends Component {
                                                 </Form.Field>
                                             </Grid.Column>
                                         </Grid>
+                                    </div>
+                                    <div>
+                                        <Form.Field>
+                                            <label>New Password</label>
+                                            <Form.Input
+                                                id="password"
+                                                name="password"
+                                                value={password}
+                                                onChange={this.handleOnChange}
+                                                error={!password || password === ""}
+                                            />
+                                        </Form.Field>
+                                        <Form.Field>
+                                            <label>Confirm Password</label>
+                                            <Form.Input
+                                                id="confirmPassword"
+                                                name="confirmPassword"
+                                                value={confirmPassword}
+                                                onChange={this.handleOnChange}
+                                                error={!confirmPassword || confirmPassword === ""}
+                                            />
+                                        </Form.Field>
                                     </div>
                                     <Button
                                         onClick={this.handleChangePassword}

@@ -320,7 +320,10 @@ export default class Pitch extends Component {
         }
     };
 
+
+
     recorderUploaded = () => {
+
         console.log('Recorder onRecorderUploaded');
     };
 
@@ -533,6 +536,8 @@ export default class Pitch extends Component {
                             <Button loading={isLoading}
                                     disabled={
                                         !pitchTitle || pitchTitle === "" ||
+                                        !pitchRole || pitchRole === "" ||
+                                        !pitchDate || pitchDate === "" ||
                                         !presenterName || !presenterName || presenterName === "" ||
                                         !presenterEmail || !presenterEmail || presenterEmail === ""
                                     }
