@@ -36,8 +36,8 @@ export default class Feedback extends Component {
             lastName: "",
             email: "",
             phoneNumber: "",
-            city: "",
-            state: "",
+            city: "Dallas",
+            state: "Texas",
             role: "Audience",
             comment: "",
             isAnonymous: "",
@@ -476,9 +476,9 @@ export default class Feedback extends Component {
                                     <Grid>
                                         <Grid.Column width={8}>
                                             <Form.Field>
+                                                <label><span id="cityy">City</span></label>
                                                 <Form.Input
                                                     name="city"
-                                                    placeholder="City"
                                                     value={city}
                                                     onChange={this.handleOnChange}
                                                 />
@@ -486,10 +486,10 @@ export default class Feedback extends Component {
                                         </Grid.Column>
                                         <Grid.Column width={8}>
                                             <Form.Field>
+                                                <label><span id="state">State</span></label>
                                                 <Dropdown
                                                     width={2}
                                                     name="state"
-                                                    placeholder="State"
                                                     fluid
                                                     search
                                                     selection
@@ -509,23 +509,23 @@ export default class Feedback extends Component {
                                     <Grid>
                                         <Grid.Column width={8}>
                                             <div>
-                                                <p><span id="role">Role</span></p>
+                                                <label><span id="role">Role</span></label>
                                                 <select
                                                     name="role"
                                                     value={role}
                                                     onChange={this.handleOnChange}
                                                 >
-                                                    <option value="Audience">Audience</option>
-                                                    <option value="CorporateExec">Corporate Exec</option>
-                                                    <option value="Investor">Investor</option>
-                                                    <option value="Entrepreneur">Entrepreneur</option>
-                                                    <option value="Student">Student</option>
+                                                    <option value="audience">Audience</option>
+                                                    <option value="corporate-exec">Corporate Exec</option>
+                                                    <option value="investor">Investor</option>
+                                                    <option value="entrepreneur">Entrepreneur</option>
+                                                    <option value="student">Student</option>
                                                 </select>
                                             </div>
                                         </Grid.Column>
                                         <Grid.Column width={8}>
                                             <div>
-                                                <p><span id="requestMeeting">Wanna Get Coffee?</span></p>
+                                                <label><span id="requestMeeting">Wanna Get Coffee?</span></label>
                                                 <select
                                                     name="wantsToMeet"
                                                     value={wantsToMeet}
