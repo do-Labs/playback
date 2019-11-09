@@ -320,10 +320,7 @@ export default class Pitch extends Component {
         }
     };
 
-
-
     recorderUploaded = () => {
-
         console.log('Recorder onRecorderUploaded');
     };
 
@@ -336,9 +333,13 @@ export default class Pitch extends Component {
     recorderUploading = async (embedding) => {
         console.log('Recorder recorderUploading', embedding);
         const pitchVideoID = embedding.video;
-        this.setVideoTag(pitchVideoID);
+        // this.setVideoTag(pitchVideoID);
         console.log('id:', pitchVideoID);
         return pitchVideoID
+    };
+
+    handleUploadPitchDeck = async () => {
+
     };
 
 
@@ -405,7 +406,7 @@ export default class Pitch extends Component {
                                 </div>
                             }/>
 
-                        <Form onSubmit={this.onSubmit}>
+                        <Form>
 
                             {!isRecordingPitch &&
                             <div className="ui segment">
@@ -510,7 +511,8 @@ export default class Pitch extends Component {
                                         onChange={this.handleOnChange}
                                     />
                                 </Form.Field>
-                                <Button onClick={this.handleToggleRecord}>RecordPitch</Button>
+                                {/*<Button onClick={this.handleToggleRecord}>RecordPitch</Button>*/}
+                                {/*<Button onClick={this.handleUploadPitchDeck}>Upload Deck</Button>*/}
                             </div>
                             }
 
@@ -527,13 +529,14 @@ export default class Pitch extends Component {
                                     onUploading={this.recorderUploading}
                                     onUploaded={this.recorderUploaded}
                                 />
-                                {/*<Button onClick={this.handleToggleRecord}>Back</Button>*/}
+                                <Button onClick={this.handleToggleRecord}>Back</Button>
                             </div>
                             }
 
 
                             {!isRecordingPitch &&
                             <Button loading={isLoading}
+                                    onClick={this.submitCreate}
                                     disabled={
                                         !pitchTitle || pitchTitle === "" ||
                                         !pitchRole || pitchRole === "" ||

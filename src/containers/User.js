@@ -377,6 +377,7 @@ export default class User extends Component {
                                             <Form.Input
                                                 id="password"
                                                 name="password"
+                                                type="password"
                                                 value={password}
                                                 onChange={this.handleOnChange}
                                                 error={!password || password === ""}
@@ -387,6 +388,7 @@ export default class User extends Component {
                                             <Form.Input
                                                 id="confirmPassword"
                                                 name="confirmPassword"
+                                                type="password"
                                                 value={confirmPassword}
                                                 onChange={this.handleOnChange}
                                                 error={!confirmPassword || confirmPassword === ""}
@@ -394,6 +396,10 @@ export default class User extends Component {
                                         </Form.Field>
                                     </div>
                                     <Button
+                                        disabled={
+                                            (!password && password === "") ||
+                                            (!confirmPassword && confirmPassword === "")
+                                        }
                                         onClick={this.handleChangePassword}
                                     >
                                         Change Password
