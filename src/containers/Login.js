@@ -198,7 +198,11 @@ class Login extends Component {
                                 </Button>}
                             </Form>
                             <hr/>
-                            <Button fluid size="large" loading={isLoading} onClick={this.handleResetPassword}>
+                            <Button
+                                disabled={
+                                    (!email)
+                                }
+                                    fluid size="large" loading={isLoading} onClick={this.handleResetPassword}>
                                 Reset Password
                             </Button>
                             <hr/>
