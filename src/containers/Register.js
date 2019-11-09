@@ -200,7 +200,6 @@ class Register extends Component {
                 >
                     <Grid.Column textAlign="left" style={{ maxWidth: 450 }}>
                         <Segment>
-                            Register Page
                             <Button style={{position: 'absolute', right: 0}} href="/login" ><i className="left chevron icon"> </i></Button>
                             <Logo />
                             {error &&  !registered && <Message error content={error.message}>{this.state.error}</Message>}

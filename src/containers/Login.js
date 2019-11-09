@@ -11,9 +11,9 @@ class Login extends Component {
         password: "",
         authCode: "",
         user: {},
-        results: "",
         showConfirmation: false,
         error: null,
+        message: null,
     };
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
@@ -21,13 +21,20 @@ class Login extends Component {
     signInWithFirebase = async event => {
         console.log("signInWithFirebase");
         event.preventDefault();
-        try {
-            this.setState({isLoading: true});
-            const user = await firebase.auth().signInWithEmailAndPassword(
-                this.state.email,
-                this.state.password
-            );
-            firebase.auth().currentUser.getIdTokenResult(true)
+
+        this.setState({isLoading: true});
+        const user = await firebase.auth().signInWithEmailAndPassword(
+            this.state.email,
+            this.state.password
+        ).catch((error)=> {
+            console.log('error:', error);
+            this.setState({
+                error: error,
+                isLoading: true
+            })
+        });
+        if (user){
+            await firebase.auth().currentUser.getIdTokenResult(true)
                 .then(idTokenResult => {
                     console.log("User Authenticated with Firebase");
                     this.setState({user, isLoading: false});
@@ -39,11 +46,26 @@ class Login extends Component {
                     }));
                     this.checkClaims(idTokenResult)
 
-                }).catch();
+                }).catch((error)=> {
+                    console.log("error at signInWithFirebase2", error);
+                    this.setState({
+                        isLoading: false,
+                        error: error.code
+                    })
+                });
         }
-        catch (error) {
-            this.setState({error, isLoading: false});
+        else{
+            this.setState({
+                isLoading: false,
+            })
         }
+        // try {
+        //
+        //
+        // }
+        // catch (error) {
+        //     this.setState({error, isLoading: false});
+        // }
     };
 
     checkClaims = (idToken) => {
@@ -85,25 +107,38 @@ class Login extends Component {
         firebase.auth.confirmSignIn(this.state.user, this.state.authCode, this.state.user.challengeName)
             .then(user => {
                 this.setState({ isLoading: false });
-                this.userAuthenticates(user)
+                this.userAuthenticates(user);
                 console.log("user")
             })
             .catch(err => {
                 console.error(err);
-                this.setState({ error: err })
+                this.setState({
+                    error: err
+                })
             })
     };
 
-    setUserClaims = () => {
-        // this.props.callbackFromParent(setuserClaims);
-    };
 
-    myCallback = (dataFromChild) => {
-        this.setState({ listDataFromChild: dataFromChild });
+
+    handleResetPassword = () => {
+        const email = this.state.email;
+        console.log("email", email);
+        firebase.auth().sendPasswordResetEmail(email).then(() => {
+            console.log("Sending reset email")
+            this.setState({
+                message: "Emailed Password Reset "
+            })
+        }).catch((error)=> {
+            console.log('error:', error)
+            this.setState({
+                error: error
+            })
+        });
+
     };
 
     render() {
-        const { email, password, authCode, error, isLoading, showConfirmation } = this.state;
+        const { message, error, email, password, authCode, isLoading, showConfirmation } = this.state;
 
         return this.props.isAuthenticated ? (
             <Redirect to="/" />
@@ -119,7 +154,8 @@ class Login extends Component {
                             <Logo />
 
                             <center><p>version {process.env.REACT_APP_VERSION}</p></center>
-                            {error && <Message error content={error.message} />}
+                            {error && <Message error content={error.code} />}
+                            {message && <Message success >{message} </Message>}
                             <Form>
                                 <Form.Field>
                                     <label>Email</label>
@@ -149,7 +185,12 @@ class Login extends Component {
                                         onChange={this.handleChange}
                                     />
                                 </Form.Field>}
-                                {!showConfirmation && <Button fluid size="large" loading={isLoading} onClick={this.signInWithFirebase}>
+                                {!showConfirmation && <Button
+                                    disabled={
+                                        (!email) ||
+                                        (!password && password === "")
+                                    }
+                                        fluid size="large" loading={isLoading} onClick={this.signInWithFirebase}>
                                     Login
                                 </Button>}
                                 {showConfirmation && <Button fluid size="large" loading={isLoading} onClick={this.confirmSignIn}>
@@ -157,9 +198,13 @@ class Login extends Component {
                                 </Button>}
                             </Form>
                             <hr/>
-                            {/*<Button fluid size="large" loading={isLoading} href="/register">*/}
-                                {/*Register*/}
-                            {/*</Button>*/}
+                            <Button fluid size="large" loading={isLoading} onClick={this.handleResetPassword}>
+                                Reset Password
+                            </Button>
+                            <hr/>
+                            <Button fluid size="large" loading={isLoading} href="/register">
+                                Register
+                            </Button>
                         </Segment>
                     </Grid.Column>
                 </Grid>
