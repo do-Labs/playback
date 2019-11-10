@@ -17,6 +17,8 @@ class Login extends Component {
             showConfirmation: false,
             error: null,
             message: null,
+            role: "",
+            businessID: null,
         };
         // if(props.handleUpload){
         //     props.handleUpload(this.handleUpload.bind(this));
@@ -82,8 +84,10 @@ class Login extends Component {
         else if (idToken.claims.businessID) {
             console.log("Registered Business User Access!");
             console.log(idToken.claims.businessID);
+            this.setState({
+                role: "businessUser",
+            });
         } else {
-
             console.log("Guest Access");
         }
     };
@@ -102,13 +106,16 @@ class Login extends Component {
     userAuthenticatesWithFirebase = (user, token) => {
         console.log("userAuthenticatesWithFirebase");
         const decoded = jwtDecode(token);
-        // console.log('decoded', decoded)
         const userID = decoded.user_id;
+        const role = decoded.role;
+        const businessID = decoded.businessID;
         this.props.userHasAuthenticated(
             true,
             user.user.email,
             token,
             userID,
+            role,
+            businessID,
         );
     };
 

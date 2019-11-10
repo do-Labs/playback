@@ -32,7 +32,8 @@ class App extends Component {
         username: "",
         token: "",
         userID: "",
-        role: '',
+        role: "",
+        businessID: "",
     };
 
     componentDidMount = async () => {
@@ -48,12 +49,14 @@ class App extends Component {
     };
 
 
-    userHasAuthenticated = async (authenticated, username, token, userID) => {
+    userHasAuthenticated = async (authenticated, username, token, userID, role, businessID) => {
         this.setState({
             isAuthenticated: authenticated,
-            username,
-            token,
-            userID,
+            username: username,
+            token: token,
+            userID: userID,
+            role: role,
+            businessID: businessID,
         });
         // await this.checkUserClaims(token);
     };
