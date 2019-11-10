@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Button, Header, Icon, Message, Modal, Table} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import firebase from "../Firebase";
+import {ZiggeoPlayer} from 'react-ziggeo'
+const ziggeoAPIKey = process.env.REACT_APP_ziggeoAPIKey;
 
 export default class Pitch extends Component {
     state = {
@@ -14,6 +16,7 @@ export default class Pitch extends Component {
         presenterEmail: this.props.pitch.presenterEmail,
         location: this.props.pitch.location,
         pitchUrl: this.props.pitch.pitchUrl,
+        videoTag: this.props.pitch.videoTag,
         pitchCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://blooming-bastion-98391.herokuapp.com/feedback/" + this.props.pitch.id,
         eventUrl: this.props.pitch.eventUrl,
         avgRating: 0,
@@ -21,7 +24,8 @@ export default class Pitch extends Component {
 
         isLoading: false,
         error: null,
-        modalOpen: false
+        modalOpen: false,
+        showVideo: false,
     };
 
     handleOpen = () => this.setState({modalOpen: true});
@@ -53,6 +57,20 @@ export default class Pitch extends Component {
 
     };
 
+    handleToggleShowVideo = () => {
+        const {showVideo} = this.state;
+        if(showVideo === true){
+            this.setState({
+                showVideo: false
+            })
+        }
+        else {
+            this.setState({
+                showVideo: true
+            })
+        }
+    };
+
 
     render() {
 
@@ -71,7 +89,8 @@ export default class Pitch extends Component {
             feedbackCount,
 
             error,
-            isLoading
+            isLoading,
+            showVideo
         } = this.state;
 
         return (
@@ -90,19 +109,39 @@ export default class Pitch extends Component {
                             header={pitchTitle}
                             content={
                                 <div>
-                                    <p>Id: {id}</p>
-                                    <p>Title: {pitchTitle}</p>
-                                    <p>Date: {pitchDate}</p>
-                                    <p>Location: {location}</p>
-                                    <p><a href={pitchUrl}>Click to view Pitch Deck</a></p>
-                                    <p>Presenter Name: {presenterName}</p>
-                                    <p>Presenter Name: {pitchRole}</p>
-                                    <p>Presenter Email: {presenterEmail}</p>
-                                    <p>Event URL: {eventUrl}</p>
-                                    <p>Feedback Count: {feedbackCount}</p>
-                                    <p>Average Rating: {avgRating}</p>
-                                    <p>Feedback QR:</p>
-                                    <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
+                                    {!showVideo &&
+                                    <div>
+                                        <p>Id: {id}</p>
+                                        <p>Title: {pitchTitle}</p>
+                                        <p>Date: {pitchDate}</p>
+                                        <p>Location: {location}</p>
+                                        <p>Presenter Name: {presenterName}</p>
+                                        <p>Presenter Name: {pitchRole}</p>
+                                        <p>Presenter Email: {presenterEmail}</p>
+                                        <p>Event URL: {eventUrl}</p>
+                                        <p>Feedback Count: {feedbackCount}</p>
+                                        <p>Average Rating: {avgRating}</p>
+                                        <p>Feedback QR:</p>
+                                        <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
+                                        <hr/>
+                                        <Button onClick={this.handleToggleShowVideo}>Video</Button>
+                                        <Button href={pitchUrl}>PitchDeck</Button>
+                                    </div>
+                                    }
+                                    {showVideo &&
+                                        <div>
+                                            <ZiggeoPlayer
+                                                apiKey={ziggeoAPIKey}
+                                                video={this.state.videoTag}
+                                                theme={'modern'}
+                                                themecolor={'red'}
+                                                skipinitial={false}
+                                                onPlaying={this.playing}
+                                                onPaused={this.paused}
+                                            />
+                                            <Button onClick={this.handleToggleShowVideo}>Back</Button>
+                                        </div>
+                                    }
                                 </div>
                             }/>
                         <Button icon="edit" as={Link} to={`/pitch/${this.props.pitch.id}`}/>

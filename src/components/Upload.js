@@ -29,13 +29,13 @@ export default class Upload extends Component {
     };
 
 
-    handleUpload = () => {
+    handleUpload = async () => {
         this.setState({isLoading: true});
         const storage = firebase.storage();
         let fileName = uuid();
         const {image} = this.state;
         const uploadTask = storage.ref(`pitchdecks/`+ fileName).put(image);
-        uploadTask.on('state_changed',
+        await uploadTask.on('state_changed',
             (snapshot) => {
                 // progress function ....
                 const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -44,15 +44,14 @@ export default class Upload extends Component {
             (error) => {
                 console.log(error);
             },
-            () => {
-                storage.ref('pitchdecks').child(fileName).getDownloadURL().then(url => {
+            async () => {
+                await storage.ref('pitchdecks').child(fileName).getDownloadURL().then(url => {
                     console.log(url);
                     this.setState({url});
                     this.props.url(url);
                 })
             });
         this.setState({isLoading: false});
-
     };
 
     render() {

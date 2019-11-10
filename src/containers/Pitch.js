@@ -17,6 +17,7 @@ export default class Pitch extends Component {
         this.setUrl = this.setUrl.bind(this)
         this.state = {
             error: null,
+            message: null,
             isLoading: false,
             editMode: false,
             isEnabled: true,
@@ -40,12 +41,6 @@ export default class Pitch extends Component {
             videoTag: "",
         };
     }
-
-    setUrl = (dataFromChild) => {
-        this.setState({
-            pitchUrl: dataFromChild
-        });
-    };
 
     componentDidMount = async() => {
         const pitchId = this.props.match.params.id;
@@ -325,24 +320,34 @@ export default class Pitch extends Component {
         console.log('Recorder onRecorderUploaded');
     };
 
-    setVideoTag = (videoID) => {
+    setUrl = (dataFromChild) => {
         this.setState({
-            videoTag: videoID
-        })
+            pitchUrl: dataFromChild
+        });
+    };
+
+    setVideoUrl = (dataFromChild) => {
+        console.log("Verified: ", dataFromChild.video);
+        const tag = dataFromChild.video;
+        this.setState({
+            videoTag: tag,
+            isRecordingPitch: false,
+            message: "Attached Pitch Video"
+        });
     };
 
     recorderUploading = async (embedding) => {
         console.log('Recorder recorderUploading', embedding);
         const pitchVideoID = embedding.video;
-        // this.setVideoTag(pitchVideoID);
+        // this.setVideoUrl(pitchVideoID);
         console.log('id:', pitchVideoID);
         return pitchVideoID
     };
 
-
     render() {
         const {
             error,
+            message,
             isLoading,
             editMode,
             pitchTitle,
@@ -356,10 +361,8 @@ export default class Pitch extends Component {
             pitchCodeUrl,
             eventUrl,
 
-            isRecordingPitch
-
+            isRecordingPitch,
         } = this.state;
-
 
         return (
             <Container>
@@ -371,7 +374,9 @@ export default class Pitch extends Component {
                     <Grid.Column width={10}>
                         {editMode && <h2>Edit Pitch</h2>}
                         {!editMode && <h2>Create Pitch</h2>}
+                        {/*{!editMode && <center><h4>Video Tag: {videoTag}</h4></center>}*/}
                         {error && <Message error content={error.message}/>}
+                        {message && <Message success content={message}/>}
                         {isLoading && (
                             <Dimmer active inverted>
                                 <Loader inverted/>
@@ -546,6 +551,7 @@ export default class Pitch extends Component {
                                     // onRecording={this.handleIsRecording}
                                     onUploading={this.recorderUploading}
                                     onUploaded={this.recorderUploaded}
+                                    onVerified={this.setVideoUrl}
                                 />
                                 <Button onClick={this.handleToggleRecord}>Back</Button>
                             </div>

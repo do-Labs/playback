@@ -37,6 +37,7 @@ export default class MyPitches extends Component {
                 presenterEmail,
                 eventUrl,
                 pitchUrl,
+                videoTag,
             } = doc.data();
             pitches.push({
                 key: doc.id,
@@ -51,6 +52,7 @@ export default class MyPitches extends Component {
                 presenterEmail,
                 eventUrl,
                 pitchUrl,
+                videoTag,
             });
         });
         this.setState({

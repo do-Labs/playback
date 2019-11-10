@@ -371,7 +371,7 @@ export default class User extends Component {
                                             </Grid.Column>
                                         </Grid>
                                     </div>
-                                    <div>
+                                    <div className="equal width fields">
                                         <Form.Field>
                                             <label>New Password</label>
                                             <Form.Input
