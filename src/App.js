@@ -20,7 +20,6 @@ import {
     Feedbacks,
     Feedback,
     ThankYou,
-    RecordPitch,
     Utils
 } from "./containers/index.js"
 import jwtDecode from "jwt-decode";
@@ -169,11 +168,6 @@ class App extends Component {
                         <PrivateRoute
                             path="/pitch"
                             component={Pitch}
-                            props={props}
-                        />
-                        <PrivateRoute
-                            path="/record-pitch"
-                            component={RecordPitch}
                             props={props}
                         />
                         <PrivateRoute
