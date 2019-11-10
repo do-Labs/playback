@@ -94,14 +94,14 @@ export default class Pitch extends Component {
                                     <p>Title: {pitchTitle}</p>
                                     <p>Date: {pitchDate}</p>
                                     <p>Location: {location}</p>
-                                    <p>PitchURL: {pitchUrl}</p>
+                                    <p><a href={pitchUrl}>Click to view Pitch Deck</a></p>
                                     <p>Presenter Name: {presenterName}</p>
                                     <p>Presenter Name: {pitchRole}</p>
                                     <p>Presenter Email: {presenterEmail}</p>
                                     <p>Event URL: {eventUrl}</p>
-                                    <p>Average Rating: {avgRating}</p>
                                     <p>Feedback Count: {feedbackCount}</p>
-                                    <p> </p>
+                                    <p>Average Rating: {avgRating}</p>
+                                    <p>Feedback QR:</p>
                                     <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
                                 </div>
                             }/>
