@@ -381,6 +381,7 @@ export default class Pitch extends Component {
                         <Modal
                             open={this.state.modalOpen}
                             onClose={this.handleClose}
+                            header={<center>Pitch Created!</center>}
                             content={
                                 <div>
                                     <div>
@@ -558,6 +559,7 @@ export default class Pitch extends Component {
                                         !pitchTitle || pitchTitle === "" ||
                                         !pitchRole || pitchRole === "" ||
                                         !pitchDate || pitchDate === "" ||
+                                        !location || location === "" ||
                                         !presenterName || !presenterName || presenterName === "" ||
                                         !presenterEmail || !presenterEmail || presenterEmail === ""
                                     }
