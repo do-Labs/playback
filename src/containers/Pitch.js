@@ -29,7 +29,7 @@ export default class Pitch extends Component {
             presenterName: "",
             // presenterEmail: this.props.username,
             location: "",
-            pitchUrl: "",
+            pitchDeckUrl: "",
             eventUrl: "",
 
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
@@ -88,7 +88,7 @@ export default class Pitch extends Component {
                         presenterName: pitch.presenterName,
                         presenterEmail: pitch.presenterEmail,
                         location: pitch.location,
-                        pitchUrl: pitch.pitchUrl,
+                        pitchDeckUrl: pitch.pitchDeckUrl,
                         eventUrl: pitch.eventUrl,
                         businessID: pitch.businessID,
                     });
@@ -149,7 +149,7 @@ export default class Pitch extends Component {
             presenterName,
             presenterEmail,
             location,
-            pitchUrl,
+            pitchDeckUrl,
             eventUrl,
             businessID,
             videoTag,
@@ -163,7 +163,7 @@ export default class Pitch extends Component {
             presenterName,
             presenterEmail,
             location,
-            pitchUrl,
+            pitchDeckUrl,
             eventUrl,
             businessID,
             videoTag,
@@ -201,7 +201,7 @@ export default class Pitch extends Component {
             presenterName,
             presenterEmail,
             location,
-            pitchUrl,
+            pitchDeckUrl,
             eventUrl,
             businessID,
         } = this.state;
@@ -220,7 +220,7 @@ export default class Pitch extends Component {
             presenterName,
             presenterEmail,
             location,
-            pitchUrl,
+            pitchDeckUrl,
             eventUrl,
             businessID,
         }).then((docRef) => {
@@ -316,7 +316,7 @@ export default class Pitch extends Component {
 
     setUrl = (dataFromChild) => {
         this.setState({
-            pitchUrl: dataFromChild
+            pitchDeckUrl: dataFromChild
         });
     };
 
@@ -350,7 +350,7 @@ export default class Pitch extends Component {
             presenterName,
             presenterEmail,
             location,
-            pitchUrl,
+            pitchDeckUrl,
             pitchCodeUrl,
             eventUrl,
 
@@ -394,7 +394,7 @@ export default class Pitch extends Component {
                                     <p>Pitch Title: {pitchTitle}</p>
                                     <p>Pitch Date: {pitchDate}</p>
                                     <p>Location: {location}</p>
-                                    <p>PitchDeckURL: {pitchUrl}</p>
+                                    <p>PitchDeckURL: {pitchDeckUrl}</p>
                                     <p>Presenter Name: {presenterName}</p>
                                     <p>Role: {pitchRole}</p>
                                     <p>Presenter Email: {presenterEmail}</p>
@@ -510,9 +510,9 @@ export default class Pitch extends Component {
 
                                             <center><h4>OR</h4></center>
                                             <Form.Input
-                                                name="pitchUrl"
+                                                name="pitchDeckUrl"
                                                 placeholder="http://"
-                                                value={pitchUrl}
+                                                value={pitchDeckUrl}
                                                 onChange={this.handleOnChange}
                                             />
                                         </Form.Field>
@@ -524,7 +524,7 @@ export default class Pitch extends Component {
                                 <div>
                                     <Form.Field>
                                         <h4>Pitch Deck</h4>
-                                        <h3><a href={pitchUrl}>View Pitch Deck</a></h3>
+                                        <h3><a href={pitchDeckUrl}>View Pitch Deck</a></h3>
                                         {/*<h3><a href={pitchVideoUrl}>View Elevator Pitch</a></h3>*/}
                                     </Form.Field>
                                 </div>

@@ -15,7 +15,7 @@ export default class Pitch extends Component {
         presenterName: this.props.pitch.presenterName,
         presenterEmail: this.props.pitch.presenterEmail,
         location: this.props.pitch.location,
-        pitchUrl: this.props.pitch.pitchUrl,
+        pitchDeckUrl: this.props.pitch.pitchDeckUrl,
         videoTag: this.props.pitch.videoTag,
         pitchCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://blooming-bastion-98391.herokuapp.com/feedback/" + this.props.pitch.id,
         eventUrl: this.props.pitch.eventUrl,
@@ -80,7 +80,7 @@ export default class Pitch extends Component {
             pitchRole,
             pitchDate,
             location,
-            pitchUrl,
+            pitchDeckUrl,
             presenterName,
             presenterEmail,
             pitchCodeUrl,
@@ -129,7 +129,7 @@ export default class Pitch extends Component {
                                         {videoTag &&
                                             <Button onClick={this.handleToggleShowVideo}>Video</Button>
                                         }
-                                        <Button href={pitchUrl}>PitchDeck</Button>
+                                        <Button href={pitchDeckUrl}>PitchDeck</Button>
                                     </div>
                                     }
                                     {showVideo &&
