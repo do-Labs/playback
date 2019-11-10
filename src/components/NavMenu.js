@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Menu } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
-import firebase from 'firebase';
+import firebase from '../Firebase';
 
 export default class NavMenu extends Component {
     state = {
@@ -14,8 +14,8 @@ export default class NavMenu extends Component {
     handleLogout = async event => {
         event.preventDefault();
         await firebase.auth().signOut();
-        this.props.userHasAuthenticated(false, "", "");
-        sessionStorage.clear();
+        await this.props.userHasAuthenticated(false, "", "");
+        await sessionStorage.clear();
     };
 
     componentDidMount = async () => {

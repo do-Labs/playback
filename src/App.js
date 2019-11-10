@@ -40,30 +40,6 @@ class App extends Component {
         if (auth) {
             const { token, username } = JSON.parse(auth);
             this.userHasAuthenticated(true, username, token);
-            const decoded = jwtDecode(token);
-            // console.log('decoded', decoded)
-            const userID = decoded.user_id;
-            // Determine role
-            if(decoded.role === "admin"){
-                this.setState({
-                    role : 'admin',
-                })
-            } else if(decoded.role === "businessUser"){
-                this.setState({
-                    role : 'businessUser',
-                    businessID : decoded.businessID,
-                })
-            } else {
-                this.setState({
-                    role: 'guest',
-                    businessID: null,
-                });
-            }
-
-            this.setState({
-                userID: userID,
-                token: token,
-            });
         }
         this.setState({
             isAuthenticating: false,
@@ -71,14 +47,14 @@ class App extends Component {
     };
 
 
-    userHasAuthenticated = async (authenticated, username, token) => {
+    userHasAuthenticated = async (authenticated, username, token, userID) => {
         this.setState({
             isAuthenticated: authenticated,
             username,
             token,
+            userID,
         });
-
-        // this.checkUserClaims();
+        await this.checkUserClaims(token);
     };
 
     setUserClaims = () => {
@@ -86,6 +62,31 @@ class App extends Component {
         console.log("claims:", claims);
         this.setState({
             claims: claims
+        });
+    };
+
+    checkUserClaims = (token) => {
+        const decoded = jwtDecode(token);
+        const userID = decoded.user_id;
+        // Determine role
+        if(decoded.role === "admin"){
+            this.setState({
+                role : 'admin',
+            })
+        } else if(decoded.role === "businessUser"){
+            this.setState({
+                role : 'businessUser',
+                businessID : decoded.businessID,
+            })
+        } else {
+            this.setState({
+                role: 'guest',
+                businessID: null,
+            });
+        }
+
+        this.setState({
+            userID: userID,
         });
     };
 
@@ -107,7 +108,11 @@ class App extends Component {
                     <Switch>
                         <Route
                             path="/login"
-                            render={() => <Login {...props}/>}
+                            render={() =>
+                                <Login
+                                {...props}
+
+                                />}
                             callbackFromParent={this.setUserClaims}
                         />
                         <Route

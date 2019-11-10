@@ -3,18 +3,25 @@ import { Button, Form, Grid, Message, Segment } from "semantic-ui-react";
 import Logo from "../components/Logo";
 import { Redirect } from "react-router-dom";
 import firebase from '../Firebase';
+import jwtDecode from "jwt-decode";
 
 class Login extends Component {
-    state = {
-        isLoading: false,
-        email: "",
-        password: "",
-        authCode: "",
-        user: {},
-        showConfirmation: false,
-        error: null,
-        message: null,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false,
+            email: "",
+            password: "",
+            authCode: "",
+            user: {},
+            showConfirmation: false,
+            error: null,
+            message: null,
+        };
+        // if(props.handleUpload){
+        //     props.handleUpload(this.handleUpload.bind(this));
+        // }
+    }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
@@ -44,7 +51,7 @@ class Login extends Component {
                         username: this.state.email,
                         refreshToken: user.user.refreshToken,
                     }));
-                    this.checkClaims(idTokenResult)
+                    this.checkClaims(idTokenResult);
 
                 }).catch((error)=> {
                     console.log("error at signInWithFirebase2", error);
@@ -94,10 +101,14 @@ class Login extends Component {
 
     userAuthenticatesWithFirebase = (user, token) => {
         console.log("userAuthenticatesWithFirebase");
+        const decoded = jwtDecode(token);
+        // console.log('decoded', decoded)
+        const userID = decoded.user_id;
         this.props.userHasAuthenticated(
             true,
             user.user.email,
             token,
+            userID,
         );
     };
 

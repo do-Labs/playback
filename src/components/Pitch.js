@@ -85,6 +85,8 @@ export default class Pitch extends Component {
             presenterEmail,
             pitchCodeUrl,
             eventUrl,
+            videoTag,
+
             avgRating,
             feedbackCount,
 
@@ -124,7 +126,9 @@ export default class Pitch extends Component {
                                         <p>Feedback QR:</p>
                                         <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
                                         <hr/>
-                                        <Button onClick={this.handleToggleShowVideo}>Video</Button>
+                                        {videoTag &&
+                                            <Button onClick={this.handleToggleShowVideo}>Video</Button>
+                                        }
                                         <Button href={pitchUrl}>PitchDeck</Button>
                                     </div>
                                     }
