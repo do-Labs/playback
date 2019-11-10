@@ -30,6 +30,7 @@ export default class Pitch extends Component {
             // presenterEmail: this.props.username,
             location: "",
             pitchDeckUrl: "",
+            pitchVideoTag: "",
             eventUrl: "",
 
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
@@ -38,7 +39,7 @@ export default class Pitch extends Component {
             qrData: "",
             modalOpen: false,
             isRecordingPitch: false,
-            videoTag: "",
+            
         };
     }
 
@@ -152,7 +153,7 @@ export default class Pitch extends Component {
             pitchDeckUrl,
             eventUrl,
             businessID,
-            videoTag,
+            pitchVideoTag,
         } = this.state;
 
         this.ref.add({
@@ -166,7 +167,7 @@ export default class Pitch extends Component {
             pitchDeckUrl,
             eventUrl,
             businessID,
-            videoTag,
+            pitchVideoTag,
         }).then( async(docRef) => {
             const pid = docRef._key.path.segments[1];
             //handle response
@@ -316,14 +317,15 @@ export default class Pitch extends Component {
 
     setUrl = (dataFromChild) => {
         this.setState({
-            pitchDeckUrl: dataFromChild
+            pitchDeckUrl: dataFromChild,
+            message: "Uploaded Pitch Deck"
         });
     };
 
     setVideoUrl = (dataFromChild) => {
         const tag = dataFromChild.video;
         this.setState({
-            videoTag: tag,
+            pitchVideoTag: tag,
             isRecordingPitch: false,
             message: "Attached Pitch Video"
         });
@@ -367,7 +369,7 @@ export default class Pitch extends Component {
                     <Grid.Column width={10}>
                         {editMode && <h2>Edit Pitch</h2>}
                         {!editMode && <h2>Create Pitch</h2>}
-                        {/*{!editMode && <center><h4>Video Tag: {videoTag}</h4></center>}*/}
+                        {/*{!editMode && <center><h4>Video Tag: {pitchVideoTag}</h4></center>}*/}
                         {error && <Message error content={error.message}/>}
                         {message && <Message success content={message}/>}
                         {isLoading && (
@@ -525,7 +527,7 @@ export default class Pitch extends Component {
                                     <Form.Field>
                                         <h4>Pitch Deck</h4>
                                         <h3><a href={pitchDeckUrl}>View Pitch Deck</a></h3>
-                                        {/*<h3><a href={pitchVideoUrl}>View Elevator Pitch</a></h3>*/}
+                                        {/*<h3><a href={pitchVideoTag}>View Elevator Pitch</a></h3>*/}
                                     </Form.Field>
                                 </div>
                                 }

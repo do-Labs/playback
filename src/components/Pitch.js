@@ -16,7 +16,7 @@ export default class Pitch extends Component {
         presenterEmail: this.props.pitch.presenterEmail,
         location: this.props.pitch.location,
         pitchDeckUrl: this.props.pitch.pitchDeckUrl,
-        videoTag: this.props.pitch.videoTag,
+        pitchVideoTag: this.props.pitch.pitchVideoTag,
         pitchCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://blooming-bastion-98391.herokuapp.com/feedback/" + this.props.pitch.id,
         eventUrl: this.props.pitch.eventUrl,
         avgRating: 0,
@@ -85,7 +85,7 @@ export default class Pitch extends Component {
             presenterEmail,
             pitchCodeUrl,
             eventUrl,
-            videoTag,
+            pitchVideoTag,
 
             avgRating,
             feedbackCount,
@@ -126,7 +126,7 @@ export default class Pitch extends Component {
                                         <p>Feedback QR:</p>
                                         <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
                                         <hr/>
-                                        {videoTag &&
+                                        {pitchVideoTag &&
                                             <Button onClick={this.handleToggleShowVideo}>Video</Button>
                                         }
                                         <Button href={pitchDeckUrl}>PitchDeck</Button>
@@ -136,7 +136,7 @@ export default class Pitch extends Component {
                                         <div>
                                             <ZiggeoPlayer
                                                 apiKey={ziggeoAPIKey}
-                                                video={this.state.videoTag}
+                                                video={this.state.pitchVideoTag}
                                                 theme={'modern'}
                                                 themecolor={'red'}
                                                 skipinitial={false}
