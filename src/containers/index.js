@@ -13,7 +13,6 @@ export { default as Users } from "./Users";
 export { default as Pitches } from "./AllPitches";
 export { default as MyPitches } from "./MyPitches";
 export { default as Pitch } from "./Pitch";
-export { default as RecordPitch } from "./RecordPitch";
 export { default as Explore } from "./Explore";
 export { default as Search } from "./Search";
 
