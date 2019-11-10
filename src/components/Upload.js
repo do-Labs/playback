@@ -10,7 +10,8 @@ export default class Upload extends Component {
         this.state = {
             image: null,
             url: '',
-            progress: 0,
+            progress: null,
+            testContent: "TESTTT FROM CHILD"
         };
         this.handleChange = this
             .handleChange
@@ -26,6 +27,7 @@ export default class Upload extends Component {
             this.setState(() => ({image}));
         }
     };
+
 
     handleUpload = () => {
         this.setState({isLoading: true});
@@ -46,16 +48,17 @@ export default class Upload extends Component {
                 storage.ref('pitchdecks').child(fileName).getDownloadURL().then(url => {
                     console.log(url);
                     this.setState({url});
-                    this.props.setUrl(url)
+                    this.props.url(url);
                 })
             });
         this.setState({isLoading: false});
+
     };
 
     render() {
         const style = {
             height: '10vh',
-            width: '50vh',
+            width: '40vh',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -63,13 +66,21 @@ export default class Upload extends Component {
             image: ''
         };
 
+        const {
+            progress
+        } = this.state;
+
         return (
+
+
             <div className="ui container">
-                <div style={style}>
-                    <input type="file" onChange={this.handleChange} />
-                    {/*<progress value={this.state.progress} max="100"/>*/}
-                    {/*<button onClick={this.handleUpload}>Upload</button>*/}
-                    {/*<img src={this.state.url || ''} alt="Uploaded images" height="300" width="400"/>*/}
+                <div
+                    style={style}>
+                    <input
+                        type="file" onChange={this.handleChange} />
+                    {progress &&
+                        <progress value={this.state.progress} max="100"/>
+                    }
                     <Button
                         onClick={this.handleUpload}
                     >Upload</Button>

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Button, Container, Dimmer, Form, Grid, Loader, Message, Modal} from "semantic-ui-react";
-import {NavMenu, Logo} from "../components/index";
+import {NavMenu, Logo, Upload} from "../components/index";
 import firebase from '../Firebase';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,6 +14,7 @@ export default class Pitch extends Component {
     constructor() {
         super();
         this.ref = firebase.firestore().collection('pitches');
+        this.setUrl = this.setUrl.bind(this)
         this.state = {
             error: null,
             isLoading: false,
@@ -39,6 +40,12 @@ export default class Pitch extends Component {
             videoTag: "",
         };
     }
+
+    setUrl = (dataFromChild) => {
+        this.setState({
+            pitchUrl: dataFromChild
+        });
+    };
 
     componentDidMount = async() => {
         const pitchId = this.props.match.params.id;
@@ -252,12 +259,6 @@ export default class Pitch extends Component {
         console.log("Successfully submitted pitch");
     };
 
-    setUrl = (pitchCodeUrl) => {
-        this.setState({
-            pitchCodeUrl
-        });
-    };
-
     handleEmailQR = () => {
         const body  = JSON.stringify({
             to: this.state.presenterEmail,
@@ -336,10 +337,6 @@ export default class Pitch extends Component {
         // this.setVideoTag(pitchVideoID);
         console.log('id:', pitchVideoID);
         return pitchVideoID
-    };
-
-    handleUploadPitchDeck = async () => {
-
     };
 
 
@@ -502,17 +499,37 @@ export default class Pitch extends Component {
                                     />
                                 </Form.Field>
 
-                                <Form.Field>
-                                    <h4>Pitch Deck URL</h4>
-                                    <Form.Input
-                                        name="pitchUrl"
-                                        placeholder="http://"
-                                        value={pitchUrl}
-                                        onChange={this.handleOnChange}
-                                    />
-                                </Form.Field>
-                                {/*<Button onClick={this.handleToggleRecord}>RecordPitch</Button>*/}
-                                {/*<Button onClick={this.handleUploadPitchDeck}>Upload Deck</Button>*/}
+                                {!editMode &&
+                                    <div>
+                                        <Form.Field>
+                                            <h4>Pitch Deck</h4>
+                                            {/*Upload Pitch Deck*/}
+                                            <Upload
+                                                width={800}
+                                                url={this.setUrl}
+                                            />
+
+                                            <center><h4>OR</h4></center>
+                                            <Form.Input
+                                                name="pitchUrl"
+                                                placeholder="http://"
+                                                value={pitchUrl}
+                                                onChange={this.handleOnChange}
+                                            />
+                                        </Form.Field>
+                                        <Button onClick={this.handleToggleRecord}>RecordPitch</Button>
+                                    </div>
+                                }
+
+                                {editMode &&
+                                <div>
+                                    <Form.Field>
+                                        <h4>Pitch Deck</h4>
+                                        <h3><a href={pitchUrl}>View Pitch Deck</a></h3>
+                                        {/*<h3><a href={pitchVideoUrl}>View Elevator Pitch</a></h3>*/}
+                                    </Form.Field>
+                                </div>
+                                }
                             </div>
                             }
 
