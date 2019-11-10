@@ -5,6 +5,7 @@ import usStates from "../states";
 import firebase from '../Firebase';
 import StarRatingComponent from "react-star-rating-component";
 import AddToCalendar from 'react-add-to-calendar';
+
 const moment = require('moment');
 
 const projectName = "playback-2a438";
@@ -19,9 +20,11 @@ export default class Feedback extends Component {
             error: null,
             isLoading: true,
             isEnabled: true,
-            // // Pitch Data
+
+            // Pitch Data
             businessID: "",
             businessName: "",
+            webpageUrl: "",
             pitchDate: "",
             location: "",
             pitchTitle: "",
@@ -45,6 +48,14 @@ export default class Feedback extends Component {
             rating1: 0, // communication of business concept
             rating2: 0, // Validity of problem statement
             rating3: 0, // value value of solution
+
+            // Reminder Data
+            event: {
+                title: null,
+                description: null,
+                location: null,
+                startTime: null,
+            },
 
             // UserData
             givenFeedback: [],
@@ -96,7 +107,7 @@ export default class Feedback extends Component {
             });
         }
     };
-    
+
 
     handleGetPitchData = async (pid) => {
         const refPitch = firebase.firestore().collection('pitches').doc(pid);
@@ -105,18 +116,7 @@ export default class Feedback extends Component {
             if (doc.exists) {
                 const data = doc.data();
                 this.setState({
-                    pitchData: {
-                        key: doc.id,
-                        businessID: data.businessID,
-                        businessName: data.businessName,
-                        pitchDate: data.pitchDate,
-                        location: data.location,
-                        pitchTitle: data.pitchTitle,
-                        pitchDeckUrl: data.pitchDeckUrl,
-                        presenterEmail: data.presenterEmail,
-                        presenterName: data.presenterName,
-                        pitchRole: data.pitchRole,
-                    },
+                    key: doc.id,
                     businessID: data.businessID,
                     businessName: data.businessName,
                     pitchDate: data.pitchDate,
@@ -131,7 +131,7 @@ export default class Feedback extends Component {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console.log("Error getting document:", error);
         });
         // this.unsubscribe = await refPitch.onSnapshot(this.onCollectionUpdate);
@@ -150,7 +150,7 @@ export default class Feedback extends Component {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console.log("Error getting document:", error);
         });
         // this.unsubscribe = await refPitch.onSnapshot(this.onCollectionUpdate);
@@ -162,8 +162,8 @@ export default class Feedback extends Component {
         this.setState(state);
     };
 
-    handleSelectChange = (e, { name, value }) => {
-        this.setState({ [name]: value });
+    handleSelectChange = (e, {name, value}) => {
+        this.setState({[name]: value});
     };
 
     onStarClick(nextValue, prevValue, name) {
@@ -211,12 +211,12 @@ export default class Feedback extends Component {
             comment,
             isAnonymous,
             wantsToMeet,
-        }).then( async (docRef) => {
+        }).then(async (docRef) => {
             await this.handleAnonymousSignIn()
-                .then( async (user)=> {
+                .then(async (user) => {
                     setTimeout(async () => {
                         await this.handleAddUser();
-                        }, 1000);
+                    }, 1000);
                     // await this.handleEmailFeedback();
                     this.props.history.push('/thankyou');
 
@@ -245,30 +245,26 @@ export default class Feedback extends Component {
             isEnabled: false,
             isLoading: false,
         });
-        console.log("Successfully submitted Feedback");
     };
 
     handleAnonymousSignIn = async () => {
-        firebase.auth().signInAnonymously().catch(function(error) {
+        firebase.auth().signInAnonymously().catch(function (error) {
             let errorMessage = error.message;
             alert(errorMessage)
         });
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log("User is signed in!");
                 this.setState({
                     token: user.ra,
                     userID: user.uid
                 })
-            } else {
-                console.log("User is signed out!")
             }
             return user
         });
     };
 
     handleEmailFeedback = async () => {
-        const body  = JSON.stringify({
+        const body = JSON.stringify({
             to: this.state.presenterEmail,
             businessID: this.state.businessID,
             pitchTitle: this.state.pitchTitle,
@@ -295,13 +291,10 @@ export default class Feedback extends Component {
             }),
             body
         })
-            .then( (res)=> {
-                console.log("res: ", res.status)
-            }).catch( (err)=> {
-            alert("Error sending Email");
-            console.log("Error Emailing User: ", err)
-        })
-
+            .catch((err) => {
+                alert("Error sending Email");
+                console.log("Error Emailing User: ", err)
+            })
     };
 
     handleAddUser = async () => {
@@ -317,7 +310,6 @@ export default class Feedback extends Component {
             businessID,
             givenFeedback
         } = this.state;
-        console.log("userID:", userID);
 
         await givenFeedback.push(businessID);
 
@@ -380,12 +372,12 @@ export default class Feedback extends Component {
 
                         <Form onSubmit={this.onSubmit}>
                             {/*<h2>Leave Feedback for: {id}</h2>*/}
-                            <p><b>Business Name:</b> <a href={webpageUrl}>{businessName}</a> </p>
-                            <p><b>Pitch Title:</b>   {pitchTitle}</p>
-                            <p><b>Pitch Date:</b>   {pitchDate}</p>
-                            <p><b>Presenter Name:</b>   {presenterName}</p>
-                            <p><b>Pitch Deck:</b>   <a href={pitchDeckUrl}>View PitchDeck</a></p>
-                            <p><b>Role:</b>   {pitchRole}</p>
+                            <p><b>Business Name:</b> <a href={webpageUrl}>{businessName}</a></p>
+                            <p><b>Pitch Title:</b> {pitchTitle}</p>
+                            <p><b>Pitch Date:</b> {pitchDate}</p>
+                            <p><b>Presenter Name:</b> {presenterName}</p>
+                            <p><b>Pitch Deck:</b> <a href={pitchDeckUrl}>View PitchDeck</a></p>
+                            <p><b>Role:</b> {pitchRole}</p>
                             {eventUrl &&
                             <p><b>EventUrl:</b> {eventUrl}</p>
                             }
@@ -512,7 +504,7 @@ export default class Feedback extends Component {
                                     <Grid>
                                         <Grid.Column width={8}>
                                             <div>
-                                                <label><span id="role">Role</span></label>
+                                                <label><span id="role"><b>Role</b></span></label>
                                                 <select
                                                     name="role"
                                                     value={role}
@@ -528,7 +520,7 @@ export default class Feedback extends Component {
                                         </Grid.Column>
                                         <Grid.Column width={8}>
                                             <div>
-                                                <label><span id="wantsToMeet">Wanna Get Coffee?</span></label>
+                                                <label><span id="wantsToMeet"><b>Wanna Get Coffee?</b></span></label>
                                                 <select
                                                     name="wantsToMeet"
                                                     value={wantsToMeet}
