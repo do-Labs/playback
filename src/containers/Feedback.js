@@ -25,7 +25,7 @@ export default class Feedback extends Component {
             pitchDate: "",
             location: "",
             pitchTitle: "",
-            pitchUrl: "",
+            pitchDeckUrl: "",
             eventUrl: "",
             presenterEmail: "",
             presenterName: "",
@@ -112,7 +112,7 @@ export default class Feedback extends Component {
                         pitchDate: data.pitchDate,
                         location: data.location,
                         pitchTitle: data.pitchTitle,
-                        pitchUrl: data.pitchUrl,
+                        pitchDeckUrl: data.pitchDeckUrl,
                         presenterEmail: data.presenterEmail,
                         presenterName: data.presenterName,
                         pitchRole: data.pitchRole,
@@ -122,7 +122,7 @@ export default class Feedback extends Component {
                     pitchDate: data.pitchDate,
                     location: data.location,
                     pitchTitle: data.pitchTitle,
-                    pitchUrl: data.pitchUrl,
+                    pitchDeckUrl: data.pitchDeckUrl,
                     presenterEmail: data.presenterEmail,
                     presenterName: data.presenterName,
                     pitchRole: data.pitchRole,
@@ -346,7 +346,7 @@ export default class Feedback extends Component {
             pitchDate,
             presenterName,
             pitchRole,
-            pitchUrl,
+            pitchDeckUrl,
             eventUrl,
 
             webpageUrl,
@@ -384,7 +384,7 @@ export default class Feedback extends Component {
                             <p><b>Pitch Title:</b>   {pitchTitle}</p>
                             <p><b>Pitch Date:</b>   {pitchDate}</p>
                             <p><b>Presenter Name:</b>   {presenterName}</p>
-                            <p><b>Pitch Deck:</b>   <a href={pitchUrl}>View PitchDeck</a></p>
+                            <p><b>Pitch Deck:</b>   <a href={pitchDeckUrl}>View PitchDeck</a></p>
                             <p><b>Role:</b>   {pitchRole}</p>
                             {eventUrl &&
                             <p><b>EventUrl:</b> {eventUrl}</p>
