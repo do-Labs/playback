@@ -193,7 +193,6 @@ export default class Pitch extends Component {
         }
 
         const pitchId = this.props.match.params.id;
-        console.log("PITCHID: " , pitchId);
         const {
             pitchTitle,
             pitchRole,
@@ -251,7 +250,6 @@ export default class Pitch extends Component {
             isEnabled: false,
             isLoading: false,
         });
-        console.log("Successfully submitted pitch");
     };
 
     handleEmailQR = () => {
@@ -259,7 +257,6 @@ export default class Pitch extends Component {
             to: this.state.presenterEmail,
             content: this.state.pitchCodeUrl
         });
-        console.log("BODY: ", body);
 
         fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQRCode`, {
             method: "POST",
@@ -271,8 +268,9 @@ export default class Pitch extends Component {
             body
         })
             .then( (res)=> {
-                console.log("Emailed user");
-                console.log("RESPONSE: ", res)
+                if(res.status !== 200){
+                    alert("Could not email user")
+                }
             }).catch( (err)=> {
             alert("Error sending Email");
             console.log("Error Emailing User: ", err)
@@ -286,9 +284,6 @@ export default class Pitch extends Component {
     };
 
     handleDateChange = date => {
-
-        console.log("Date:", date.toString());
-        console.log("DateArray:", date.toString().split(' '));
         const dateData = date.toString().split(' ');
         // const day = dateData[0];
         const month = dateData[1];
@@ -317,7 +312,6 @@ export default class Pitch extends Component {
     };
 
     recorderUploaded = () => {
-        console.log('Recorder onRecorderUploaded');
     };
 
     setUrl = (dataFromChild) => {
@@ -327,7 +321,6 @@ export default class Pitch extends Component {
     };
 
     setVideoUrl = (dataFromChild) => {
-        console.log("Verified: ", dataFromChild.video);
         const tag = dataFromChild.video;
         this.setState({
             videoTag: tag,
