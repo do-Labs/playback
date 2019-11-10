@@ -29,9 +29,9 @@ class App extends Component {
     state = {
         isAuthenticated: false,
         isAuthenticating: true,
-        username: '',
-        token: '',
-        userID: '',
+        username: "",
+        token: "",
+        userID: "",
         role: '',
     };
 
@@ -40,6 +40,7 @@ class App extends Component {
         if (auth) {
             const { token, username } = JSON.parse(auth);
             this.userHasAuthenticated(true, username, token);
+            await this.checkUserClaims(token)
         }
         this.setState({
             isAuthenticating: false,
@@ -54,7 +55,7 @@ class App extends Component {
             token,
             userID,
         });
-        await this.checkUserClaims(token);
+        // await this.checkUserClaims(token);
     };
 
     setUserClaims = () => {

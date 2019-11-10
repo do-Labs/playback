@@ -1,4 +1,4 @@
-// Containers/index.js file
+
 // Collection of all exports in Containers/ directory
 
 export { default as Business } from "./Business";

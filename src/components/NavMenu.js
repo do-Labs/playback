@@ -14,8 +14,8 @@ export default class NavMenu extends Component {
     handleLogout = async event => {
         event.preventDefault();
         await firebase.auth().signOut();
-        await this.props.userHasAuthenticated(false, "", "");
         await sessionStorage.clear();
+        this.props.userHasAuthenticated(false, "", "");
     };
 
     componentDidMount = async () => {
