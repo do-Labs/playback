@@ -19,13 +19,22 @@ export default class Pitch extends Component {
         pitchVideoTag: this.props.pitch.pitchVideoTag,
         pitchCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://blooming-bastion-98391.herokuapp.com/feedback/" + this.props.pitch.id,
         eventUrl: this.props.pitch.eventUrl,
-        avgRating: 0,
+
+        // feedback Data from pitches/{pitchID}/feedbacks
+        score: 0,
         feedbackCount: 0,
 
         isLoading: false,
         error: null,
         modalOpen: false,
         showVideo: false,
+    };
+
+    componentDidMount = async () => {
+        const id = this.props.pitch.id;
+        if(id){
+            await this.handleGetFeedback().catch();
+        }
     };
 
     handleOpen = () => this.setState({modalOpen: true});
@@ -38,7 +47,6 @@ export default class Pitch extends Component {
         const {id} = this.state;
 
         firebase.firestore().collection('pitches').doc(id).delete().then(() => {
-            console.log("Document successfully deleted!");
             this.props.history.push("/my-pitches")
         }).catch((error) => {
             console.error("Error removing document: ", error);
@@ -48,14 +56,48 @@ export default class Pitch extends Component {
         });
     };
 
-    handleGetFeedbackRatingAverage = () => {
 
-        // get feedback count
+    handleGetFeedback = async () => {
+        const feedbackRef = await firebase.firestore().collection("pitches").doc(this.state.id).collection('feedback');
+        this.unsubscribe = feedbackRef.onSnapshot(this.onFeedbackCollectionUpdate);
     };
 
-    handleGetFeedbackCount = () => {
+    onFeedbackCollectionUpdate = async (querySnapshot) => {
+        const feedbacks = [];
+        await querySnapshot.forEach((doc) => {
+            const {
+                rating1,
+                rating2,
+                rating3,
+            } = doc.data();
+            feedbacks.push({
+                id: doc.id,
+                rating1,
+                rating2,
+                rating3,
+            });
+        });
+        await this.handleGetRatings(feedbacks);
 
+        this.setState({
+            feedbacks: feedbacks
+        });
     };
+
+    handleGetRatings = async (feedbacks) => {
+        // get total count
+        const count = feedbacks.length;
+        // get total points
+        const score = feedbacks.reduce( (score, feedback) => {
+            score = score + feedback.rating1 + feedback.rating2 + feedback.rating3;
+            return score
+        },0);
+        this.setState({
+            feedbackCount: count,
+            score: score,
+        })
+    };
+
 
     handleToggleShowVideo = () => {
         const {showVideo} = this.state;
@@ -87,7 +129,7 @@ export default class Pitch extends Component {
             eventUrl,
             pitchVideoTag,
 
-            avgRating,
+            score,
             feedbackCount,
 
             error,
@@ -102,7 +144,7 @@ export default class Pitch extends Component {
                 <Table.Cell>{presenterName}</Table.Cell>
                 <Table.Cell>{pitchRole}</Table.Cell>
                 <Table.Cell>{location}</Table.Cell>
-                <Table.Cell>{avgRating}</Table.Cell>
+                <Table.Cell>{score}</Table.Cell>
                 <Table.Cell>{feedbackCount}</Table.Cell>
                 <Table.Cell collapsing>
                     <Button.Group icon>
@@ -122,7 +164,7 @@ export default class Pitch extends Component {
                                         <p>Presenter Email: {presenterEmail}</p>
                                         <p>Event URL: {eventUrl}</p>
                                         <p>Feedback Count: {feedbackCount}</p>
-                                        <p>Average Rating: {avgRating}</p>
+                                        <p>Average Rating: {score}</p>
                                         <p>Feedback QR:</p>
                                         <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
                                         <hr/>

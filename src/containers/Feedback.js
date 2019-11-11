@@ -128,7 +128,6 @@ export default class Feedback extends Component {
                     pitchRole: data.pitchRole,
                 })
             } else {
-                // doc.data() will be undefined in this case
                 console.log("No such document!");
             }
         }).catch(function (error) {

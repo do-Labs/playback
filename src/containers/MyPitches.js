@@ -3,7 +3,6 @@ import {
     Pitch,
     Logo,
     NavMenu,
-    // Pitch
 } from "../components/index";
 import {Button, Container, Dimmer, Grid, Icon, Loader, Message, Table} from "semantic-ui-react";
 import firebase from '../Firebase';
@@ -24,7 +23,26 @@ export default class MyPitches extends Component {
         };
     }
 
-    onCollectionUpdate = (querySnapshot) => {
+    componentDidMount = async () => {
+        this.setState({isLoading: true});
+        const businessID = this.props.businessID;
+
+        if(!this.props.businessID){
+            this.setState({
+                businessID : null
+            })
+        }
+        else {
+            this.setState({
+                businessID : businessID,
+            })
+        }
+
+        await this.getMyPitches();
+        this.setState({isLoading: false});
+    };
+
+    onPitchesCollectionUpdate = (querySnapshot) => {
         const pitches = [];
         querySnapshot.forEach((doc) => {
             const {
@@ -60,55 +78,19 @@ export default class MyPitches extends Component {
         });
     };
 
-    componentDidMount = async () => {
-        this.setState({isLoading: true});
-        const businessID = this.props.businessID;
-
-        if(!this.props.businessID){
-            this.setState({
-                businessID : null
-            })
-        }
-        else {
-            this.setState({
-                businessID : businessID,
-            })
-        }
-
-        await this.getMyPitches();
-        this.setState({isLoading: false});
-    };
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.pitches.pitch !== prevState.count) {
-            this.setState({isLoading: true});
-        }
-    }
-
     handleDelete = (id) => {
-        console.log("DEL: ", id);
         this.setState({pitches: this.state.pitches.filter(pitch => pitch.id !== id)});
-        this.ref.doc(id).delete().then(() => {
-            console.log("Document successfully deleted!");
-            // this.props.history.push("/my-pitches")
-        }).catch((error) => {
+        this.ref.doc(id).delete()
+            .catch((error) => {
             console.error("Error removing document: ", error);
         });
     };
 
-    handleOnChange = (e) => {
-        const state = this.state;
-        state[e.target.name] = e.target.value;
-        this.setState(state);
-    };
-
     getMyPitches = async () => {
         const myPitchesRef = await firebase.firestore().collection("pitches");
-        const pitches = await myPitchesRef.where("businessID", "==", this.state.businessID);
-
-        this.unsubscribe = pitches.onSnapshot(this.onCollectionUpdate);
+        const pitches = await myPitchesRef.where("businessID", "==", this.props.businessID);
+        this.unsubscribe = pitches.onSnapshot(this.onPitchesCollectionUpdate);
     };
-
 
 
     render() {
@@ -148,7 +130,7 @@ export default class MyPitches extends Component {
                                     <Table.HeaderCell>PresenterName</Table.HeaderCell>
                                     <Table.HeaderCell>Role</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
-                                    <Table.HeaderCell>Rating</Table.HeaderCell>
+                                    <Table.HeaderCell>Score</Table.HeaderCell>
                                     <Table.HeaderCell>Count</Table.HeaderCell>
                                     <Table.HeaderCell>Action</Table.HeaderCell>
                                 </Table.Row>
