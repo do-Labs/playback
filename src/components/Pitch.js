@@ -17,7 +17,7 @@ export default class Pitch extends Component {
         location: this.props.pitch.location,
         pitchDeckUrl: this.props.pitch.pitchDeckUrl,
         pitchVideoTag: this.props.pitch.pitchVideoTag,
-        pitchCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://blooming-bastion-98391.herokuapp.com/feedback/" + this.props.pitch.id,
+        pitchCodeUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://playback.herokuapp.com/feedback/" + this.props.pitch.id,
         eventUrl: this.props.pitch.eventUrl,
 
         // feedback Data from pitches/{pitchID}/feedbacks

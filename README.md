@@ -11,6 +11,8 @@
 
 
 ### Heroku Deployment
+    Switch contexts:
+        heroku git:remote --app <appname>
 
 #### Config
     heroku login
