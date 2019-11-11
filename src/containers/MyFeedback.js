@@ -4,6 +4,7 @@ import {
     Loader, Message, Table, Grid, Dimmer, Container, Button
 } from "semantic-ui-react";
 import firebase from '../Firebase';
+import CsvDownload from 'react-json-to-csv'
 
 export default class MyFeedback extends Component {
 
@@ -39,8 +40,6 @@ export default class MyFeedback extends Component {
                 wantsToMeet,
             } = doc.data();
             feedbacks.push({
-                key: doc.id,
-                doc, // DocumentSnapshot
                 id: doc.id,
                 role,
                 firstName,
@@ -57,7 +56,6 @@ export default class MyFeedback extends Component {
                 isAnonymous,
                 wantsToMeet,
             });
-            console.log("ID: ", doc.id)
         });
         this.setState({
             feedbacks
@@ -76,7 +74,6 @@ export default class MyFeedback extends Component {
         const path = this.props.location.pathname;
         const arr = path.split('/');
         const id = arr[2];
-        console.log("ID:", id);
         this.setState({
             pitchID: id,
         });
@@ -101,11 +98,23 @@ export default class MyFeedback extends Component {
         this.setState({isLoading: false});
     };
 
-    handleExportFeedback = async () => {
-        this.setState({isLoading: true});
-        console.log("Exporting Feedback");
-        this.setState({isLoading: false});
-    };
+    // handleExportFeedback = async () => {
+    //     this.setState({isLoading: true});
+    //     const {
+    //         feedbacks
+    //     } = this.state;
+    //     console.log("Exporting Feedback");
+    //
+    //
+    //     this.setState({
+    //         isLoading: false,
+    //         feedbacks: feedbacks
+    //     });
+    //
+    //     // console.log(feedbacks);
+    //     console.log(JSON.stringify(items));
+    //     console.log(JSON.stringify(feedbacks));
+    // };
 
     render() {
         const cProps = {
@@ -159,7 +168,8 @@ export default class MyFeedback extends Component {
                                 ))}
                             </Table.Body>
                         </Table>
-                        <Button onClick={this.handleExportFeedback}>ExportFeedback</Button>
+                        {/*<Button onClick={this.handleExportFeedback}>ExportFeedback</Button>*/}
+                        <CsvDownload data={feedbacks} />
                     </Grid.Column>
                 </Grid>
             </Container>
