@@ -43,7 +43,7 @@ export default class NavMenu extends Component {
             <Menu vertical>
                 <Menu.Item>
                     {/*<Icon name="large lock open" />*/}
-                    Connected as <strong>{this.props.username}</strong>
+                    Authenticated as <strong>{this.props.username}</strong>
                     <Menu.Menu>
                         <p>{this.props.userID}</p>
                     </Menu.Menu>

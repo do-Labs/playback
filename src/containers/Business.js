@@ -262,6 +262,7 @@ export default class Business extends Component {
                                             <option value="tech">Tech</option>
                                             <option value="nonprofit">NonProfit</option>
                                             <option value="e-commerce">E-Commerce</option>
+                                            <option value="marketing">Marketing</option>
                                             <option value="healthcare">Healthcare</option>
                                             <option value="financial-services">Financial Services</option>
                                             <option value="logistics">Logistics</option>
