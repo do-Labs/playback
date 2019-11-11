@@ -105,6 +105,8 @@ export default class Business extends Component {
             console.log("added business")
             const bid = docRef._key.path.segments[1];
             await this.handleAddBusinessClaims(bid);
+            alert("Registered Business! \n Please log out and back in");  // Temp!!
+            await this.setBusinessId(bid);
 
             this.props.history.push("/my-pitches")
         })
@@ -200,6 +202,10 @@ export default class Business extends Component {
 
     };
 
+    setBusinessId = async () => {
+
+    };
+
     render() {
         const {
             error,
@@ -213,9 +219,7 @@ export default class Business extends Component {
             corpType,
             webpageUrl,
             fundingRound,
-
         } = this.state;
-
 
         return (
             <Container>

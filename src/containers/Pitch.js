@@ -14,7 +14,7 @@ export default class Pitch extends Component {
     constructor() {
         super();
         this.ref = firebase.firestore().collection('pitches');
-        this.setUrl = this.setUrl.bind(this)
+        this.setUrl = this.setUrl.bind(this);
         this.state = {
             error: null,
             message: null,

@@ -57,7 +57,7 @@ export default class Upload extends Component {
     render() {
         const style = {
             height: '10vh',
-            width: '40vh',
+            width: '45vh',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
