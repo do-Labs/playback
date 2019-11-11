@@ -46,10 +46,10 @@ export default class User extends Component {
                     this.setState({
                         key: doc.id,
                         firstName: user.firstName,
-                        // lastName: user.lastName,
-                        // phoneNumber: user.phoneNumber,
+                        lastName: user.lastName,
+                        phoneNumber: user.phoneNumber,
                         position: user.position,
-                        // dateOfBirth: user.dateOfBirth,
+                        dateOfBirth: user.dateOfBirth,
                         role: user.role,
                     });
                 } else {
