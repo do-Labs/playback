@@ -35,10 +35,10 @@ export default class MyPitches extends Component {
         else {
             this.setState({
                 businessID : businessID,
-            })
+            });
+            await this.getMyPitches();
         }
 
-        await this.getMyPitches();
         this.setState({isLoading: false});
     };
 

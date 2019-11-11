@@ -3,6 +3,7 @@ import { Button, Form, Grid, Message, Segment } from "semantic-ui-react";
 import Logo from "../components/Logo";
 import { Redirect } from "react-router-dom";
 import firebase from '../Firebase';
+import jwtDecode from "jwt-decode";
 
 const projectName = "playback-2a438";
 
@@ -169,10 +170,13 @@ class Register extends Component {
 
     userAuthenticatesWithFirebase = (user, token) => {
         console.log("userAuthenticatesWithFirebase");
+        const decoded = jwtDecode(token);
+        const userID = decoded.user_id;
         this.props.userHasAuthenticated(
             true,
             user.user.email,
             token,
+            userID,
         );
     };
 
