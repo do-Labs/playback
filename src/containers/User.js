@@ -10,9 +10,11 @@ export default class User extends Component {
         message: null,
         isLoading: false,
         isHidden: true,
+        isEnabled: true,
+        editMode: false,
 
-        userID: "",
-
+        userID: this.props.userID,
+        // email: "",
         email: this.props.username,
         password: "",
         confirmPassword: "",
@@ -22,11 +24,9 @@ export default class User extends Component {
         lastName: "",
         phoneNumber: "",
         role: "",
+        newRole: "",
         position: "",
         dateOfBirth: "",
-
-        isEnabled: true,
-        editMode: false,
     };
 
     componentDidMount = () => {
@@ -46,51 +46,24 @@ export default class User extends Component {
                     this.setState({
                         key: doc.id,
                         firstName: user.firstName,
-                        lastName: user.lastName,
-                        phoneNumber: user.phoneNumber,
+                        // lastName: user.lastName,
+                        // phoneNumber: user.phoneNumber,
                         position: user.position,
-                        dateOfBirth: user.dateOfBirth,
+                        // dateOfBirth: user.dateOfBirth,
                         role: user.role,
-
                     });
                 } else {
                     console.log("No such document!");
                 }
             });
-
-
         }
-
-        this.setState({
-            isLoading: false,
-        });
+        this.setState({isLoading: false});
     };
 
     handleOnChange = e => {
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState(state);
-    };
-
-    submitCreate = (e) => {
-        console.log("Submitting Created User");
-        // const {
-        //     email,
-        //     password,
-        //     confirmPassword,
-        //     userType,
-        //     role,
-        //     company,
-        //     position,
-        //     dateOfBirth,
-        // } = this.state;
-
-        this.handleCreateUser(e);
-
-        // POST User to back end
-
-        // this.verifyUserEmail(this.state.email);
-        // this.resetUserPassword(this.state.email);
     };
 
     handleCreateUser = (event) => {
@@ -122,7 +95,7 @@ export default class User extends Component {
         event.preventDefault();
         const userID = this.props.userID;
         console.log("userID: " , userID);
-        const { email, firstName, lastName, phoneNumber, position, dateOfBirth  } = this.state;
+        const { email, firstName, lastName, phoneNumber, newRole, position, dateOfBirth  } = this.state;
 
         const userRef = await firebase.firestore().collection('users').doc(userID);
         await userRef.set({
@@ -131,6 +104,7 @@ export default class User extends Component {
             lastName,
             phoneNumber,
             position,
+            role: newRole,
             dateOfBirth,
         }).then((docRef) => {
             alert("Profile Edited Successfully!");
@@ -140,37 +114,6 @@ export default class User extends Component {
                 console.error("Error adding document: ", error);
             });
     };
-
-    verifyUserEmail = () => {
-        const email = this.state.email;
-        const password = this.state.password;
-        console.log("Email:", email, "Password:", password);
-        firebase.auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                userCredentials.user.sendEmailVerification()
-                    .then(() => {
-                        console.log("successfully sent email")
-                    })
-                    .catch();
-            })
-            .catch();
-    };
-
-    disableUser = () => {
-        firebase.auth().updateUser(this.props.user.id, {
-            disabled: true
-        })
-            .then(function () {
-                // See the UserRecord reference doc for the contents of userRecord.
-                console.log("Successfully disabled user");
-            })
-            .catch(function (error) {
-                console.log("Error updating user record:", error);
-            });
-
-    };
-
 
 
     handleChangePassword = () => {
@@ -220,9 +163,10 @@ export default class User extends Component {
             confirmPassword,
 
 
-            userId,
+            userID,
             email,
             role,
+            newRole,
 
             firstName,
             lastName,
@@ -251,9 +195,11 @@ export default class User extends Component {
 
                         <Form id="userForm">
 
-                            {userId &&
+                            {userID &&
                                 <div className="ui segment">
-                                    <h5>UserID: {userId}</h5>
+                                    <h5>UserID: {userID}</h5>
+                                    <h5>Email: {email}</h5>
+                                    <h5>Registered Role: {role}</h5>
                                 </div>
                             }
 
@@ -301,10 +247,6 @@ export default class User extends Component {
 
                             {editMode &&
                                 <div className="ui segment">
-                                    <div className="ui container equal width padded">
-                                        <h4>{email}</h4>
-
-                                    </div>
                                     <div className="equal width fields">
                                         <Grid>
                                             <Grid.Column width={8}>
@@ -367,6 +309,21 @@ export default class User extends Component {
                                                         placeholder="MM/DD/YYYY"
                                                         onChange={this.handleOnChange}
                                                     />
+                                                </Form.Field>
+                                                <Form.Field>
+                                                    <label>Select new Role</label>
+                                                    <select
+                                                        name="newRole"
+                                                        value={newRole}
+                                                        onChange={this.handleOnChange}
+                                                    >
+                                                        <option value="">-</option>
+                                                        <option value="audience">Audience</option>
+                                                        <option value="corporateExec">Corporate Exec</option>
+                                                        <option value="investor">Investor</option>
+                                                        <option value="entrepreneur">Entrepreneur</option>
+                                                        <option value="student">Student</option>
+                                                    </select>
                                                 </Form.Field>
                                             </Grid.Column>
                                         </Grid>
