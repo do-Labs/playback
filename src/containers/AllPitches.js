@@ -129,6 +129,7 @@ export default class AllPitches extends Component {
                                     <Table.HeaderCell>DateOfPitch</Table.HeaderCell>
                                     <Table.HeaderCell>Title</Table.HeaderCell>
                                     <Table.HeaderCell>PresenterName</Table.HeaderCell>
+                                    <Table.HeaderCell>Role</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
                                     <Table.HeaderCell>Rating</Table.HeaderCell>
                                     <Table.HeaderCell>Count</Table.HeaderCell>
