@@ -20,3 +20,11 @@
 
 #### Deploy
     git push heroku <branch-name>
+    
+#### Version History
+    1.1.1 - completed stories for all feature development
+            includes Ziggeo API Key env vars
+    
+    1.1.0
+    
+    1.0.0
