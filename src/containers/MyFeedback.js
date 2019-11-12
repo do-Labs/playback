@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Feedback, NavMenu, Logo} from "../components/index";
 import {
-    Loader, Message, Table, Grid, Dimmer, Container, Button
+    Loader, Message, Table, Grid, Dimmer, Container
 } from "semantic-ui-react";
 import firebase from '../Firebase';
 import CsvDownload from 'react-json-to-csv'

@@ -229,6 +229,23 @@ class Register extends Component {
                                         />
                                     </Form.Field>
                                 </div>
+                                <div>
+                                    <Form.Field>
+                                        <label>Select a Role</label>
+                                        <select
+                                            name="role"
+                                            value={role}
+                                            onChange={this.handleOnChange}
+                                        >
+                                            <option value=""> </option>
+                                            <option value="audience">Audience</option>
+                                            <option value="corporateExec">Corporate Exec</option>
+                                            <option value="investor">Investor</option>
+                                            <option value="entrepreneur">Entrepreneur</option>
+                                            <option value="student">Student</option>
+                                        </select>
+                                    </Form.Field>
+                                </div>
                                 <Form.Field>
                                     <label>Email</label>
                                     <Form.Input
@@ -258,24 +275,6 @@ class Register extends Component {
                                         onChange={this.handleChange}
                                     />
                                 </Form.Field>
-
-                                <div>
-                                    <Form.Field>
-                                        <label>Select a Role</label>
-                                        <select
-                                            name="role"
-                                            value={role}
-                                            onChange={this.handleOnChange}
-                                        >
-                                            <option value="">-</option>
-                                            <option value="audience">Audience</option>
-                                            <option value="corporateExec">Corporate Exec</option>
-                                            <option value="investor">Investor</option>
-                                            <option value="entrepreneur">Entrepreneur</option>
-                                            <option value="student">Student</option>
-                                        </select>
-                                    </Form.Field>
-                                </div>
                             </Form>
                         </Segment>
                         <Button loading={isLoading}
