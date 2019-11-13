@@ -211,15 +211,22 @@ export default class Feedback extends Component {
             isAnonymous,
             wantsToMeet,
         }).then(async (docRef) => {
+            console.log("Wrote Feedback");
             await this.handleAnonymousSignIn()
                 .then(async (user) => {
+                    console.log("Signed In Anonymous")
                     setTimeout(async () => {
                         await this.handleAddUser();
                     }, 1000);
                     // await this.handleEmailFeedback();
                     this.props.history.push('/thankyou');
 
-                });
+                }).catch(()=>{
+                    this.setState({
+                        isEnabled: true,
+                        isLoading: false,
+                    })
+                })
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
