@@ -168,6 +168,10 @@ export default class Pitch extends Component {
             eventUrl,
             businessID,
             pitchVideoTag,
+            user: {
+                userID: this.props.userID,
+                email: this.props.username,
+            }
         }).then( async(docRef) => {
             const pid = docRef._key.path.segments[1];
             //handle response
@@ -213,7 +217,7 @@ export default class Pitch extends Component {
 
         // post all pitch info to firebase
 
-        pitchRef.set({
+        pitchRef.update({
             pitchTitle,
             pitchRole,
             businessName,
@@ -553,7 +557,7 @@ export default class Pitch extends Component {
                             }
 
 
-                            {!isRecordingPitch &&
+                            {!isRecordingPitch &&!editMode &&
                             <Button loading={isLoading}
                                     onClick={this.submitCreate}
                                     disabled={
@@ -564,7 +568,20 @@ export default class Pitch extends Component {
                                         !presenterName || !presenterName || presenterName === "" ||
                                         !presenterEmail || !presenterEmail || presenterEmail === ""
                                     }
-                            >Submit</Button>
+                            >Create</Button>
+                            }
+
+                            {editMode &&
+                            <Button loading={isLoading}
+                                    onClick={this.submitEdit}
+                                    disabled={
+                                        !pitchTitle || pitchTitle === "" ||
+                                        !pitchRole || pitchRole === "" ||
+                                        !pitchDate || pitchDate === "" ||
+                                        !location || location === "" ||
+                                        !presenterName || !presenterName || presenterName === ""
+                                    }
+                            >Update</Button>
                             }
                         </Form>
                     </Grid.Column>

@@ -102,7 +102,7 @@ export default class Business extends Component {
             }
 
         }).then( async (docRef) => {
-            console.log("added business")
+            console.log("added business");
             const bid = docRef._key.path.segments[1];
             await this.handleAddBusinessClaims(bid);
             alert("Registered Business! \n Please log out and back in");  // Temp!!
@@ -132,7 +132,7 @@ export default class Business extends Component {
 
         // post all business info to firebase
 
-        busRef.set({
+        busRef.update({
             name,
             industry,
             stage,
