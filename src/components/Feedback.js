@@ -20,6 +20,7 @@ export default class Feedback extends Component {
         isAnonymous: this.props.feedback.isAnonymous,
         wantsToMeet: this.props.feedback.wantsToMeet,
         ratingAvg: 0,
+        ratingTotal: 0,
 
         isLoading: false,
         error: null,
@@ -40,8 +41,12 @@ export default class Feedback extends Component {
         } = this.state;
 
         const ratingAvg = Math.round( (rating1 + rating2 + rating3)/3 );
+        const ratingTotal = rating1 + rating2 + rating3;
         if(ratingAvg){
-            this.setState({ ratingAvg: ratingAvg})
+            this.setState({
+                ratingAvg: ratingAvg,
+                ratingTotal: ratingTotal,
+            })
         }
         else {
             this.setState({ ratingAvg: 0})
@@ -77,6 +82,7 @@ export default class Feedback extends Component {
             city,
             state,
             ratingAvg,
+            ratingTotal,
             rating1,
             rating2,
             rating3,
@@ -91,6 +97,7 @@ export default class Feedback extends Component {
                 <Table.Cell>{firstName} {lastName}</Table.Cell>
                 <Table.Cell>{email}</Table.Cell>
                 <Table.Cell>{ratingAvg}</Table.Cell>
+                <Table.Cell>{ratingTotal}</Table.Cell>
                 <Table.Cell>{wantsToMeet}</Table.Cell>
                 {/*<Table.Cell><h6>{comment}</h6></Table.Cell>*/}
                 <Table.Cell collapsing>

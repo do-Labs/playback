@@ -400,7 +400,7 @@ export default class Pitch extends Component {
                                     <p>Pitch Title: {pitchTitle}</p>
                                     <p>Pitch Date: {pitchDate}</p>
                                     <p>Location: {location}</p>
-                                    <p>PitchDeckURL: {pitchDeckUrl}</p>
+                                    {pitchDeckUrl && <p>PitchDeckURL: {pitchDeckUrl}</p> }
                                     <p>Presenter Name: {presenterName}</p>
                                     <p>Role: {pitchRole}</p>
                                     <p>Presenter Email: {presenterEmail}</p>
@@ -505,7 +505,7 @@ export default class Pitch extends Component {
                                 </Form.Field>
 
                                 {!editMode &&
-                                    <div>
+                                    <div className="segment">
                                         <Form.Field>
                                             <h4>Pitch Deck</h4>
                                             {/*Upload Pitch Deck*/}
@@ -529,9 +529,13 @@ export default class Pitch extends Component {
                                 {editMode &&
                                 <div>
                                     <Form.Field>
-                                        <h4>Pitch Deck</h4>
-                                        <h3><a href={pitchDeckUrl}>View Pitch Deck</a></h3>
-                                        {/*<h3><a href={pitchVideoTag}>View Elevator Pitch</a></h3>*/}
+                                        {pitchDeckUrl &&
+                                            <div>
+                                                <h4>Pitch Deck</h4>
+                                                <h3><a href={pitchDeckUrl}>View Pitch Deck</a></h3>
+                                                {/*<h3><a href={pitchVideoTag}>View Elevator Pitch</a></h3>*/}
+                                            </div>
+                                        }
                                     </Form.Field>
                                 </div>
                                 }
@@ -563,7 +567,7 @@ export default class Pitch extends Component {
                                     disabled={
                                         !pitchTitle || pitchTitle === "" ||
                                         !pitchRole || pitchRole === "" ||
-                                        !pitchDate || pitchDate === "" ||
+                                        !pitchDate || pitchDate === "MM-DD-YYYY" ||
                                         !location || location === "" ||
                                         !presenterName || !presenterName || presenterName === "" ||
                                         !presenterEmail || !presenterEmail || presenterEmail === ""

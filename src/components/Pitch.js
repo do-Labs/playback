@@ -150,28 +150,32 @@ export default class Pitch extends Component {
                     <Button.Group icon>
                         <Modal
                             trigger={<Button icon="eye"/>}
-                            header={pitchTitle}
+                            header={<div>
+                                <h3>{pitchTitle} - {id}</h3>
+                            </div>}
                             content={
                                 <div>
                                     {!showVideo &&
                                     <div>
-                                        <p>Id: {id}</p>
-                                        <p>Title: {pitchTitle}</p>
-                                        <p>Date: {pitchDate}</p>
-                                        <p>Location: {location}</p>
-                                        <p>Presenter Name: {presenterName}</p>
-                                        <p>Presenter Name: {pitchRole}</p>
-                                        <p>Presenter Email: {presenterEmail}</p>
-                                        <p>Event URL: {eventUrl}</p>
-                                        <p>Feedback Count: {feedbackCount}</p>
-                                        <p>Average Rating: {score}</p>
-                                        <p>Feedback QR:</p>
+                                        <p><b>Title:</b> {pitchTitle}</p>
+                                        <p><b>Date:</b> {pitchDate}</p>
+                                        <p><b>Location:</b> {location}</p>
+                                        <p><b>Presenter Name:</b> {presenterName}</p>
+                                        <p><b>Presenter Name:</b> {pitchRole}</p>
+                                        <p><b>Presenter Email:</b> {presenterEmail}</p>
+                                        {eventUrl && <p><b>Event URL:</b> {eventUrl}</p> }
+                                        <p><b>Feedback Count:</b> {feedbackCount}</p>
+                                        <p><b>Average Rating:</b> {score}</p>
+                                        <p><b>Feedback QR:</b></p>
                                         <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
                                         <hr/>
                                         {pitchVideoTag &&
-                                            <Button onClick={this.handleToggleShowVideo}>Video</Button>
+                                            <Button onClick={this.handleToggleShowVideo}><b>Video</b></Button>
                                         }
-                                        <Button href={pitchDeckUrl}>PitchDeck</Button>
+                                        {pitchDeckUrl &&
+                                            <Button href={pitchDeckUrl}><b>PitchDeck</b></Button>
+                                        }
+
                                     </div>
                                     }
                                     {showVideo &&

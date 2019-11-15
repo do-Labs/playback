@@ -240,7 +240,7 @@ export default class Business extends Component {
                         <Form onSubmit={this.onSubmit}>
                             <div className="ui segment">
                                 <h3>Basic Info</h3>
-                                <label>Business Name</label>
+                                <label><b>Business Name</b></label>
                                 <Form.Field>
                                     <Form.Input
                                         name="name"
@@ -252,7 +252,7 @@ export default class Business extends Component {
 
                                 <div className="equal width fields">
                                     <div>
-                                        <label>Industry</label>
+                                        <label><b>Industry</b></label>
                                         <select
                                             name="industry"
                                             value={industry}
@@ -276,7 +276,7 @@ export default class Business extends Component {
                                         </select>
                                     </div>
                                     <div>
-                                        <label>Stage</label>
+                                        <label><b>Stage</b></label>
                                         <select
                                             name="stage"
                                             value={stage}
@@ -291,7 +291,7 @@ export default class Business extends Component {
                                         </select>
                                     </div>
                                     <div>
-                                        <label>Funding Round</label>
+                                        <label><b>Funding Round</b></label>
                                         <select
                                             name="fundingRound"
                                             value={fundingRound}
@@ -308,7 +308,7 @@ export default class Business extends Component {
 
                                 <div className="equal width fields">
                                     <div>
-                                        <label>Corp Type</label>
+                                        <label><b>Corp Type</b></label>
                                         <select
                                             name="corpType"
                                             value={corpType}
@@ -324,7 +324,7 @@ export default class Business extends Component {
                                         </select>
                                     </div>
                                     <div>
-                                        <label># of Employees</label>
+                                        <label><b># of Employees</b></label>
                                         <select
                                             name="numberOfEmployees"
                                             value={numberOfEmployees}

@@ -115,8 +115,13 @@ class Register extends Component {
             body
         })
             .then( (res)=> {
-                console.log("Emailed user");
-                console.log("RESPONSE: ", res)
+                if(res.ok){
+                    //do nothing
+                }
+                else{
+                    alert("Error Sending Welcome Email")
+                }
+
             }).catch( (err)=> {
             alert("Error sending Email");
             console.log("Error Emailing User: ", err)

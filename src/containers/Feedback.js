@@ -331,7 +331,9 @@ export default class Feedback extends Component {
             city,
             state,
             givenFeedback,
-        }).catch()
+        }).catch((err)=>{
+            console.log("Error Setting User Data:", err)
+        })
     };
 
     render() {

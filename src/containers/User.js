@@ -207,7 +207,7 @@ export default class User extends Component {
                                 <div className="ui segment">
                                     <div className="ui container equal width">
                                         <Form.Field>
-                                            <label>Email</label>
+                                            <label><b>Email</b></label>
                                             <Form.Input
                                                 id="email"
                                                 name="email"
@@ -219,7 +219,7 @@ export default class User extends Component {
                                         </Form.Field>
 
                                         <Form.Field>
-                                            <label>Password</label>
+                                            <label><b>Password</b></label>
                                             <Form.Input
                                                 id="password"
                                                 name="password"
@@ -229,7 +229,7 @@ export default class User extends Component {
                                             />
                                         </Form.Field>
 
-                                        <label>Role</label>
+                                        <label><b>Role</b></label>
                                         <select
                                             name="role"
                                             value={role}
@@ -250,7 +250,7 @@ export default class User extends Component {
                                     <div className="equal width fields">
                                         <Grid>
                                             <Grid.Column width={8}>
-                                                <label>First Name</label>
+                                                <label><b>First Name</b></label>
                                                 <Form.Field>
                                                     <Form.Input
                                                         name="firstName"
@@ -260,7 +260,7 @@ export default class User extends Component {
                                                 </Form.Field>
                                             </Grid.Column>
                                             <Grid.Column width={8}>
-                                                <label>Last Name</label>
+                                                <label><b>Last Name</b></label>
                                                 <Form.Field>
                                                     <Form.Input
                                                         name="lastName"
@@ -275,7 +275,7 @@ export default class User extends Component {
                                     <div className="equal width fields">
                                         <Grid>
                                             <Grid.Column width={8}>
-                                                <label>Phone Number</label>
+                                                <label><b>Phone Number</b></label>
                                                 <Form.Field>
                                                     <Form.Input
                                                         name="phoneNumber"
@@ -285,7 +285,7 @@ export default class User extends Component {
                                                 </Form.Field>
                                             </Grid.Column>
                                             <Grid.Column width={8}>
-                                                <label>Business Position</label>
+                                                <label><b>Business Position</b></label>
                                                 <select
                                                     name="position"
                                                     value={position}
@@ -301,7 +301,7 @@ export default class User extends Component {
                                                 </select>
                                             </Grid.Column>
                                             <Grid.Column width={8}>
-                                                <label>Date of Birth</label>
+                                                <label><b>Date of Birth</b></label>
                                                 <Form.Field>
                                                     <Form.Input
                                                         name="dateOfBirth"
@@ -311,7 +311,7 @@ export default class User extends Component {
                                                     />
                                                 </Form.Field>
                                                 <Form.Field>
-                                                    <label>Select new Role</label>
+                                                    <label>Select New Role</label>
                                                     <select
                                                         name="newRole"
                                                         value={newRole}

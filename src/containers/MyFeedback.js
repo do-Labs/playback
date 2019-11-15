@@ -150,7 +150,8 @@ export default class MyFeedback extends Component {
                                     <Table.HeaderCell>Date</Table.HeaderCell>
                                     <Table.HeaderCell>Name</Table.HeaderCell>
                                     <Table.HeaderCell>Email</Table.HeaderCell>
-                                    <Table.HeaderCell>Rating</Table.HeaderCell>
+                                    <Table.HeaderCell>Avg Score</Table.HeaderCell>
+                                    <Table.HeaderCell>Total Score</Table.HeaderCell>
                                     <Table.HeaderCell>Followup</Table.HeaderCell>
                                     {/*<Table.HeaderCell>Comment</Table.HeaderCell>*/}
                                     <Table.HeaderCell>Action</Table.HeaderCell>
