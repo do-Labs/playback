@@ -137,7 +137,7 @@ export default class Feedback extends Component {
     };
 
     handleGetBusinessData = async () => {
-        const refBus = firebase.firestore().collection('businesses').doc(this.state.businessID);
+        const refBus = await firebase.firestore().collection('businesses').doc(this.state.businessID);
 
         await refBus.get().then((doc) => {
             if (doc.exists) {
@@ -214,7 +214,7 @@ export default class Feedback extends Component {
             console.log("Wrote Feedback");
             await this.handleAnonymousSignIn()
                 .then(async (user) => {
-                    console.log("Signed In Anonymous")
+                    console.log("Signed In Anonymous");
                     setTimeout(async () => {
                         await this.handleAddUser();
                     }, 1000);
@@ -254,11 +254,11 @@ export default class Feedback extends Component {
     };
 
     handleAnonymousSignIn = async () => {
-        firebase.auth().signInAnonymously().catch(function (error) {
+        await firebase.auth().signInAnonymously().catch(function (error) {
             let errorMessage = error.message;
             alert(errorMessage)
         });
-        firebase.auth().onAuthStateChanged((user) => {
+        await firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({
                     token: user.ra,
