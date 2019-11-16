@@ -15,11 +15,13 @@ export default class ThankYou extends Component {
     render() {
         return (
             <Container>
+                <br/>
+                <br/>
                 <Logo />
-                <h1>Thank You for your feedback!!</h1>
-                <p>Let us know if you have any comments about the Playback App</p>
                 <div>
                     <center>
+                        <h1>Thank You for your feedback!!</h1>
+                        <p>Let us know if you have any comments<br/> about the <b>Playback App</b></p>
                         <br/>
                         <br/>
                         <br/>
