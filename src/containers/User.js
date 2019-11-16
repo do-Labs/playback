@@ -93,6 +93,7 @@ export default class User extends Component {
 
     handleEdit = async (event) => {
         event.preventDefault();
+        this.setState({isLoading: true});
         const userID = this.props.userID;
         const { email, firstName, lastName, phoneNumber, newRole, position, dateOfBirth  } = this.state;
 
@@ -106,12 +107,14 @@ export default class User extends Component {
             position,
             role,
             dateOfBirth,
-        }).then((docRef) => {
+        }).then(() => {
             alert("Profile Edited Successfully!");
             this.props.history.push("/")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
+                this.setState({isLoading: false});
+
             });
     };
 
@@ -399,7 +402,7 @@ export default class User extends Component {
                                     (!dateOfBirth && dateOfBirth === "")
                                 }
                             >
-                                Submit
+                                Update
                             </Button>
                             }
                         </Form>
