@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import "semantic-ui-css/semantic.min.css";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+// import {Button} from "semantic-ui-react";
 import {PrivateRoute} from "./components/index";
 import {
     Business,
@@ -48,7 +49,6 @@ class App extends Component {
         });
     };
 
-
     userHasAuthenticated = async (authenticated, username, token, userID, role, businessID) => {
         this.setState({
             isAuthenticated: authenticated,
@@ -66,6 +66,14 @@ class App extends Component {
         console.log("claims:", claims);
         this.setState({
             claims: claims
+        });
+    };
+
+    setBusiness = (business) => {
+        console.log("Business:", business);
+        this.setState({
+            businessID: business,
+            role: "businessUser",
         });
     };
 
@@ -88,7 +96,6 @@ class App extends Component {
                 businessID: null,
             });
         }
-
         this.setState({
             userID: userID,
         });
@@ -103,6 +110,7 @@ class App extends Component {
             userID: this.state.userID,
             token: this.state.token,
             role: this.state.role,
+            setBusiness: this.setBusiness,
             businessID: this.state.businessID,
         };
         return (
@@ -143,6 +151,7 @@ class App extends Component {
                             path="/business"
                             component={Business}
                             props={props}
+                            businessID={this.setBusiness}
                         />
                         <PrivateRoute
                             path="/users"

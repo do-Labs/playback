@@ -20,9 +20,6 @@ class Login extends Component {
             role: "",
             businessID: null,
         };
-        // if(props.handleUpload){
-        //     props.handleUpload(this.handleUpload.bind(this));
-        // }
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });

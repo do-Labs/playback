@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, Container, Dimmer, Form, Grid, Loader, Message} from "semantic-ui-react";
 import {Logo, NavMenu} from "../components/index";
 import firebase from '../Firebase';
+import {Redirect} from "react-router-dom";
 
 const projectName = "playback-2a438";
 
@@ -71,11 +72,20 @@ export default class Business extends Component {
         this.setState(state);
     };
 
-    submitCreate = () => {
-        this.handleAddBusiness();
+    submitCreate = async () => {
+        await this.handleAddBusiness()
+            .catch((err)=> {
+                console.log("Error adding business: ", err);
+                alert(`Error adding business: \n ${err}`);
+        });
     };
 
-    handleAddBusiness = () => {
+    handleSetProps = () => {
+        // const {businessID} = this.state;
+        return this.props.businessID("TESTBUSINESS");
+    };
+
+    handleAddBusiness = async () => {
         const {
             name,
             industry,
@@ -88,7 +98,7 @@ export default class Business extends Component {
 
         // post all business info to firebase
 
-        this.ref.add({
+        await this.ref.add({
             name,
             industry,
             stage,
@@ -105,8 +115,8 @@ export default class Business extends Component {
             console.log("added business");
             const bid = docRef._key.path.segments[1];
             await this.handleAddBusinessClaims(bid);
-            alert("Registered Business! \n Please log out and back in");  // Temp!!
             await this.setBusinessId(bid);
+            alert("Registered Business!");
 
             this.props.history.push("/my-pitches")
         })
@@ -202,8 +212,8 @@ export default class Business extends Component {
 
     };
 
-    setBusinessId = async () => {
-
+    setBusinessId = (bid) => {
+        return this.props.setBusiness(bid);
     };
 
     render() {
@@ -221,7 +231,9 @@ export default class Business extends Component {
             fundingRound,
         } = this.state;
 
-        return (
+        return this.props.businessID ? (
+            <Redirect to="/" />
+        ) : (
             <Container>
                 <Logo/>
                 <Grid>
@@ -237,7 +249,7 @@ export default class Business extends Component {
                                 <Loader inverted/>
                             </Dimmer>
                         )}
-                        <Form onSubmit={this.onSubmit}>
+                        <Form>
                             <div className="ui segment">
                                 <h3>Basic Info</h3>
                                 <label><b>Business Name</b></label>
@@ -352,8 +364,10 @@ export default class Business extends Component {
                                 </div>
                             </div>
 
+                            {/*<Button onClick={this.setBusinessId.bind(this, businessID)}> handleSetProps</Button>*/}
 
                             <Button loading={isLoading}
+                                    onClick={this.onSubmit}
                                     disabled={
                                         !isEnabled || !name || name === "" ||
                                         !industry || industry === "" || !stage || stage === "" ||
