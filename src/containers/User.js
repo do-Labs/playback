@@ -24,7 +24,6 @@ export default class User extends Component {
         phoneNumber: "",
         role: "",
         newRole: "",
-        position: "",
         dateOfBirth: "",
     };
 
@@ -41,13 +40,11 @@ export default class User extends Component {
             await userRef.get().then((doc) => {
                 if (doc.exists) {
                     const user = doc.data();
-                    console.log("Got doc", user);
                     this.setState({
                         key: doc.id,
                         firstName: user.firstName,
                         lastName: user.lastName,
                         phoneNumber: user.phoneNumber,
-                        position: user.position,
                         dateOfBirth: user.dateOfBirth,
                         role: user.role,
                     });
@@ -94,7 +91,7 @@ export default class User extends Component {
         event.preventDefault();
         this.setState({isLoading: true});
         const userID = this.props.userID;
-        const { email, firstName, lastName, phoneNumber, newRole, position, dateOfBirth  } = this.state;
+        const { email, firstName, lastName, phoneNumber, newRole, dateOfBirth  } = this.state;
 
         const role = newRole;
         const userRef = firebase.firestore().collection('users').doc(userID);
@@ -103,7 +100,6 @@ export default class User extends Component {
             firstName,
             lastName,
             phoneNumber,
-            position,
             role,
             dateOfBirth,
         }).then(() => {
@@ -173,7 +169,6 @@ export default class User extends Component {
             firstName,
             lastName,
             phoneNumber,
-            position,
             dateOfBirth,
         } = this.state;
 
@@ -291,22 +286,6 @@ export default class User extends Component {
                                                     </Form.Field>
                                                 </Grid.Column>
                                                 <Grid.Column width={8}>
-                                                    <label><b>Business Position</b></label>
-                                                    <select
-                                                        name="position"
-                                                        value={position}
-                                                        onChange={this.handleOnChange}
-                                                    >
-                                                        <option value="">-</option>
-                                                        <option value="CEO">CEO</option>
-                                                        <option value="CFO">CFO</option>
-                                                        <option value="COO">COO</option>
-                                                        <option value="CTO">CTO</option>
-                                                        <option value="BoardMember">Board Member</option>
-                                                        <option value="other">Other</option>
-                                                    </select>
-                                                </Grid.Column>
-                                                <Grid.Column width={8}>
                                                     <label><b>Date of Birth</b></label>
                                                     <Form.Field>
                                                         <Form.Input
@@ -397,7 +376,6 @@ export default class User extends Component {
                                     (!firstName && firstName === "") ||
                                     (!lastName && lastName === "") ||
                                     (!phoneNumber && phoneNumber === "") ||
-                                    (!position && position === "") ||
                                     (!dateOfBirth && dateOfBirth === "")
                                 }
                             >
