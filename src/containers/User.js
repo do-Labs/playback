@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import firebase from 'firebase';
 import {Button, Container, Dimmer, Form, Grid, Loader, Message} from "semantic-ui-react";
 import {NavMenu, Logo} from "../components/index";
-// const uuidv4 = require('uuid/v4');
 
 export default class User extends Component {
     state = {

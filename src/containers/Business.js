@@ -4,7 +4,6 @@ import {Logo, NavMenu} from "../components/index";
 import firebase from '../Firebase';
 import {Base64} from "js-base64";
 
-// const projectName = "playback-2a438";
 const projectName = JSON.parse(Base64.decode(process.env.REACT_APP_KEYS_B64)).projectId;
 
 export default class Business extends Component {
