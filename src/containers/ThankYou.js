@@ -24,9 +24,9 @@ export default class ThankYou extends Component {
                         <br/>
                         <br/>
                         <br/>
-                        <div><a href="https://playback.herokuapp.com/register"><Icon name="edit large"/>Sign Up</a></div>
+                        <div><a href="https://playback.herokuapp.com/register"><Icon name="signup large"/>Sign Up</a></div>
                         <br/>
-                        <div><a href="https://playback.dolabs.io"><Icon name="folder open outline large"/>Learn More</a></div>
+                        <div><a href="https://playback.dolabs.io"><Icon name="info large"/>Learn More</a></div>
                         <br/>
                         <div><a href="mailto:humdan@dolabs.io"><Icon name="chat large"/>Contact Us</a></div>
                     </center>
