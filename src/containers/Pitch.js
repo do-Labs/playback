@@ -396,15 +396,15 @@ export default class Pitch extends Component {
                                     </div>
                                     <p> </p>
                                     <p> </p>
-                                    <h4>Pitch Info</h4>
-                                    <p>Pitch Title: {pitchTitle}</p>
-                                    <p>Pitch Date: {pitchDate}</p>
-                                    <p>Location: {location}</p>
-                                    {pitchDeckUrl && <p>PitchDeckURL: {pitchDeckUrl}</p> }
-                                    <p>Presenter Name: {presenterName}</p>
-                                    <p>Role: {pitchRole}</p>
-                                    <p>Presenter Email: {presenterEmail}</p>
-                                    <p>Event URL: {eventUrl}</p>
+                                    <h4><b>Pitch Info</b></h4>
+                                    <p><b>Date:</b> {pitchDate}</p>
+                                    <p><b>Title:</b> {pitchTitle}</p>
+                                    <p><b>Presenter:</b> {presenterName}</p>
+                                    <p><b>Email:</b> {presenterEmail}</p>
+                                    <p><b>Role:</b> {pitchRole}</p>
+                                    <p><b>Event URL:</b> <a href={eventUrl}>{eventUrl}</a></p>
+                                    <p><b>Location:</b> {location}</p>
+                                    {pitchDeckUrl && <p><b>PitchDeckURL:</b> {pitchDeckUrl}</p> }
                                 </div>
                             }/>
 

@@ -77,7 +77,7 @@ export default class Business extends Component {
                                 </div>
                             }/>
                         <Button icon="edit" as={Link} to={`/business/${this.props.business.id}`}/>
-                        <Button icon="user" as={Link} to={`/users/${id}`}/>
+                        {/*<Button icon="user" as={Link} to={`/users/${id}`}/>*/}
                         <Button icon="target" as={Link} to={`/pitches/${this.props.business.id}`}/>
                         <Modal
                             trigger={<Button icon="delete" onClick={this.handleOpen}/>}

@@ -125,9 +125,9 @@ export default class MyPitches extends Component {
                         <Table celled singleLine>
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell>PitchDate</Table.HeaderCell>
-                                    <Table.HeaderCell>Pitch Title</Table.HeaderCell>
-                                    <Table.HeaderCell>PresenterName</Table.HeaderCell>
+                                    <Table.HeaderCell>Date</Table.HeaderCell>
+                                    <Table.HeaderCell>Title</Table.HeaderCell>
+                                    <Table.HeaderCell>Presenter</Table.HeaderCell>
                                     <Table.HeaderCell>Role</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
                                     <Table.HeaderCell>Score</Table.HeaderCell>

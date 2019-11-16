@@ -157,12 +157,12 @@ export default class Pitch extends Component {
                                 <div>
                                     {!showVideo &&
                                     <div>
-                                        <p><b>Title:</b> {pitchTitle}</p>
+                                        <br/>
                                         <p><b>Date:</b> {pitchDate}</p>
+                                        <p><b>Email:</b> {presenterEmail}</p>
+                                        <p><b>Name:</b> {presenterName}</p>
+                                        <p><b>Role:</b> {pitchRole}</p>
                                         <p><b>Location:</b> {location}</p>
-                                        <p><b>Presenter Name:</b> {presenterName}</p>
-                                        <p><b>Presenter Name:</b> {pitchRole}</p>
-                                        <p><b>Presenter Email:</b> {presenterEmail}</p>
                                         {eventUrl && <p><b>Event URL:</b> {eventUrl}</p> }
                                         <p><b>Feedback Count:</b> {feedbackCount}</p>
                                         <p><b>Average Rating:</b> {score}</p>

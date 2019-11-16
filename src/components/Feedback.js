@@ -42,16 +42,11 @@ export default class Feedback extends Component {
 
         const ratingAvg = Math.round( (rating1 + rating2 + rating3)/3 );
         const ratingTotal = rating1 + rating2 + rating3;
-        if(ratingAvg){
-            this.setState({
-                ratingAvg: ratingAvg,
-                ratingTotal: ratingTotal,
-            })
-        }
-        else {
-            this.setState({ ratingAvg: 0})
-        }
 
+        this.setState({
+            ratingAvg: ratingAvg,
+            ratingTotal: ratingTotal,
+        })
     };
 
     handleGetDateTime = () => {
@@ -124,10 +119,10 @@ export default class Feedback extends Component {
                                         </div>
                                     }
                                     <hr/>
-                                    <p><b>Average:</b> {ratingAvg}</p>
-                                    {rating1 && <p><b>Communication:</b> {rating1}</p> }
-                                    {rating2 && <p><b>Valid problem Statement:</b> {rating2}</p> }
-                                    {rating3 && <p><b>Valuable Soution:</b> {rating3}</p> }
+                                    <p><b>Average Rating:</b> {ratingAvg}</p>
+                                    {rating1 > 0 && <p><b>Communication:</b> {rating1}</p> }
+                                    {rating2 > 0 && <p><b>Valid problem Statement:</b> {rating2}</p> }
+                                    {rating3 > 0 && <p><b>Valuable Soution:</b> {rating3}</p> }
                                 </div>
                             }/>
                     </Button.Group>
