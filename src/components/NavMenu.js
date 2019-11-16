@@ -45,7 +45,7 @@ export default class NavMenu extends Component {
                     {/*<Icon name="large lock open" />*/}
                     Authenticated as <strong>{this.props.username}</strong>
                     <Menu.Menu>
-                        <p>{this.props.userID}</p>
+                        {/*<p>{this.props.userID}</p>*/}
                     </Menu.Menu>
                     <Menu.Menu>
                         <Menu.Item onClick={this.handleLogout}>
