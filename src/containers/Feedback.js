@@ -5,10 +5,12 @@ import usStates from "../states";
 import firebase from '../Firebase';
 import StarRatingComponent from "react-star-rating-component";
 import AddToCalendar from 'react-add-to-calendar';
+import {Base64} from "js-base64";
 
 const moment = require('moment');
 
-const projectName = "playback-2a438";
+// const projectName = "playback-2a438";
+const projectName = JSON.parse(Base64.decode(process.env.REACT_APP_KEYS_B64)).projectId;
 
 export default class Feedback extends Component {
 

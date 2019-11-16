@@ -4,8 +4,10 @@ import Logo from "../components/Logo";
 import { Redirect } from "react-router-dom";
 import firebase from '../Firebase';
 import jwtDecode from "jwt-decode";
+import {Base64} from "js-base64";
 
-const projectName = "playback-2a438";
+// const projectName = "playback-2a438";
+const projectName = JSON.parse(Base64.decode(process.env.REACT_APP_KEYS_B64)).projectId;
 
 class Register extends Component {
     state = {

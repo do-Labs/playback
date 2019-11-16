@@ -5,7 +5,9 @@ import firebase from '../Firebase';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ZiggeoRecorder } from 'react-ziggeo';
-const projectName = "playback-2a438";
+import {Base64} from "js-base64";
+// const projectName = "playback-2a438";
+const projectName = JSON.parse(Base64.decode(process.env.REACT_APP_KEYS_B64)).projectId;
 const ziggeoAPIKey = process.env.REACT_APP_ziggeoAPIKey;
 
 
