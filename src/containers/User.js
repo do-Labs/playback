@@ -29,7 +29,7 @@ export default class User extends Component {
         dateOfBirth: "",
     };
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.setState({isLoading: true});
         // const userID = this.props.match.params.userID;
         const pathname = this.props.location.pathname;
@@ -39,7 +39,7 @@ export default class User extends Component {
             this.setState({
                 editMode: true,
             });
-            userRef.get().then((doc) => {
+            await userRef.get().then((doc) => {
                 if (doc.exists) {
                     const user = doc.data();
                     console.log("Got doc", user);
@@ -66,13 +66,13 @@ export default class User extends Component {
         this.setState(state);
     };
 
-    handleCreateUser = (event) => {
+    handleCreateUser = async (event) => {
         console.log("Handling Signup:", event);
         event.preventDefault();
         const { confirmPassword, email, password } = this.state;
         if (email && password === confirmPassword) {
             this.setState({ isLoading: true });
-            firebase.auth()
+            await firebase.auth()
                 .createUserWithEmailAndPassword(email, password)
                 .then(() => {
 
@@ -94,17 +94,17 @@ export default class User extends Component {
     handleEdit = async (event) => {
         event.preventDefault();
         const userID = this.props.userID;
-        console.log("userID: " , userID);
         const { email, firstName, lastName, phoneNumber, newRole, position, dateOfBirth  } = this.state;
 
-        const userRef = await firebase.firestore().collection('users').doc(userID);
-        await userRef.set({
+        const role = newRole;
+        const userRef = firebase.firestore().collection('users').doc(userID);
+        await userRef.update({
             email,
             firstName,
             lastName,
             phoneNumber,
             position,
-            role: newRole,
+            role,
             dateOfBirth,
         }).then((docRef) => {
             alert("Profile Edited Successfully!");
@@ -116,7 +116,7 @@ export default class User extends Component {
     };
 
 
-    handleChangePassword = () => {
+    handleChangePassword = async () => {
         this.setState({isLoading: true});
         const {
             password,
@@ -124,7 +124,7 @@ export default class User extends Component {
         } = this.state;
         console.log("TODO: Handling change password");
         if(confirmPassword === password) {
-            firebase.auth().currentUser.updatePassword(password).then(()=>{
+            await firebase.auth().currentUser.updatePassword(password).then(()=>{
                 this.setState({
                     message: {
                         message: "Updated password!"
@@ -196,186 +196,195 @@ export default class User extends Component {
                         <Form id="userForm">
 
                             {userID &&
-                                <div className="ui segment">
-                                    <h5>UserID: {userID}</h5>
-                                    <h5>Email: {email}</h5>
-                                    <h5>Registered Role: {role}</h5>
-                                </div>
+                            <div className="ui segment">
+                                <h5>UserID: {userID}</h5>
+                                <h5>Email: {email}</h5>
+                                <h5>Registered Role: {role}</h5>
+                            </div>
                             }
 
                             {!editMode &&
-                                <div className="ui segment">
-                                    <div className="ui container equal width">
-                                        <Form.Field>
-                                            <label><b>Email</b></label>
-                                            <Form.Input
-                                                id="email"
-                                                name="email"
-                                                placeholder="Email Address"
-                                                value={email}
-                                                onChange={this.handleOnChange}
-                                                error={!email || email === ""}
-                                            />
-                                        </Form.Field>
-
-                                        <Form.Field>
-                                            <label><b>Password</b></label>
-                                            <Form.Input
-                                                id="password"
-                                                name="password"
-                                                value={password}
-                                                onChange={this.handleOnChange}
-                                                error={!password || password === ""}
-                                            />
-                                        </Form.Field>
-
-                                        <label><b>Role</b></label>
-                                        <select
-                                            name="role"
-                                            value={role}
+                            <div className="ui segment">
+                                <h4>User Info</h4>
+                                <div className="ui container equal width">
+                                    <Form.Field>
+                                        <label><b>Email</b></label>
+                                        <Form.Input
+                                            id="email"
+                                            name="email"
+                                            placeholder="Email Address"
+                                            value={email}
                                             onChange={this.handleOnChange}
-                                        >
-                                            <option value="">Select User Role</option>
-                                            <option value="User">User</option>
-                                            <option value="Investor">Investor</option>
-                                            <option value="Guest">Guest</option>
-                                            <option value="Admin">Admin</option>
-                                        </select>
-                                    </div>
+                                            error={!email || email === ""}
+                                        />
+                                    </Form.Field>
+
+                                    <Form.Field>
+                                        <label><b>Password</b></label>
+                                        <Form.Input
+                                            id="password"
+                                            name="password"
+                                            value={password}
+                                            onChange={this.handleOnChange}
+                                            error={!password || password === ""}
+                                        />
+                                    </Form.Field>
+
+                                    <label><b>Role</b></label>
+                                    <select
+                                        name="role"
+                                        value={role}
+                                        onChange={this.handleOnChange}
+                                    >
+                                        <option value="">Select User Role</option>
+                                        <option value="User">User</option>
+                                        <option value="Investor">Investor</option>
+                                        <option value="Guest">Guest</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
                                 </div>
+                            </div>
                             }
 
                             {editMode &&
-                                <div className="ui segment">
-                                    <div className="equal width fields">
-                                        <Grid>
-                                            <Grid.Column width={8}>
-                                                <label><b>First Name</b></label>
-                                                <Form.Field>
-                                                    <Form.Input
-                                                        name="firstName"
-                                                        value={firstName}
-                                                        onChange={this.handleOnChange}
-                                                    />
-                                                </Form.Field>
-                                            </Grid.Column>
-                                            <Grid.Column width={8}>
-                                                <label><b>Last Name</b></label>
-                                                <Form.Field>
-                                                    <Form.Input
-                                                        name="lastName"
-                                                        value={lastName}
-                                                        onChange={this.handleOnChange}
-                                                    />
-                                                </Form.Field>
-                                            </Grid.Column>
-                                        </Grid>
-                                    </div>
+                                <div>
+                                    <div className="ui segment">
+                                        <h3>User Info</h3>
+                                        <div className="equal width fields">
+                                            <Grid>
+                                                <Grid.Column width={8}>
+                                                    <label><b>First Name</b></label>
+                                                    <Form.Field>
+                                                        <Form.Input
+                                                            name="firstName"
+                                                            value={firstName}
+                                                            onChange={this.handleOnChange}
+                                                        />
+                                                    </Form.Field>
+                                                </Grid.Column>
+                                                <Grid.Column width={8}>
+                                                    <label><b>Last Name</b></label>
+                                                    <Form.Field>
+                                                        <Form.Input
+                                                            name="lastName"
+                                                            value={lastName}
+                                                            onChange={this.handleOnChange}
+                                                        />
+                                                    </Form.Field>
+                                                </Grid.Column>
+                                            </Grid>
+                                        </div>
 
-                                    <div className="equal width fields">
-                                        <Grid>
-                                            <Grid.Column width={8}>
-                                                <label><b>Phone Number</b></label>
-                                                <Form.Field>
-                                                    <Form.Input
-                                                        name="phoneNumber"
-                                                        value={phoneNumber}
-                                                        onChange={this.handleOnChange}
-                                                    />
-                                                </Form.Field>
-                                            </Grid.Column>
-                                            <Grid.Column width={8}>
-                                                <label><b>Business Position</b></label>
-                                                <select
-                                                    name="position"
-                                                    value={position}
-                                                    onChange={this.handleOnChange}
-                                                >
-                                                    <option value=""> </option>
-                                                    <option value="CEO">CEO</option>
-                                                    <option value="CFO">CFO</option>
-                                                    <option value="COO">COO</option>
-                                                    <option value="CTO">CTO</option>
-                                                    <option value="BoardMember">Board Member</option>
-                                                    <option value="other">Other</option>
-                                                </select>
-                                            </Grid.Column>
-                                            <Grid.Column width={8}>
-                                                <label><b>Date of Birth</b></label>
-                                                <Form.Field>
-                                                    <Form.Input
-                                                        name="dateOfBirth"
-                                                        value={dateOfBirth}
-                                                        placeholder="MM/DD/YYYY"
-                                                        onChange={this.handleOnChange}
-                                                    />
-                                                </Form.Field>
-                                                <Form.Field>
-                                                    <label>Select New Role</label>
+                                        <div className="equal width fields">
+                                            <Grid>
+                                                <Grid.Column width={8}>
+                                                    <label><b>Phone Number</b></label>
+                                                    <Form.Field>
+                                                        <Form.Input
+                                                            name="phoneNumber"
+                                                            value={phoneNumber}
+                                                            placeholder="XXX-XXX-XXXX"
+                                                            onChange={this.handleOnChange}
+                                                        />
+                                                    </Form.Field>
+                                                </Grid.Column>
+                                                <Grid.Column width={8}>
+                                                    <label><b>Business Position</b></label>
                                                     <select
-                                                        name="newRole"
-                                                        value={newRole}
+                                                        name="position"
+                                                        value={position}
                                                         onChange={this.handleOnChange}
                                                     >
                                                         <option value="">-</option>
-                                                        <option value="audience">Audience</option>
-                                                        <option value="corporateExec">Corporate Exec</option>
-                                                        <option value="investor">Investor</option>
-                                                        <option value="entrepreneur">Entrepreneur</option>
-                                                        <option value="student">Student</option>
+                                                        <option value="CEO">CEO</option>
+                                                        <option value="CFO">CFO</option>
+                                                        <option value="COO">COO</option>
+                                                        <option value="CTO">CTO</option>
+                                                        <option value="BoardMember">Board Member</option>
+                                                        <option value="other">Other</option>
                                                     </select>
-                                                </Form.Field>
-                                            </Grid.Column>
-                                        </Grid>
+                                                </Grid.Column>
+                                                <Grid.Column width={8}>
+                                                    <label><b>Date of Birth</b></label>
+                                                    <Form.Field>
+                                                        <Form.Input
+                                                            name="dateOfBirth"
+                                                            value={dateOfBirth}
+                                                            placeholder="MM/DD/YYYY"
+                                                            onChange={this.handleOnChange}
+                                                        />
+                                                    </Form.Field>
+                                                    <Form.Field>
+                                                        <label>Select New Role</label>
+                                                        <select
+                                                            name="newRole"
+                                                            value={newRole}
+                                                            onChange={this.handleOnChange}
+                                                        >
+                                                            <option value="">-</option>
+                                                            <option value="audience">Audience</option>
+                                                            <option value="corporateExec">Corporate Exec</option>
+                                                            <option value="investor">Investor</option>
+                                                            <option value="entrepreneur">Entrepreneur</option>
+                                                            <option value="student">Student</option>
+                                                        </select>
+                                                    </Form.Field>
+                                                </Grid.Column>
+                                            </Grid>
+                                        </div>
                                     </div>
-                                    <div className="equal width fields">
-                                        <Form.Field>
-                                            <label>New Password</label>
-                                            <Form.Input
-                                                id="password"
-                                                name="password"
-                                                type="password"
-                                                value={password}
-                                                onChange={this.handleOnChange}
-                                                error={!password || password === ""}
-                                            />
-                                        </Form.Field>
-                                        <Form.Field>
-                                            <label>Confirm Password</label>
-                                            <Form.Input
-                                                id="confirmPassword"
-                                                name="confirmPassword"
-                                                type="password"
-                                                value={confirmPassword}
-                                                onChange={this.handleOnChange}
-                                                error={!confirmPassword || confirmPassword === ""}
-                                            />
-                                        </Form.Field>
+
+                                    <div className="ui segment">
+                                        <h3>Change Password</h3>
+                                        <div className="equal width fields">
+                                            <Form.Field>
+                                                <label>New Password</label>
+                                                <Form.Input
+                                                    id="password"
+                                                    name="password"
+                                                    type="password"
+                                                    value={password}
+                                                    onChange={this.handleOnChange}
+                                                    error={!password || password === ""}
+                                                />
+                                            </Form.Field>
+                                            <Form.Field>
+                                                <label>Confirm Password</label>
+                                                <Form.Input
+                                                    id="confirmPassword"
+                                                    name="confirmPassword"
+                                                    type="password"
+                                                    value={confirmPassword}
+                                                    onChange={this.handleOnChange}
+                                                    error={!confirmPassword || confirmPassword === ""}
+                                                />
+                                            </Form.Field>
+                                        </div>
+                                        <Button
+                                            disabled={
+                                                (!password && password === "") ||
+                                                (!confirmPassword && confirmPassword === "")
+                                            }
+                                            onClick={this.handleChangePassword}
+                                        >
+                                            Change Password
+                                        </Button>
                                     </div>
-                                    <Button
-                                        disabled={
-                                            (!password && password === "") ||
-                                            (!confirmPassword && confirmPassword === "")
-                                        }
-                                        onClick={this.handleChangePassword}
-                                    >
-                                        Change Password
-                                    </Button>
                                 </div>
                             }
 
                             {!editMode &&
-                                <Button
-                                    onClick={this.handleCreateUser}
-                                    loading={isLoading}
-                                    disabled={
-                                        (!isEnabled) ||
-                                        (!email && email === "") ||
-                                        (!role && role === "")
-                                    }
-                                >
-                                    Submit
-                                </Button>
+                            <Button
+                                onClick={this.handleCreateUser}
+                                loading={isLoading}
+                                disabled={
+                                    (!isEnabled) ||
+                                    (!email && email === "") ||
+                                    (!role && role === "")
+                                }
+                            >
+                                Submit
+                            </Button>
                             }
                             {editMode &&
                             <Button
@@ -386,7 +395,8 @@ export default class User extends Component {
                                     (!firstName && firstName === "") ||
                                     (!lastName && lastName === "") ||
                                     (!phoneNumber && phoneNumber === "") ||
-                                    (!position && position === "")
+                                    (!position && position === "") ||
+                                    (!dateOfBirth && dateOfBirth === "")
                                 }
                             >
                                 Submit

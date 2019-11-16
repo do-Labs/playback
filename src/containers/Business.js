@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {Button, Container, Dimmer, Form, Grid, Loader, Message} from "semantic-ui-react";
 import {Logo, NavMenu} from "../components/index";
 import firebase from '../Firebase';
-import {Redirect} from "react-router-dom";
 import {Base64} from "js-base64";
 
 // const projectName = "playback-2a438";
@@ -29,7 +28,7 @@ export default class Business extends Component {
         };
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         const businessId = this.props.businessID;
 
         if (businessId) { // EDIT MODE
@@ -40,7 +39,7 @@ export default class Business extends Component {
             console.log("Editing BusinessId: " + businessId);
             // First Get business by Id and populate state data with results
             const ref = firebase.firestore().collection('businesses').doc(businessId);
-            ref.get().then((doc) => {
+            await ref.get().then((doc) => {
                 if (doc.exists) {
                     const business = doc.data();
                     this.setState({
@@ -101,6 +100,7 @@ export default class Business extends Component {
         // post all business info to firebase
 
         await this.ref.add({
+            timeStamp: Date.now(),
             name,
             industry,
             stage,
@@ -127,7 +127,7 @@ export default class Business extends Component {
             });
     };
 
-    submitEdit = () => {
+    submitEdit = async () => {
         const {
             name,
             industry,
@@ -144,7 +144,7 @@ export default class Business extends Component {
 
         // post all business info to firebase
 
-        busRef.update({
+        await busRef.update({
             name,
             industry,
             stage,
@@ -233,9 +233,7 @@ export default class Business extends Component {
             fundingRound,
         } = this.state;
 
-        return this.props.businessID ? (
-            <Redirect to="/" />
-        ) : (
+        return  (
             <Container>
                 <Logo/>
                 <Grid>
@@ -354,7 +352,7 @@ export default class Business extends Component {
                                     </div>
                                 </div>
                                 <div>
-                                    <label>Business URL</label>
+                                    <label><b>Business URL</b></label>
                                     <Form.Field>
                                         <Form.Input
                                             name="webpageUrl"

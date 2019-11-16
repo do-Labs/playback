@@ -42,9 +42,9 @@ export default class MyPitches extends Component {
         this.setState({isLoading: false});
     };
 
-    onPitchesCollectionUpdate = (querySnapshot) => {
+    onPitchesCollectionUpdate = async (querySnapshot) => {
         const pitches = [];
-        querySnapshot.forEach((doc) => {
+        await querySnapshot.forEach((doc) => {
             const {
                 pitchTitle,
                 pitchDate,
@@ -78,18 +78,18 @@ export default class MyPitches extends Component {
         });
     };
 
-    handleDelete = (id) => {
+    handleDelete = async (id) => {
         this.setState({pitches: this.state.pitches.filter(pitch => pitch.id !== id)});
-        this.ref.doc(id).delete()
+        await this.ref.doc(id).delete()
             .catch((error) => {
             console.error("Error removing document: ", error);
         });
     };
 
     getMyPitches = async () => {
-        const myPitchesRef = await firebase.firestore().collection("pitches");
+        const myPitchesRef = firebase.firestore().collection("pitches");
         const pitches = await myPitchesRef.where("businessID", "==", this.props.businessID);
-        this.unsubscribe = pitches.onSnapshot(this.onPitchesCollectionUpdate);
+        this.unsubscribe = await pitches.onSnapshot(this.onPitchesCollectionUpdate);
     };
 
 

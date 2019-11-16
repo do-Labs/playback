@@ -44,13 +44,13 @@ export default class User extends Component {
         });
   };
 
-  handleDisable = () => {
+  handleDisable = async () => {
     this.setState({
       isLoading: true,
     });
     // Get the id for the selected User and pass that to deleteUser()
     console.log("DISABLE USER CALLED FOR:", this.props.user.UID);
-    fetch(`/users/${this.props.user.UID}`, {
+    await fetch(`/users/${this.props.user.UID}`, {
       method: "DELETE",
       headers: new Headers({
         Authorization: "Bearer " + this.props.token,
@@ -71,13 +71,13 @@ export default class User extends Component {
   };
 
 
-  resetUserPassword = () => {
+  resetUserPassword = async () => {
     let auth = firebase.auth();
     const email = this.state.email;
     console.log("Resetting Email Password for:", email);
     // send user password reset email immediately upon creation
 
-    auth.sendPasswordResetEmail(email).then(function() {
+    await auth.sendPasswordResetEmail(email).then(function() {
       // Email sent.
       console.log("Reset Email sent to User")
     }).catch(function(error) {
@@ -89,9 +89,9 @@ export default class User extends Component {
     });
   };
 
-  disableUser = () => {
+  disableUser = async () => {
     const uid = this.state.uid;
-    firebase.auth().updateUser(uid, {
+    await firebase.auth().updateUser(uid, {
       disabled: true
     })
         .then(function(userRecord) {
@@ -142,7 +142,7 @@ export default class User extends Component {
                 <Button onClick={this.handleDelete}>Delete User</Button>
               </div>
             }/>
-           <Button icon="edit" as={Link} to={`/user/${this.state.uid}`}/>
+           <Button icon="edit" as={Link} to={`/user/${uid}`}/>
            <Modal
             trigger={<Button icon="pause circle outline" onClick={this.handleOpen}/>}
             open={this.state.modalOpen}

@@ -52,7 +52,7 @@ export default class Pitch extends Component {
 
         if(businessID){
             const busRef = await firebase.firestore().collection("businesses").doc(businessID);
-            busRef.get().then(async (doc) => {
+            await busRef.get().then(async (doc) => {
                 if (doc.exists) {
                     const bus = await doc.data();
                     this.setState({
@@ -79,7 +79,7 @@ export default class Pitch extends Component {
                 editMode: true,
             });
             const ref = firebase.firestore().collection('pitches').doc(pitchId);
-            ref.get().then((doc) => {
+            await ref.get().then((doc) => {
                 if (doc.exists) {
                     const pitch = doc.data();
                     this.setState({
@@ -158,7 +158,8 @@ export default class Pitch extends Component {
             pitchVideoTag,
         } = this.state;
 
-        this.ref.add({
+        await this.ref.add({
+            timeStamp: Date.now(),
             pitchTitle,
             pitchRole,
             businessName,
@@ -192,7 +193,7 @@ export default class Pitch extends Component {
             });
     };
 
-    submitEdit = () => {
+    submitEdit = async () => {
         // null handlers
         if(!this.state.eventUrl){
             console.log('no event url');
@@ -219,7 +220,7 @@ export default class Pitch extends Component {
 
         // post all pitch info to firebase
 
-        pitchRef.update({
+        await pitchRef.update({
             pitchTitle,
             pitchRole,
             businessName,
@@ -259,13 +260,13 @@ export default class Pitch extends Component {
         });
     };
 
-    handleEmailQR = () => {
+    handleEmailQR = async () => {
         const body  = JSON.stringify({
             to: this.state.presenterEmail,
             content: this.state.pitchCodeUrl
         });
 
-        fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQRCode`, {
+        await fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQRCode`, {
             method: "POST",
             headers: new Headers({
                 Authorization: "Bearer " + this.props.token,

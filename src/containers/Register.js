@@ -14,6 +14,9 @@ class Register extends Component {
         isLoading: false,
         firstName: "",
         lastName: "",
+        phoneNumber: "",
+        position: "",
+        dateOfBirth: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -55,7 +58,7 @@ class Register extends Component {
         const { confirmPassword, email, password } = this.state;
         if (email && password === confirmPassword) {
             this.setState({ isLoading: true });
-            firebase.auth()
+            await firebase.auth()
                 .createUserWithEmailAndPassword(email, password)
                 .then( async (response) => {
                     const uid = response.user.uid;
@@ -81,7 +84,7 @@ class Register extends Component {
                         isLoading: false,
                     });
                 }, error => {
-                    console.log("Error registering user");
+                    console.log("Error registering user:", error);
                     this.setState({
                         error: error.message,
                         isLoading: false
@@ -102,12 +105,12 @@ class Register extends Component {
         this.setState(state);
     };
 
-    handleEmailWelcome = (token) => {
+    handleEmailWelcome = async (token) => {
         const body  = JSON.stringify({
             to: this.state.email,
         });
 
-        fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailWelcome`, {
+        await fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailWelcome`, {
             method: "POST",
             headers: new Headers({
                 Authorization: "Bearer " + token,
@@ -118,12 +121,11 @@ class Register extends Component {
         })
             .then( (res)=> {
                 if(res.ok){
-                    //do nothing
+                    alert("Welcome Email Sent!");
                 }
                 else{
                     alert("Error Sending Welcome Email")
                 }
-
             }).catch( (err)=> {
             alert("Error sending Email");
             console.log("Error Emailing User: ", err)
@@ -136,17 +138,24 @@ class Register extends Component {
             lastName,
             email,
             role,
+            phoneNumber,
+            position,
+            dateOfBirth,
         } = this.state;
 
         const usersRef = await firebase.firestore().collection('users').doc(userID);
 
-        usersRef.set({
+        await usersRef.set({
+            timeStamp: Date.now(),
             firstName,
             lastName,
             email,
             role,
-        }).then((docRef)=> {
-            console.log("Added User:", docRef);
+            phoneNumber,
+            position,
+            dateOfBirth,
+        }).catch((err)=> {
+            console.log("error setting user data:", err);
         })
     };
 
@@ -157,7 +166,7 @@ class Register extends Component {
                 this.state.email,
                 this.state.password
             );
-            firebase.auth().currentUser.getIdTokenResult(true)
+            await firebase.auth().currentUser.getIdTokenResult(true)
                 .then(idTokenResult => {
                     console.log("User Authenticated with Firebase");
                     this.setState({user, isLoading: false});

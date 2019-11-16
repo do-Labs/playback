@@ -64,20 +64,6 @@ export default class Feedback extends Component {
         };
     }
 
-    setReminderDate = () => {
-        const nowEpoch = Date.now();
-        const start = moment(nowEpoch).format();
-
-        this.setState({
-            event: {
-                title: 'Leave Feedback',
-                description: `Leave your feedback for ${this.state.businessName}`,
-                location: 'Wherever you are',
-                startTime: start,
-            }
-        })
-    };
-
     componentDidMount = async () => {
         const pid = this.props.match.params.id;
         this.setState({
@@ -172,6 +158,20 @@ export default class Feedback extends Component {
         state[name] = nextValue;
         this.setState(state)
     }
+
+    setReminderDate = async () => {
+        const nowEpoch = await Date.now();
+        const start = moment(nowEpoch).format();
+
+        this.setState({
+            event: {
+                title: 'Leave Feedback',
+                description: `Leave your feedback for ${this.state.businessName}`,
+                location: 'Wherever you are',
+                startTime: start,
+            }
+        })
+    };
 
     submitFeedback = async () => {
         this.setState({

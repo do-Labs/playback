@@ -10,7 +10,6 @@ export default class MyFeedback extends Component {
 
     constructor(props) {
         super(props);
-        this.ref = firebase.firestore().collection('pitches');
         this.unsubscribe = null;
         this.state = {
             error: null,
@@ -20,9 +19,9 @@ export default class MyFeedback extends Component {
         };
     }
 
-    onCollectionUpdate = (querySnapshot) => {
+    onCollectionUpdate = async (querySnapshot) => {
         const feedbacks = [];
-        querySnapshot.forEach((doc) => {
+        await querySnapshot.forEach((doc) => {
             const {
                 role,
                 firstName,
@@ -80,41 +79,22 @@ export default class MyFeedback extends Component {
 
         const pitchesRef = await firebase.firestore().collection("pitches");
         const myFeedbacksRef = pitchesRef.doc(id).collection("feedback");
-        this.unsubscribe = myFeedbacksRef.onSnapshot(this.onCollectionUpdate);
+        this.unsubscribe = await myFeedbacksRef.onSnapshot(this.onCollectionUpdate);
         this.setState({isLoading: false});
     };
 
     getMyFeedback = async () => {
         this.setState({isLoading: true});
-
         const {
             pitchID
         } = this.state;
 
-        const pitchesRef = await firebase.firestore().collection("pitches");
-        const myFeedbacksRef = pitchesRef.doc(pitchID).collection("feedback")
+        const pitchesRef = firebase.firestore().collection("pitches");
+        const myFeedbacksRef = pitchesRef.doc(pitchID).collection("feedback");
 
-        this.unsubscribe = myFeedbacksRef.onSnapshot(this.onCollectionUpdate);
+        this.unsubscribe = await myFeedbacksRef.onSnapshot(this.onCollectionUpdate);
         this.setState({isLoading: false});
     };
-
-    // handleExportFeedback = async () => {
-    //     this.setState({isLoading: true});
-    //     const {
-    //         feedbacks
-    //     } = this.state;
-    //     console.log("Exporting Feedback");
-    //
-    //
-    //     this.setState({
-    //         isLoading: false,
-    //         feedbacks: feedbacks
-    //     });
-    //
-    //     // console.log(feedbacks);
-    //     console.log(JSON.stringify(items));
-    //     console.log(JSON.stringify(feedbacks));
-    // };
 
     render() {
         const cProps = {
@@ -137,6 +117,7 @@ export default class MyFeedback extends Component {
                     <Grid.Column width={12}>
                         <h2>
                            My Feedback
+                            <CsvDownload style={{float: "right"}} data={feedbacks} />
                         </h2>
                         {error && <Message error content={error.message}/>}
                         {isLoading && (
@@ -169,8 +150,6 @@ export default class MyFeedback extends Component {
                                 ))}
                             </Table.Body>
                         </Table>
-                        {/*<Button onClick={this.handleExportFeedback}>ExportFeedback</Button>*/}
-                        <CsvDownload data={feedbacks} />
                     </Grid.Column>
                 </Grid>
             </Container>
