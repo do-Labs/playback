@@ -85,8 +85,6 @@ export default class Feedback extends Component {
             this.setState({
                 isLoading: false,
             });
-
-
         }
         else {
             this.setState({

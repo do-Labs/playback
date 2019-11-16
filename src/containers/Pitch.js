@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ZiggeoRecorder } from 'react-ziggeo';
 import {Base64} from "js-base64";
+// const projectName = "playback-2a438";
 const projectName = JSON.parse(Base64.decode(process.env.REACT_APP_KEYS_B64)).projectId;
 const ziggeoAPIKey = process.env.REACT_APP_ziggeoAPIKey;
 
@@ -35,7 +36,7 @@ export default class Pitch extends Component {
             eventUrl: "",
 
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
-            qrPrefix: projectName + '/feedback/',
+            qrPrefix: 'https://playback.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
             modalOpen: false,
