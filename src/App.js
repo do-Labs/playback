@@ -18,6 +18,8 @@ import {
     Pitch,
     AllFeedback,
     MyFeedback,
+    MyEvents,
+    Event,
     Feedbacks,
     Feedback,
     ThankYou,
@@ -186,6 +188,21 @@ class App extends Component {
                         <PrivateRoute
                             path="/pitch"
                             component={Pitch}
+                            props={props}
+                        />
+                        <PrivateRoute
+                            path="/my-events"
+                            component={MyEvents}
+                            props={props}
+                        />
+                        <PrivateRoute
+                            path="/event/:id"
+                            component={Event}
+                            props={props}
+                        />
+                        <PrivateRoute
+                            path="/event"
+                            component={Event}
                             props={props}
                         />
                         <PrivateRoute
