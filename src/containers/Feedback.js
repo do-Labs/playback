@@ -46,10 +46,13 @@ export default class Feedback extends Component {
             role: "Audience",
             comment: "",
             isAnonymous: "",
-            wantsToMeet: "no",
+            wantsToMeet: "",
             rating1: 0, // communication of business concept
             rating2: 0, // Validity of problem statement
             rating3: 0, // value value of solution
+
+            questions: [],
+            answers: [],
 
             // Reminder Data
             event: {
@@ -112,6 +115,7 @@ export default class Feedback extends Component {
                     presenterEmail: data.presenterEmail,
                     presenterName: data.presenterName,
                     pitchRole: data.pitchRole,
+                    questions: data.questions
                 })
             } else {
                 console.log("No such document!");
@@ -119,7 +123,6 @@ export default class Feedback extends Component {
         }).catch(function (error) {
             console.log("Error getting document:", error);
         });
-        // this.unsubscribe = await refPitch.onSnapshot(this.onCollectionUpdate);
     };
 
     handleGetBusinessData = async () => {
@@ -336,6 +339,19 @@ export default class Feedback extends Component {
         })
     };
 
+    handleChangeAnswer = (e, { name, value }, i) => {
+        const {answers} = this.state;
+        // console.log("E:", e);
+        // console.log("name:", name);
+        // console.log("value:", value);
+        // console.log("i:", i);
+
+        answers[i] = value;
+        // this.setState({
+        //     answers: answers
+        // });
+    };
+
     render() {
         const {
             error,
@@ -348,8 +364,8 @@ export default class Feedback extends Component {
             pitchRole,
             pitchDeckUrl,
             eventUrl,
-
             webpageUrl,
+            questions,
 
             firstName,
             lastName,
@@ -396,6 +412,7 @@ export default class Feedback extends Component {
                             </center>
 
                             <div className="ui segment">
+                                <h4><center>Rate The Presenter</center></h4>
                                 <div>
                                     <StarRatingComponent
                                         name="rating1"
@@ -423,8 +440,44 @@ export default class Feedback extends Component {
                                     />
                                     Value of Solution
                                 </div>
-                                <hr/>
 
+                            </div>
+
+                            {questions &&
+                                <div className="ui segment">
+                                    <h4><center>Presenter Questions</center></h4>
+                                    <div>
+                                        {questions.map((question, i) => (
+                                            <Form.Group
+                                                widths="equal"
+                                                key={Math.random()}
+                                            >
+                                                <h4>{i+1})  {this.state.questions[i]}</h4>
+                                                {/*<h4>{question}</h4>*/}
+                                                <Form.Field>
+                                                    <Form.Input
+                                                        name="answer"
+                                                        value={this.state.answers[i]}
+                                                        onChange={(
+                                                            event,
+                                                            data
+                                                        ) => {
+                                                            this.handleChangeAnswer(
+                                                                event,
+                                                                data,
+                                                                i,
+                                                            );
+                                                        }}
+                                                    />
+                                                </Form.Field>
+                                            </Form.Group>
+                                        ))}
+                                    </div>
+                                </div>
+                            }
+
+                            <div className="ui segment">
+                                <h4><center>User Info</center></h4>
                                 <div className="equal width fields">
                                     <Grid>
                                         <Grid.Column width={8}>
@@ -451,7 +504,7 @@ export default class Feedback extends Component {
                                 </div>
                                 <div className="equal width fields">
                                     <Grid>
-                                        <Grid.Column width={9}>
+                                        <Grid.Column width={8}>
                                             <Form.Field>
                                                 <label><span id="email">Email</span></label>
                                                 <Form.Input
@@ -462,7 +515,7 @@ export default class Feedback extends Component {
                                                 />
                                             </Form.Field>
                                         </Grid.Column>
-                                        <Grid.Column width={7}>
+                                        <Grid.Column width={8}>
                                             <Form.Field>
                                                 <label><span id="phoneNumber">Phone#</span></label>
                                                 <Form.Input
@@ -491,7 +544,7 @@ export default class Feedback extends Component {
                                             <Form.Field>
                                                 <label><span id="state">State</span></label>
                                                 <Dropdown
-                                                    width={2}
+                                                    // width={2}
                                                     name="state"
                                                     fluid
                                                     search
@@ -510,7 +563,7 @@ export default class Feedback extends Component {
 
                                 <div className="equal width fields">
                                     <Grid>
-                                        <Grid.Column width={8}>
+                                        <Grid.Column width={10}>
                                             <div>
                                                 <label><span id="role"><b>Role</b></span></label>
                                                 <select
@@ -526,14 +579,16 @@ export default class Feedback extends Component {
                                                 </select>
                                             </div>
                                         </Grid.Column>
-                                        <Grid.Column width={8}>
+                                        <Grid.Column width={6}>
                                             <div>
                                                 <label><span id="wantsToMeet"><b>Wanna Get Coffee?</b></span></label>
                                                 <select
                                                     name="wantsToMeet"
                                                     value={wantsToMeet}
+                                                    required
                                                     onChange={this.handleOnChange}
                                                 >
+                                                    <option value=""> </option>
                                                     <option value="no">No</option>
                                                     <option value="yes">Yes</option>
                                                 </select>

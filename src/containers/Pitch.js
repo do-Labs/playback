@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Container, Dimmer, Form, Grid, Loader, Message, Modal} from "semantic-ui-react";
+import {Button, Container, Dimmer, Form, Grid, Loader, Message, Modal, Dropdown, Icon} from "semantic-ui-react";
 import {NavMenu, Logo, Upload} from "../components/index";
 import firebase from '../Firebase';
 import DatePicker from "react-datepicker";
@@ -35,13 +35,21 @@ export default class Pitch extends Component {
             pitchVideoTag: "",
             eventUrl: "",
 
+            // questions: [{
+            //     question: "",
+            //     response: ""
+            // }
+            // questions: [{ question: ""}],
+            // questions: [{}],
+            questions: ["", "", ""],
+
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
             qrPrefix: 'https://playback.herokuapp.com/feedback/',
             pitchCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
             modalOpen: false,
             isRecordingPitch: false,
-            
+
         };
     }
 
@@ -346,6 +354,38 @@ export default class Pitch extends Component {
         return pitchVideoID
     };
 
+    handleChangeQuestion = (e, { name, value }, i) => {
+        const {questions} = this.state;
+        // console.log("E:", e);
+        // console.log("name:", name);
+        // console.log("value:", value);
+        // console.log("i:", i);
+
+        questions[i] = value;
+        // this.setState({
+        //     questions: questions
+        // });
+    };
+
+    addQuestion = event => {
+        console.log("Add question");
+        event.preventDefault();
+        this.setState({
+            questions: [...this.state.questions, ""]
+        });
+    };
+
+    rmQuestion = (event, index) => {
+        event.preventDefault();
+        this.setState({
+            questions: this.state.questions.filter((_, i) => i !== index)
+        });
+    };
+
+    printQuestions = () => {
+        console.log(this.state.questions)
+    };
+
     render() {
         const {
             error,
@@ -362,7 +402,7 @@ export default class Pitch extends Component {
             pitchDeckUrl,
             pitchCodeUrl,
             eventUrl,
-
+            questions,
             isRecordingPitch,
         } = this.state;
 
@@ -507,6 +547,8 @@ export default class Pitch extends Component {
                                     />
                                 </Form.Field>
 
+
+
                                 {!editMode &&
                                     <div className="segment">
                                         <Form.Field>
@@ -542,8 +584,57 @@ export default class Pitch extends Component {
                                     </Form.Field>
                                 </div>
                                 }
+
+                                {/*Questionnaire section*/}
+                                    <div className="ui segment">
+                                        <h4>Questions</h4>
+                                        {questions.map((question, i) => (
+                                        <Form.Group
+                                            widths="equal"
+                                            key={Math.random()}
+                                        >
+                                            <h4>{i+1})</h4>
+                                            {/*<h4>{question}</h4>*/}
+                                            <Form.Field>
+                                                <Form.Input
+                                                    name="question"
+                                                    // value={this.state.questions[i]}
+                                                    onChange={(
+                                                        event,
+                                                        data
+                                                    ) => {
+                                                        this.handleChangeQuestion(
+                                                            event,
+                                                            data,
+                                                            i,
+                                                        );
+                                                    }}
+                                                />
+                                            </Form.Field>
+                                            {/*<Button.Group icon>*/}
+                                                {/*<Button*/}
+                                                    {/*onClick={this.addQuestion}*/}
+                                                {/*>*/}
+                                                    {/*<Icon name="plus" />*/}
+                                                {/*</Button>*/}
+                                                {/*<Button*/}
+                                                    {/*onClick={event => {*/}
+                                                        {/*this.rmQuestion(*/}
+                                                            {/*event,*/}
+                                                            {/*i*/}
+                                                        {/*);*/}
+                                                    {/*}}*/}
+                                                {/*>*/}
+                                                    {/*<Icon name="minus" />*/}
+                                                {/*</Button>*/}
+                                            {/*</Button.Group>*/}
+                                        </Form.Group>
+                                        ))}
+                                    </div>
                             </div>
                             }
+
+
 
 
                             {isRecordingPitch &&
@@ -590,6 +681,9 @@ export default class Pitch extends Component {
                                     }
                             >Update</Button>
                             }
+
+
+                            <Button onClick={this.printQuestions}>QuestionsPrint</Button>
                         </Form>
                     </Grid.Column>
                 </Grid>
