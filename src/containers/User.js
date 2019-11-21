@@ -24,6 +24,7 @@ export default class User extends Component {
         phoneNumber: "",
         role: "",
         newRole: "",
+        linkedInUrl: "",
         dateOfBirth: "",
     };
 
@@ -46,6 +47,7 @@ export default class User extends Component {
                         lastName: user.lastName,
                         phoneNumber: user.phoneNumber,
                         dateOfBirth: user.dateOfBirth,
+                        linkedInUrl: user.linkedInUrl,
                         role: user.role,
                     });
                 } else {
@@ -91,7 +93,7 @@ export default class User extends Component {
         event.preventDefault();
         this.setState({isLoading: true});
         const userID = this.props.userID;
-        const { email, firstName, lastName, phoneNumber, newRole, dateOfBirth  } = this.state;
+        const { email, firstName, lastName, phoneNumber, newRole, dateOfBirth, linkedInUrl  } = this.state;
 
         const role = newRole;
         const userRef = firebase.firestore().collection('users').doc(userID);
@@ -102,6 +104,7 @@ export default class User extends Component {
             phoneNumber,
             role,
             dateOfBirth,
+            linkedInUrl,
         }).then(() => {
             alert("Profile Edited Successfully!");
             this.props.history.push("/")
@@ -170,6 +173,7 @@ export default class User extends Component {
             lastName,
             phoneNumber,
             dateOfBirth,
+            linkedInUrl,
         } = this.state;
 
         return (
@@ -295,20 +299,15 @@ export default class User extends Component {
                                                             onChange={this.handleOnChange}
                                                         />
                                                     </Form.Field>
+                                                </Grid.Column>
+                                                <Grid.Column width={8}>
+                                                    <label><b>LinkedIn Url</b></label>
                                                     <Form.Field>
-                                                        <label>Select New Role</label>
-                                                        <select
-                                                            name="newRole"
-                                                            value={newRole}
+                                                        <Form.Input
+                                                            name="linkedInUrl"
+                                                            value={linkedInUrl}
                                                             onChange={this.handleOnChange}
-                                                        >
-                                                            <option value="">-</option>
-                                                            <option value="audience">Audience</option>
-                                                            <option value="corporateExec">Corporate Exec</option>
-                                                            <option value="investor">Investor</option>
-                                                            <option value="entrepreneur">Entrepreneur</option>
-                                                            <option value="student">Student</option>
-                                                        </select>
+                                                        />
                                                     </Form.Field>
                                                 </Grid.Column>
                                             </Grid>
@@ -316,6 +315,21 @@ export default class User extends Component {
                                     </div>
 
                                     <div className="ui segment">
+                                        <Form.Field>
+                                            <label>Select New Role</label>
+                                            <select
+                                                name="newRole"
+                                                value={newRole}
+                                                onChange={this.handleOnChange}
+                                            >
+                                                <option value="">-</option>
+                                                <option value="audience">Audience</option>
+                                                <option value="corporateExec">Corporate Exec</option>
+                                                <option value="investor">Investor</option>
+                                                <option value="entrepreneur">Entrepreneur</option>
+                                                <option value="student">Student</option>
+                                            </select>
+                                        </Form.Field>
                                         <h3>Change Password</h3>
                                         <div className="equal width fields">
                                             <Form.Field>
