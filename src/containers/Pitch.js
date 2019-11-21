@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Container, Dimmer, Form, Grid, Loader, Message, Modal, Dropdown, Icon} from "semantic-ui-react";
+import {Button, Container, Dimmer, Form, Grid, Loader, Message, Modal} from "semantic-ui-react";
 import {NavMenu, Logo, Upload} from "../components/index";
 import firebase from '../Firebase';
 import DatePicker from "react-datepicker";
@@ -34,14 +34,7 @@ export default class Pitch extends Component {
             pitchDeckUrl: "",
             pitchVideoTag: "",
             eventUrl: "",
-
-            // questions: [{
-            //     question: "",
-            //     response: ""
-            // }
-            // questions: [{ question: ""}],
-            // questions: [{}],
-            questions: ["", "", ""],
+            questions: ["", ""],
 
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
             qrPrefix: 'https://playback.herokuapp.com/feedback/',
@@ -164,6 +157,7 @@ export default class Pitch extends Component {
             eventUrl,
             businessID,
             pitchVideoTag,
+            questions,
         } = this.state;
 
         await this.ref.add({
@@ -179,6 +173,7 @@ export default class Pitch extends Component {
             eventUrl,
             businessID,
             pitchVideoTag,
+            questions,
             user: {
                 userID: this.props.userID,
                 email: this.props.username,
@@ -413,7 +408,7 @@ export default class Pitch extends Component {
                     <Grid.Column width={4}>
                         <NavMenu {...this.props} />
                     </Grid.Column>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={12}>
                         {editMode && <h2>Edit Pitch</h2>}
                         {!editMode && <h2>Create Pitch</h2>}
                         {/*{!editMode && <center><h4>Video Tag: {pitchVideoTag}</h4></center>}*/}
@@ -447,6 +442,13 @@ export default class Pitch extends Component {
                                     <p><b>Role:</b> {pitchRole}</p>
                                     <p><b>Event URL:</b> <a href={eventUrl}>{eventUrl}</a></p>
                                     <p><b>Location:</b> {location}</p>
+                                    {questions &&
+                                        <div><b>Questions:</b>
+                                            {questions.map((question, i) => (
+                                                <p key={Math.random()}>{i+1}) {question}</p>
+                                            ))}
+                                        </div>
+                                    }
                                     {pitchDeckUrl && <p><b>PitchDeckURL:</b> {pitchDeckUrl}</p> }
                                 </div>
                             }/>
@@ -587,7 +589,7 @@ export default class Pitch extends Component {
 
                                 {/*Questionnaire section*/}
                                     <div className="ui segment">
-                                        <h4>Questions</h4>
+                                        <h4>Custom Pitch Questions</h4>
                                         {questions.map((question, i) => (
                                         <Form.Group
                                             widths="equal"
@@ -681,9 +683,6 @@ export default class Pitch extends Component {
                                     }
                             >Update</Button>
                             }
-
-
-                            <Button onClick={this.printQuestions}>QuestionsPrint</Button>
                         </Form>
                     </Grid.Column>
                 </Grid>

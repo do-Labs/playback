@@ -37,6 +37,8 @@ export default class MyFeedback extends Component {
                 comment,
                 isAnonymous,
                 wantsToMeet,
+                questions,
+                answers,
             } = doc.data();
             feedbacks.push({
                 id: doc.id,
@@ -54,6 +56,8 @@ export default class MyFeedback extends Component {
                 comment,
                 isAnonymous,
                 wantsToMeet,
+                questions,
+                answers,
             });
         });
         this.setState({

@@ -8,20 +8,65 @@ import AddToCalendar from 'react-add-to-calendar';
 import {Base64} from "js-base64";
 
 const moment = require('moment');
-
-// const projectName = "playback-2a438";
 const projectName = JSON.parse(Base64.decode(process.env.REACT_APP_KEYS_B64)).projectId;
 
 export default class Feedback extends Component {
 
     constructor() {
         super();
-        // this.refPitches = firebase.firestore().collection('pitches');
         this.ref = firebase.firestore();
         this.state = {
             error: null,
             isLoading: true,
             isEnabled: true,
+
+            // Form Vars:
+            roles: [
+                {
+                    "text": "Entrepreneur",
+                    "value": "Entrepreneur",
+                    "key": "Entrepreneur"
+                },
+                {
+                    "text": "Investor",
+                    "value": "Investor",
+                    "key": "Investor"
+                },
+                {
+                    "text": "CorporateExec",
+                    "value": "CorporateExec",
+                    "key": "CorporateExec"
+                },
+                {
+                    "text": "Student",
+                    "value": "Student",
+                    "key": "Student"
+                },
+                {
+                    "text": "Other",
+                    "value": "Other",
+                    "key": "Other"
+                },
+            ],
+            options: [
+                {
+                    "text": "Yes",
+                    "value": "Yes",
+                    "key": "Yes"
+                },
+                {
+                    "text": "No",
+                    "value": "No",
+                    "key": "No"
+                },
+            ],
+            // Reminder Data
+            event: {
+                title: null,
+                description: null,
+                location: null,
+                startTime: null,
+            },
 
             // Pitch Data
             businessID: "",
@@ -53,14 +98,6 @@ export default class Feedback extends Component {
 
             questions: [],
             answers: [],
-
-            // Reminder Data
-            event: {
-                title: null,
-                description: null,
-                location: null,
-                startTime: null,
-            },
 
             // UserData
             givenFeedback: [],
@@ -119,6 +156,14 @@ export default class Feedback extends Component {
                 })
             } else {
                 console.log("No such document!");
+                this.setState({
+                    key: "error",
+                    businessID: "error",
+                    // businessName: "ERROR BUSINESS DOES NOT EX",
+                    error: {
+                        message: "PAGE DOES NOT EXIST"
+                    }
+                });
             }
         }).catch(function (error) {
             console.log("Error getting document:", error);
@@ -192,6 +237,8 @@ export default class Feedback extends Component {
             rating2,
             rating3,
             comment,
+            questions,
+            answers,
             isAnonymous,
             wantsToMeet,
         } = this.state;
@@ -211,6 +258,8 @@ export default class Feedback extends Component {
             rating2,
             rating3,
             comment,
+            questions,
+            answers,
             isAnonymous,
             wantsToMeet,
         }).then(async (docRef) => {
@@ -348,7 +397,7 @@ export default class Feedback extends Component {
 
         answers[i] = value;
         // this.setState({
-        //     answers: answers
+        //     // answersVar: answers
         // });
     };
 
@@ -357,6 +406,9 @@ export default class Feedback extends Component {
             error,
             isEnabled,
             isLoading,
+            roles,
+            options,
+
             pitchTitle,
             businessName,
             pitchDate,
@@ -384,6 +436,7 @@ export default class Feedback extends Component {
 
         return (
             <Container>
+                <br/>
                 <Logo/>
                 <Grid>
                     <Grid.Column>
@@ -400,11 +453,9 @@ export default class Feedback extends Component {
                             <p><b>Pitch Title:</b> {pitchTitle}</p>
                             <p><b>Pitch Date:</b> {pitchDate}</p>
                             <p><b>Presenter Name:</b> {presenterName}</p>
-                            <p><b>Pitch Deck:</b> <a href={pitchDeckUrl}>View PitchDeck</a></p>
                             <p><b>Role:</b> {pitchRole}</p>
-                            {eventUrl &&
-                            <p><b>EventUrl:</b> {eventUrl}</p>
-                            }
+                            {pitchDeckUrl && <p><a href={pitchDeckUrl}>View PitchDeck</a></p>}
+                            {eventUrl && <p><b>EventUrl:</b> {eventUrl}</p>}
                             <center>
                                 <AddToCalendar
                                     buttonLabel="Remind me later"
@@ -452,12 +503,13 @@ export default class Feedback extends Component {
                                                 widths="equal"
                                                 key={Math.random()}
                                             >
-                                                <h4>{i+1})  {this.state.questions[i]}</h4>
+                                                <h4>{i+1}. &nbsp;  {this.state.questions[i]}</h4>
                                                 {/*<h4>{question}</h4>*/}
                                                 <Form.Field>
                                                     <Form.Input
                                                         name="answer"
                                                         value={this.state.answers[i]}
+                                                        // onChange={this.handleOnChange}
                                                         onChange={(
                                                             event,
                                                             data
@@ -528,7 +580,7 @@ export default class Feedback extends Component {
                                         </Grid.Column>
                                     </Grid>
                                 </div>
-                                <div className="equal width fields">
+                                <div className="">
                                     <Grid>
                                         <Grid.Column width={8}>
                                             <Form.Field>
@@ -560,40 +612,72 @@ export default class Feedback extends Component {
                                     </Grid>
                                 </div>
 
+                                <div className="">
+                                    <Grid>
+                                        <Grid.Column width={8}>
+                                            <label><span id="role"><b>Role</b></span></label>
+                                            <Dropdown
+                                                name="role"
+                                                fluid
+                                                search
+                                                selection
+                                                options={roles}
+                                                value={role}
+                                                onChange={(event, data) => {
+                                                    this.handleSelectChange(event, data);
+                                                }}
+                                            />
+                                        </Grid.Column>
+                                        <Grid.Column width={8}>
+                                            <label><span id="wantsToMeet"><b>Wanna Get Coffee?</b></span></label>
+                                            <Dropdown
+                                                name="wantsToMeet"
+                                                fluid
+                                                search
+                                                selection
+                                                options={options}
+                                                value={wantsToMeet}
+                                                onChange={(event, data) => {
+                                                    this.handleSelectChange(event, data);
+                                                }}
+                                            />
+                                        </Grid.Column>
+                                    </Grid>
+                                </div>
+
 
                                 <div className="equal width fields">
                                     <Grid>
-                                        <Grid.Column width={10}>
-                                            <div>
-                                                <label><span id="role"><b>Role</b></span></label>
-                                                <select
-                                                    name="role"
-                                                    value={role}
-                                                    onChange={this.handleOnChange}
-                                                >
-                                                    <option value="audience">Audience</option>
-                                                    <option value="corporate-exec">Corporate Exec</option>
-                                                    <option value="investor">Investor</option>
-                                                    <option value="entrepreneur">Entrepreneur</option>
-                                                    <option value="student">Student</option>
-                                                </select>
-                                            </div>
-                                        </Grid.Column>
-                                        <Grid.Column width={6}>
-                                            <div>
-                                                <label><span id="wantsToMeet"><b>Wanna Get Coffee?</b></span></label>
-                                                <select
-                                                    name="wantsToMeet"
-                                                    value={wantsToMeet}
-                                                    required
-                                                    onChange={this.handleOnChange}
-                                                >
-                                                    <option value=""> </option>
-                                                    <option value="no">No</option>
-                                                    <option value="yes">Yes</option>
-                                                </select>
-                                            </div>
-                                        </Grid.Column>
+                                        {/*<Grid.Column width={10}>*/}
+                                            {/*<div>*/}
+                                                {/*<label><span id="role"><b>Role</b></span></label>*/}
+                                                {/*<Dropdown*/}
+                                                    {/*name="role"*/}
+                                                    {/*fluid*/}
+                                                    {/*search*/}
+                                                    {/*selection*/}
+                                                    {/*options={roles}*/}
+                                                    {/*value={role}*/}
+                                                    {/*onChange={(event, data) => {*/}
+                                                        {/*this.handleSelectChange(event, data);*/}
+                                                    {/*}}*/}
+                                                {/*/>*/}
+                                            {/*</div>*/}
+                                        {/*</Grid.Column>*/}
+                                        {/*<Grid.Column width={6}>*/}
+                                            {/*<label><span id="wantsToMeet"><b>Wanna Get Coffee?</b></span></label>*/}
+                                            {/*<Dropdown*/}
+                                                {/*name="wantsToMeet"*/}
+                                                {/*fluid*/}
+                                                {/*search*/}
+                                                {/*selection*/}
+                                                {/*options={options}*/}
+                                                {/*value={wantsToMeet}*/}
+                                                {/*onChange={(event, data) => {*/}
+                                                    {/*this.handleSelectChange(event, data);*/}
+                                                {/*}}*/}
+                                            {/*/>*/}
+                                        {/*</Grid.Column>*/}
                                     </Grid>
                                 </div>
                                 <div className="equal">

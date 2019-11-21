@@ -19,6 +19,7 @@ export default class Pitch extends Component {
         pitchVideoTag: this.props.pitch.pitchVideoTag,
         pitchCodeUrl: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://playback.herokuapp.com/feedback/` + this.props.pitch.id,
         eventUrl: this.props.pitch.eventUrl,
+        questions: this.props.pitch.questions,
 
         // feedback Data from pitches/{pitchID}/feedbacks
         score: 0,
@@ -128,6 +129,7 @@ export default class Pitch extends Component {
             pitchCodeUrl,
             eventUrl,
             pitchVideoTag,
+            questions,
 
             score,
             feedbackCount,
@@ -175,6 +177,11 @@ export default class Pitch extends Component {
                                         {pitchDeckUrl &&
                                             <Button href={pitchDeckUrl}><b>PitchDeck</b></Button>
                                         }
+                                        <div><b>Questions:</b>
+                                            {questions.map((question, i) => (
+                                                <p key={Math.random()} >{i+1}) {question}</p>
+                                            ))}
+                                        </div>
 
                                     </div>
                                     }
