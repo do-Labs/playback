@@ -95,6 +95,7 @@ export default class Pitch extends Component {
                         pitchDeckUrl: pitch.pitchDeckUrl,
                         eventUrl: pitch.eventUrl,
                         businessID: pitch.businessID,
+                        questions: pitch.questions,
                     });
                 } else {
                     console.log("No such document!");
@@ -105,7 +106,7 @@ export default class Pitch extends Component {
             isLoading: false,
             businessID: businessID,
         });
-
+        console.log("questions:", this.state.questions)
     };
 
     handleOnChange = (e) => {
