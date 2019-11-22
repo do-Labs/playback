@@ -254,7 +254,7 @@ class Register extends Component {
                                             onChange={this.handleOnChange}
                                         >
                                             <option value=""> </option>
-                                            <option value="audience">Audience</option>
+                                            <option value="organization">Organization</option>
                                             <option value="corporateExec">Corporate Exec</option>
                                             <option value="investor">Investor</option>
                                             <option value="entrepreneur">Entrepreneur</option>

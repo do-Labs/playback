@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu } from "semantic-ui-react";
+import { Menu, Icon } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 import firebase from '../Firebase';
 
@@ -42,7 +42,7 @@ export default class NavMenu extends Component {
         return (
             <Menu vertical>
                 <Menu.Item>
-                    {/*<Icon name="large lock open" />*/}
+                    <Icon name="lock open" />
                     Authenticated as <strong>{this.props.username}</strong>
                     <Menu.Menu>
                         {/*<p>{this.props.userID}</p>*/}
@@ -58,7 +58,7 @@ export default class NavMenu extends Component {
                 </Menu.Item>
 
                 <Menu.Item>
-                    {/*<Icon name="large building" />*/}
+                    <Icon name="building" />
                     Business
                     <Menu.Menu>
                         {!isBusinessUser &&
@@ -74,17 +74,9 @@ export default class NavMenu extends Component {
                     </Menu.Menu>
                 </Menu.Item>
 
-                {/*<Menu.Item>*/}
-                    {/*/!*<Icon name="large user" />*!/*/}
-                    {/*User*/}
-                    {/*<Menu.Menu>*/}
-                        {/**/}
-                    {/*</Menu.Menu>*/}
-                {/*</Menu.Item>*/}
-
                 {isBusinessUser &&
                     <Menu.Item>
-                        {/*<Icon name="large microphone" />*/}
+                        <Icon name="microphone" />
                         Pitch
                         <Menu.Menu>
                             <Menu.Item name="myPitches" as={NavLink} to="/my-pitches">
@@ -97,18 +89,20 @@ export default class NavMenu extends Component {
                     </Menu.Item>
                 }
 
-                <Menu.Item>
-                    {/*<Icon name="large microphone" />*/}
-                    Event
-                    <Menu.Menu>
-                        <Menu.Item name="myEvents" as={NavLink} to="/my-events">
-                            My Events
-                        </Menu.Item>
-                        <Menu.Item name="new" as={NavLink} to="/event">
-                            New Event
-                        </Menu.Item>
-                    </Menu.Menu>
-                </Menu.Item>
+                {isBusinessUser &&
+                    <Menu.Item>
+                        <Icon name="calendar alternate icon" />
+                        Event
+                        <Menu.Menu>
+                            <Menu.Item name="myEvents" as={NavLink} to="/my-events">
+                                My Events
+                            </Menu.Item>
+                            <Menu.Item name="new" as={NavLink} to="/event">
+                                New Event
+                            </Menu.Item>
+                        </Menu.Menu>
+                    </Menu.Item>
+                }
 
                 {/*<Menu.Item>*/}
                     {/*/!*<Icon name="large binoculars" />*!/*/}
