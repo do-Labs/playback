@@ -216,6 +216,7 @@ export default class Pitch extends Component {
             pitchDeckUrl,
             eventUrl,
             businessID,
+            questions,
         } = this.state;
 
         // Then update existing data with a PUT call with all fields
@@ -235,6 +236,7 @@ export default class Pitch extends Component {
             pitchDeckUrl,
             eventUrl,
             businessID,
+            questions,
         }).then((docRef) => {
             alert("Pitch Edited Successfully!");
             this.props.history.push("/my-pitches")
