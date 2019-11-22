@@ -9,6 +9,7 @@ export { default as PrivateRoute } from "./PrivateRoute.js";
 export { default as User } from "./User.js";
 export { default as Upload } from "./Upload.js";
 export { default as Pitch } from "./Pitch.js";
+export { default as Event } from "./Event.js";
 // export { default as PitchListDropdown } from "./PitchListDropdown.js";
 export { default as Feedback } from "./Feedback.js";
 

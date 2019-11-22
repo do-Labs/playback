@@ -15,8 +15,7 @@ export default class Event extends Component {
 
     constructor() {
         super();
-        this.ref = firebase.firestore().collection('pitches');
-        this.setUrl = this.setUrl.bind(this);
+        this.ref = firebase.firestore().collection('events');
         this.state = {
             error: null,
             message: null,
@@ -24,29 +23,25 @@ export default class Event extends Component {
             editMode: false,
             isEnabled: true,
 
-            pitchTitle: "",
-            pitchRole: "",
+            eventTitle: "",
             businessName: "-",
-            pitchDate: "MM-DD-YYYY",
+            eventDate: "MM-DD-YYYY",
             presenterName: "",
             // presenterEmail: this.props.username,
             location: "",
-            pitchDeckUrl: "",
-            pitchVideoTag: "",
             eventUrl: "",
 
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
             qrPrefix: 'https://playback.herokuapp.com/feedback/',
-            pitchCodeUrl: "https://tinyurl.com/y6ysz826",
+            eventCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
             modalOpen: false,
-            isRecordingPitch: false,
-            
+
         };
     }
 
     componentDidMount = async() => {
-        const pitchId = this.props.match.params.id;
+        const eventID = this.props.match.params.id;
         const businessID = this.props.businessID;
         const username = this.props.username;
 
@@ -57,12 +52,10 @@ export default class Event extends Component {
                     const bus = await doc.data();
                     this.setState({
                         businessName: bus.name,
+                        presenterEmail: username
                     })
                 }
             });
-            this.setState({
-                presenterEmail: username
-            })
         }
         else {
             this.setState({
@@ -73,27 +66,25 @@ export default class Event extends Component {
         }
 
 
-        if (pitchId) {
+        if (eventID) {
             this.setState({
                 isLoading: true,
                 editMode: true,
             });
-            const ref = firebase.firestore().collection('pitches').doc(pitchId);
+            const ref = firebase.firestore().collection('events').doc(eventID);
             await ref.get().then((doc) => {
                 if (doc.exists) {
-                    const pitch = doc.data();
+                    const event = doc.data();
                     this.setState({
                         key: doc.id,
-                        pitchTitle: pitch.pitchTitle,
-                        pitchRole: pitch.pitchRole,
-                        businessName: pitch.businessName,
-                        pitchDate: pitch.pitchDate,
-                        presenterName: pitch.presenterName,
-                        presenterEmail: pitch.presenterEmail,
-                        location: pitch.location,
-                        pitchDeckUrl: pitch.pitchDeckUrl,
-                        eventUrl: pitch.eventUrl,
-                        businessID: pitch.businessID,
+                        eventTitle: event.eventTitle,
+                        businessID: event.businessID,
+                        businessName: event.businessName,
+                        eventDate: event.eventDate,
+                        presenterName: event.presenterName,
+                        presenterEmail: event.presenterEmail,
+                        location: event.location,
+                        eventUrl: event.eventUrl,
                     });
                 } else {
                     console.log("No such document!");
@@ -123,16 +114,16 @@ export default class Event extends Component {
         // QR Template:
         // http://www.app.com/instance/{id}/feedbackl/instance/{id}
         // QR Template (display to public for POST to specific
-        // pitches/{pitchID}/feedback/
+        // events/{eventID}/feedback/
 
         const {
             qrMakerUrl,
             qrPrefix,
         } = this.state;
 
-        let pitchCodeQR = qrMakerUrl + qrPrefix + qrData;
+        let eventCodeQR = qrMakerUrl + qrPrefix + qrData;
         this.setState({
-            pitchCodeUrl: pitchCodeQR,
+            eventCodeUrl: eventCodeQR,
             isLoading: false,
         })
     };
@@ -145,48 +136,42 @@ export default class Event extends Component {
         }
 
         const {
-            pitchTitle,
-            pitchRole,
+            eventTitle,
             businessName,
-            pitchDate,
+            eventDate,
             presenterName,
             presenterEmail,
             location,
-            pitchDeckUrl,
             eventUrl,
             businessID,
-            pitchVideoTag,
         } = this.state;
 
         await this.ref.add({
             timeStamp: Date.now(),
-            pitchTitle,
-            pitchRole,
+            eventTitle,
             businessName,
-            pitchDate,
+            eventDate,
             presenterName,
             presenterEmail,
             location,
-            pitchDeckUrl,
             eventUrl,
             businessID,
-            pitchVideoTag,
             user: {
                 userID: this.props.userID,
                 email: this.props.username,
             }
         }).then( async(docRef) => {
-            const pid = docRef._key.path.segments[1];
+            const eid = docRef._key.path.segments[1];
             //handle response
             this.setState({
-                pitchID: pid,
+                eventID: eid,
             });
-            await this.createQRCode(pid);
+            await this.createQRCode(eid);
             await this.handleEmailQR();
             // Show Modal with info
             await this.handleOpen();
-            // if OK then nav to my-pitches
-            // this.props.history.push("/my-pitches")
+            // if OK then nav to my-events
+            // this.props.history.push("/my-events")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
@@ -194,46 +179,36 @@ export default class Event extends Component {
     };
 
     submitEdit = async () => {
-        // null handlers
-        if(!this.state.eventUrl){
-            console.log('no event url');
-            this.setState({eventUrl : "http://"})
-        }
-
-        const pitchId = this.props.match.params.id;
+        const eventID = this.props.match.params.id;
         const {
-            pitchTitle,
-            pitchRole,
+            eventTitle,
             businessName,
-            pitchDate,
+            eventDate,
             presenterName,
             presenterEmail,
             location,
-            pitchDeckUrl,
             eventUrl,
             businessID,
         } = this.state;
 
         // Then update existing data with a PUT call with all fields
         // Only make the editable fields available for the user to update
-        const pitchRef = firebase.firestore().collection('pitches').doc(pitchId);
+        const eventsRef = firebase.firestore().collection('events').doc(eventID);
 
-        // post all pitch info to firebase
+        // post all events info to firebase
 
-        await pitchRef.update({
-            pitchTitle,
-            pitchRole,
+        await eventsRef.update({
+            eventTitle,
             businessName,
-            pitchDate,
+            eventDate,
             presenterName,
             presenterEmail,
             location,
-            pitchDeckUrl,
             eventUrl,
             businessID,
         }).then((docRef) => {
-            alert("Pitch Edited Successfully!");
-            this.props.history.push("/my-pitches")
+            alert("Event Edited Successfully!");
+            this.props.history.push("/my-events")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);
@@ -263,7 +238,7 @@ export default class Event extends Component {
     handleEmailQR = async () => {
         const body  = JSON.stringify({
             to: this.state.presenterEmail,
-            content: this.state.pitchCodeUrl
+            content: this.state.eventCodeUrl
         });
 
         await fetch(`https://us-central1-${projectName}.cloudfunctions.net/EmailQRCode`, {
@@ -288,7 +263,7 @@ export default class Event extends Component {
     handleOpen = () => this.setState({modalOpen: true});
     handleClose = () => {
         this.setState({modalOpen: false});
-        this.props.history.push("/my-pitches");
+        this.props.history.push("/my-events");
     };
 
     handleDateChange = date => {
@@ -301,49 +276,9 @@ export default class Event extends Component {
         const dateFormatted = month + "-" + dateOfMonth + "-" + year;
 
         this.setState({
-            pitchDate: dateFormatted,
+            eventDate: dateFormatted,
         });
 
-    };
-
-    handleToggleRecord = () => {
-        if(this.state.isRecordingPitch){
-            this.setState({
-                isRecordingPitch: false
-            })
-        }
-        else{
-            this.setState({
-                isRecordingPitch: true
-            })
-        }
-    };
-
-    recorderUploaded = () => {
-    };
-
-    setUrl = (dataFromChild) => {
-        this.setState({
-            pitchDeckUrl: dataFromChild,
-            message: "Uploaded Pitch Deck"
-        });
-    };
-
-    setVideoUrl = (dataFromChild) => {
-        const tag = dataFromChild.video;
-        this.setState({
-            pitchVideoTag: tag,
-            isRecordingPitch: false,
-            message: "Attached Pitch Video"
-        });
-    };
-
-    recorderUploading = async (embedding) => {
-        console.log('Recorder recorderUploading', embedding);
-        const pitchVideoID = embedding.video;
-        // this.setVideoUrl(pitchVideoID);
-        console.log('id:', pitchVideoID);
-        return pitchVideoID
     };
 
     render() {
@@ -352,18 +287,14 @@ export default class Event extends Component {
             message,
             isLoading,
             editMode,
-            pitchTitle,
-            pitchRole,
+            eventTitle,
             businessName,
-            pitchDate,
+            eventDate,
             presenterName,
             presenterEmail,
             location,
-            pitchDeckUrl,
-            pitchCodeUrl,
+            eventCodeUrl,
             eventUrl,
-
-            isRecordingPitch,
         } = this.state;
 
         return (
@@ -376,7 +307,6 @@ export default class Event extends Component {
                     <Grid.Column width={10}>
                         {editMode && <h2>Edit Event</h2>}
                         {!editMode && <h2>Create Event</h2>}
-                        {/*{!editMode && <center><h4>Video Tag: {pitchVideoTag}</h4></center>}*/}
                         {error && <Message error content={error.message}/>}
                         {message && <Message success content={message}/>}
                         {isLoading && (
@@ -388,32 +318,29 @@ export default class Event extends Component {
                         <Modal
                             open={this.state.modalOpen}
                             onClose={this.handleClose}
-                            header={<center>Pitch Created!</center>}
+                            header={<center>Event Created!</center>}
                             content={
                                 <div>
                                     <div>
                                         <center>
-                                            <h4>Attach this QR Code to the last slide in your presentation</h4>
-                                            <img hspace="20" alt="pitchCodeUrl" align="top" className="ui tiny image" src={pitchCodeUrl} />
+                                            <h4>EVENT MESSAGE</h4>
+                                            <img hspace="20" alt="eventCodeUrl" align="top" className="ui tiny image" src={eventCodeUrl} />
                                         </center>
                                     </div>
                                     <p> </p>
                                     <p> </p>
-                                    <h4><b>Pitch Info</b></h4>
-                                    <p><b>Date:</b> {pitchDate}</p>
-                                    <p><b>Title:</b> {pitchTitle}</p>
+                                    <h4><b>Event Info</b></h4>
+                                    <p><b>Date:</b> {eventDate}</p>
+                                    <p><b>Title:</b> {eventTitle}</p>
                                     <p><b>Presenter:</b> {presenterName}</p>
                                     <p><b>Email:</b> {presenterEmail}</p>
-                                    <p><b>Role:</b> {pitchRole}</p>
                                     <p><b>Event URL:</b> <a href={eventUrl}>{eventUrl}</a></p>
                                     <p><b>Location:</b> {location}</p>
-                                    {pitchDeckUrl && <p><b>PitchDeckURL:</b> {pitchDeckUrl}</p> }
                                 </div>
                             }/>
 
                         <Form>
 
-                            {!isRecordingPitch &&
                             <div className="ui segment">
                                 <center><h4>{businessName}</h4></center>
                                 <center><h4>{presenterEmail}</h4></center>
@@ -422,30 +349,30 @@ export default class Event extends Component {
                                     <Form.Field>
                                         <h4>Title</h4>
                                         <Form.Input
-                                            name="pitchTitle"
-                                            placeholder="Pitch pitchTitle"
-                                            value={pitchTitle}
+                                            name="eventTitle"
+                                            placeholder="eventTitle"
+                                            value={eventTitle}
                                             onChange={this.handleOnChange}
-                                            error={!pitchTitle || pitchTitle === ""}
+                                            error={!eventTitle || eventTitle === ""}
                                         />
                                     </Form.Field>
 
                                     {!editMode &&
-                                        <div>
-                                            <h4>Pitch Date</h4>
-                                            <DatePicker
-                                                selected={this.state.dateOfPitch}
-                                                onChange={this.handleDateChange}
-                                                value={this.state.pitchDate}
-                                            />
-                                        </div>
+                                    <div>
+                                        <h4>Event Date</h4>
+                                        <DatePicker
+                                            selected={this.state.dateOfEvent}
+                                            onChange={this.handleDateChange}
+                                            value={this.state.eventDate}
+                                        />
+                                    </div>
                                     }
 
                                     {editMode &&
                                     <div>
                                         <Form.Field>
-                                            <h4>Pitch Date</h4>
-                                            <h5>{pitchDate}</h5>
+                                            <h4>Event Date</h4>
+                                            <h5>{eventDate}</h5>
                                         </Form.Field>
                                     </div>
                                     }
@@ -462,27 +389,6 @@ export default class Event extends Component {
                                             onChange={this.handleOnChange}
                                             error={!presenterName || presenterName === ""}
                                         />
-                                    </Form.Field>
-
-                                    <Form.Field>
-                                        <h4>Role</h4>
-                                        <select
-                                            name="pitchRole"
-                                            value={pitchRole}
-                                            onChange={this.handleOnChange}
-                                        >
-                                            <option placeholder=""> </option>
-                                            <option value="entrepreneur">Entrepreneur</option>
-                                            <option value="educator">Educator</option>
-                                            <option value="investor">Investor</option>
-                                            <option value="mentor">Mentor</option>
-                                            <option value="non-profit">Non-Profit</option>
-                                            <option value="academic-researcher">Academic Researcher</option>
-                                            <option value="community-advocate">Community Advocate</option>
-                                            <option value="government-employee">Government Employee</option>
-                                            <option value="economic-development">Economic Development</option>
-                                            <option value="other">Other</option>
-                                        </select>
                                     </Form.Field>
                                 </div>
 
@@ -507,86 +413,30 @@ export default class Event extends Component {
                                     />
                                 </Form.Field>
 
-                                {!editMode &&
-                                    <div className="segment">
-                                        <Form.Field>
-                                            <h4>Pitch Deck</h4>
-                                            {/*Upload Pitch Deck*/}
-                                            <Upload
-                                                width={800}
-                                                url={this.setUrl}
-                                            />
-
-                                            <center><h4>OR</h4></center>
-                                            <Form.Input
-                                                name="pitchDeckUrl"
-                                                placeholder="http://"
-                                                value={pitchDeckUrl}
-                                                onChange={this.handleOnChange}
-                                            />
-                                        </Form.Field>
-                                        <Button onClick={this.handleToggleRecord}>RecordPitch</Button>
-                                    </div>
-                                }
-
-                                {editMode &&
-                                <div>
-                                    <Form.Field>
-                                        {pitchDeckUrl &&
-                                            <div>
-                                                <h4>Pitch Deck</h4>
-                                                <h3><a href={pitchDeckUrl}>View Pitch Deck</a></h3>
-                                                {/*<h3><a href={pitchVideoTag}>View Elevator Pitch</a></h3>*/}
-                                            </div>
-                                        }
-                                    </Form.Field>
-                                </div>
-                                }
                             </div>
-                            }
 
 
-                            {isRecordingPitch &&
-                            <div>
-                                <center><p>This is a beta feature and may not function as expected</p></center>
-                                <ZiggeoRecorder
-                                    apiKey={ziggeoAPIKey}
-                                    height={400}
-                                    width={800}
-                                    preventReRenderOnUpdate={false}
-                                    // onRecording={this.handleIsRecording}
-                                    onUploading={this.recorderUploading}
-                                    onUploaded={this.recorderUploaded}
-                                    onVerified={this.setVideoUrl}
-                                />
-                                <Button onClick={this.handleToggleRecord}>Back</Button>
-                            </div>
-                            }
 
-
-                            {!isRecordingPitch &&!editMode &&
                             <Button loading={isLoading}
                                     onClick={this.submitCreate}
                                     disabled={
-                                        !pitchTitle || pitchTitle === "" ||
-                                        !pitchRole || pitchRole === "" ||
-                                        !pitchDate || pitchDate === "MM-DD-YYYY" ||
+                                        !eventTitle || eventTitle === "" ||
+                                        !eventDate || eventDate === "MM-DD-YYYY" ||
                                         !location || location === "" ||
                                         !presenterName || !presenterName || presenterName === "" ||
                                         !presenterEmail || !presenterEmail || presenterEmail === ""
                                     }
                             >Create</Button>
-                            }
 
                             {editMode &&
                             <Button loading={isLoading}
                                     onClick={this.submitEdit}
                                     disabled={
-                                        !pitchTitle || pitchTitle === "" ||
-                                        !pitchRole || pitchRole === "" ||
-                                        !pitchDate || pitchDate === "" ||
+                                        !eventTitle || eventTitle === "" ||
+                                        !eventDate || eventDate === "MM-DD-YYYY" ||
                                         !location || location === "" ||
-                                        !presenterName || !presenterName || presenterName === ""
+                                        !presenterName || !presenterName || presenterName === "" ||
+                                        !presenterEmail || !presenterEmail || presenterEmail === ""
                                     }
                             >Update</Button>
                             }

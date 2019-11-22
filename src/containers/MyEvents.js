@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {
-    Pitch,
+    Event,
     Logo,
     NavMenu,
 } from "../components/index";
@@ -13,83 +13,79 @@ export default class MyEvents extends Component {
 
     constructor(props) {
         super(props);
-        this.ref = firebase.firestore().collection('pitches');
+        this.ref = firebase.firestore().collection('events');
         this.unsubscribe = null;
         this.state = {
             error: null,
             isLoading: true,
-            pitches: [],
+            events: [],
             businessID: this.props.businessID
         };
     }
 
     componentDidMount = async () => {
-        // this.setState({isLoading: true});
-        // const businessID = this.props.businessID;
-        //
-        // if(!this.props.businessID){
-        //     this.setState({
-        //         businessID : null
-        //     })
-        // }
-        // else {
-        //     this.setState({
-        //         businessID : businessID,
-        //     });
-        //     await this.getMyPitches();
-        // }
-        //
-        // this.setState({isLoading: false});
+
+        this.setState({isLoading: true});
+        const businessID = this.props.businessID;
+
+        if(!this.props.businessID){
+            this.setState({
+                businessID : null
+            })
+        }
+        else {
+            this.setState({
+                businessID : businessID,
+            });
+            await this.getMyEvents();
+        }
+
+        this.setState({isLoading: false});
     };
 
-    onPitchesCollectionUpdate = async (querySnapshot) => {
-        const pitches = [];
+    onEventsCollectionUpdate = async (querySnapshot) => {
+        const events = [];
         await querySnapshot.forEach((doc) => {
             const {
-                pitchTitle,
-                pitchDate,
+                eventTitle,
+                eventDate,
                 company,
                 location,
                 presenterName,
-                pitchRole,
-                presenterEmail,
-                eventUrl,
-                pitchDeckUrl,
-                pitchVideoTag,
+                eventInfoEmail,
+                url,
             } = doc.data();
-            pitches.push({
+            events.push({
                 key: doc.id,
                 doc, // DocumentSnapshot
                 id: doc.id,
-                pitchTitle,
-                pitchDate,
+                eventTitle,
+                eventDate,
                 company,
                 location,
                 presenterName,
-                pitchRole,
-                presenterEmail,
-                eventUrl,
-                pitchDeckUrl,
-                pitchVideoTag,
+                eventInfoEmail,
+                url,
             });
         });
         this.setState({
-            pitches
+            events
         });
     };
 
     handleDelete = async (id) => {
-        this.setState({pitches: this.state.pitches.filter(pitch => pitch.id !== id)});
+        this.setState({events: this.state.events.filter(event => event.id !== id)});
         await this.ref.doc(id).delete()
             .catch((error) => {
             console.error("Error removing document: ", error);
         });
     };
 
-    getMyPitches = async () => {
-        const myPitchesRef = firebase.firestore().collection("pitches");
-        const pitches = await myPitchesRef.where("businessID", "==", this.props.businessID);
-        this.unsubscribe = await pitches.onSnapshot(this.onPitchesCollectionUpdate);
+    getMyEvents = async () => {
+        const myEventsRef = firebase.firestore().collection("events");
+        const events = await myEventsRef.where("businessID", "==", this.props.businessID);
+        console.log('events:', events);
+        this.unsubscribe = await events.onSnapshot(this.onEventsCollectionUpdate);
     };
 
 
@@ -98,7 +94,7 @@ export default class MyEvents extends Component {
         const {
             error,
             isLoading,
-            pitches
+            events
         } = this.state;
 
         return (
@@ -111,8 +107,8 @@ export default class MyEvents extends Component {
                     <Grid.Column width={12}>
                         <h2>
                             My Events
-                            <Button secondary animated='fade' as={Link} to="/pitch" style={{float: "right"}}>
-                                <Button.Content visible>Add Pitch</Button.Content>
+                            <Button secondary animated='fade' as={Link} to="/event" style={{float: "right"}}>
+                                <Button.Content visible>Add Event</Button.Content>
                                 <Button.Content hidden><Icon name="add"/></Button.Content>
                             </Button>
                         </h2>
@@ -128,7 +124,6 @@ export default class MyEvents extends Component {
                                     <Table.HeaderCell>Date</Table.HeaderCell>
                                     <Table.HeaderCell>Title</Table.HeaderCell>
                                     <Table.HeaderCell>Presenter</Table.HeaderCell>
-                                    <Table.HeaderCell>Role</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
                                     <Table.HeaderCell>Score</Table.HeaderCell>
                                     <Table.HeaderCell>Count</Table.HeaderCell>
@@ -136,10 +131,10 @@ export default class MyEvents extends Component {
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
-                                {pitches.map(pitch => (
-                                    <Pitch
+                                {events.map(event => (
+                                    <Event
                                         key={Math.random()}
-                                        pitch={pitch}
+                                        event={event}
                                         {...this.props}
                                         handleDelete={this.handleDelete}
                                     />
