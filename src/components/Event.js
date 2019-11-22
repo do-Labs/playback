@@ -129,7 +129,7 @@ export default class Event extends Component {
                                         <p><b>Location:</b> {location}</p>
                                         {eventUrl && <p><b>Event URL:</b> {eventUrl}</p> }
                                         <p><b>HeadCount:</b> {headCount}</p>
-                                        <p><b>SignIn QR:</b></p>
+                                        <p><b>Sign In QR:</b></p>
                                         <img hspace="20" alt="eventCodeUrl" align="top" className="ui tiny image" src={eventCodeUrl} />
                                     </div>
                                 </div>

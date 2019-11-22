@@ -128,11 +128,9 @@ export default class SignInSheet extends Component {
             email,
             phoneNumber,
         }).then(async (docRef) => {
-            console.log("Wrote Attendance");
             await this.handleAnonymousSignIn()
                 .then(async (user) => {
-                    console.log("Signed In Anonymous");
-                    this.props.history.push('/thankyou');
+                    this.props.history.push('/thankyou2');
 
                 }).catch(()=>{
                     this.setState({

@@ -23,6 +23,7 @@ import {
     Feedbacks,
     Feedback,
     ThankYou,
+    ThankYouForAttending,
     Utils,
     SignInSheet,
     Attendees,
@@ -265,6 +266,11 @@ class App extends Component {
                         <Route
                             path="/thankyou"
                             component={ThankYou}
+                            props={props}
+                        />
+                        <Route
+                            path="/thankyou2"
+                            component={ThankYouForAttending}
                             props={props}
                         />
                     </Switch>

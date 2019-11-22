@@ -27,6 +27,7 @@ export { default as SignInSheet } from "./SignInSheet";
 export { default as Attendees } from "./Attendees";
 
 export { default as ThankYou } from "./ThankYou";
+export { default as ThankYouForAttending } from "./ThankYouForAttending";
 
 
 
