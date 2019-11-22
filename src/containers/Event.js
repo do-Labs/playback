@@ -23,13 +23,11 @@ export default class Event extends Component {
             eventTitle: "",
             businessName: "-",
             eventDate: "MM-DD-YYYY",
-            presenterName: "",
-            // presenterEmail: this.props.username,
             location: "",
             eventUrl: "",
 
             qrMakerUrl: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",
-            qrPrefix: 'https://playback.herokuapp.com/feedback/',
+            qrPrefix: 'https://playback.herokuapp.com/signIn/',
             eventCodeUrl: "https://tinyurl.com/y6ysz826",
             qrData: "",
             modalOpen: false,
@@ -40,7 +38,6 @@ export default class Event extends Component {
     componentDidMount = async() => {
         const eventID = this.props.match.params.id;
         const businessID = this.props.businessID;
-        const username = this.props.username;
 
         if(businessID){
             const busRef = await firebase.firestore().collection("businesses").doc(businessID);
@@ -49,7 +46,6 @@ export default class Event extends Component {
                     const bus = await doc.data();
                     this.setState({
                         businessName: bus.name,
-                        presenterEmail: username
                     })
                 }
             });
@@ -78,8 +74,6 @@ export default class Event extends Component {
                         businessID: event.businessID,
                         businessName: event.businessName,
                         eventDate: event.eventDate,
-                        presenterName: event.presenterName,
-                        presenterEmail: event.presenterEmail,
                         location: event.location,
                         eventUrl: event.eventUrl,
                     });
@@ -136,8 +130,6 @@ export default class Event extends Component {
             eventTitle,
             businessName,
             eventDate,
-            presenterName,
-            presenterEmail,
             location,
             eventUrl,
             businessID,
@@ -148,8 +140,6 @@ export default class Event extends Component {
             eventTitle,
             businessName,
             eventDate,
-            presenterName,
-            presenterEmail,
             location,
             eventUrl,
             businessID,
@@ -181,8 +171,6 @@ export default class Event extends Component {
             eventTitle,
             businessName,
             eventDate,
-            presenterName,
-            presenterEmail,
             location,
             eventUrl,
             businessID,
@@ -198,8 +186,6 @@ export default class Event extends Component {
             eventTitle,
             businessName,
             eventDate,
-            presenterName,
-            presenterEmail,
             location,
             eventUrl,
             businessID,
@@ -234,7 +220,7 @@ export default class Event extends Component {
 
     handleEmailQR = async () => {
         const body  = JSON.stringify({
-            to: this.state.presenterEmail,
+            to: this.props.username,
             content: this.state.eventCodeUrl
         });
 
@@ -287,8 +273,6 @@ export default class Event extends Component {
             eventTitle,
             businessName,
             eventDate,
-            presenterName,
-            presenterEmail,
             location,
             eventCodeUrl,
             eventUrl,
@@ -329,8 +313,6 @@ export default class Event extends Component {
                                     <h4><b>Event Info</b></h4>
                                     <p><b>Date:</b> {eventDate}</p>
                                     <p><b>Title:</b> {eventTitle}</p>
-                                    <p><b>Presenter:</b> {presenterName}</p>
-                                    <p><b>Email:</b> {presenterEmail}</p>
                                     <p><b>Event URL:</b> <a href={eventUrl}>{eventUrl}</a></p>
                                     <p><b>Location:</b> {location}</p>
                                 </div>
@@ -340,7 +322,6 @@ export default class Event extends Component {
 
                             <div className="ui segment">
                                 <center><h4>{businessName}</h4></center>
-                                <center><h4>{presenterEmail}</h4></center>
 
                                 <div className="equal width fields">
                                     <Form.Field>
@@ -374,21 +355,7 @@ export default class Event extends Component {
                                     </div>
                                     }
 
-
                                 </div>
-
-                                <div className="equal width fields">
-                                    <Form.Field>
-                                        <h4>Presenter Name</h4>
-                                        <Form.Input
-                                            name="presenterName"
-                                            value={presenterName}
-                                            onChange={this.handleOnChange}
-                                            error={!presenterName || presenterName === ""}
-                                        />
-                                    </Form.Field>
-                                </div>
-
                                 <Form.Field>
                                     <h4>Location</h4>
                                     <Form.Input
@@ -409,21 +376,18 @@ export default class Event extends Component {
                                         onChange={this.handleOnChange}
                                     />
                                 </Form.Field>
-
                             </div>
 
-
-
+                            {!editMode &&
                             <Button loading={isLoading}
-                                    onClick={this.submitCreate}
+                                    onClick={this.submitEdit}
                                     disabled={
                                         !eventTitle || eventTitle === "" ||
                                         !eventDate || eventDate === "MM-DD-YYYY" ||
-                                        !location || location === "" ||
-                                        !presenterName || !presenterName || presenterName === "" ||
-                                        !presenterEmail || !presenterEmail || presenterEmail === ""
+                                        !location || location === ""
                                     }
-                            >Create</Button>
+                            >Update</Button>
+                            }
 
                             {editMode &&
                             <Button loading={isLoading}
@@ -431,9 +395,7 @@ export default class Event extends Component {
                                     disabled={
                                         !eventTitle || eventTitle === "" ||
                                         !eventDate || eventDate === "MM-DD-YYYY" ||
-                                        !location || location === "" ||
-                                        !presenterName || !presenterName || presenterName === "" ||
-                                        !presenterEmail || !presenterEmail || presenterEmail === ""
+                                        !location || location === ""
                                     }
                             >Update</Button>
                             }

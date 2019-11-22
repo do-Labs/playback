@@ -23,8 +23,8 @@ export { default as Event } from "./Event";
 export { default as Feedbacks } from "./Feedbacks";
 export { default as Feedback } from "./Feedback";
 export { default as Utils } from "./Utils";
-
-
+export { default as SignInSheet } from "./SignInSheet";
+export { default as Attendees } from "./Attendees";
 
 export { default as ThankYou } from "./ThankYou";
 

@@ -12,5 +12,6 @@ export { default as Pitch } from "./Pitch.js";
 export { default as Event } from "./Event.js";
 // export { default as PitchListDropdown } from "./PitchListDropdown.js";
 export { default as Feedback } from "./Feedback.js";
+export { default as Attendee } from "./Attendee.js";
 
 

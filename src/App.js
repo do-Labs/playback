@@ -23,7 +23,9 @@ import {
     Feedbacks,
     Feedback,
     ThankYou,
-    Utils
+    Utils,
+    SignInSheet,
+    Attendees,
 } from "./containers/index.js"
 import jwtDecode from "jwt-decode";
 
@@ -248,6 +250,16 @@ class App extends Component {
                         <Route
                             path="/feedback"
                             component={Feedback}
+                            props={props}
+                        />
+                        <PrivateRoute
+                            path="/attendees/:id"
+                            component={Attendees}
+                            props={props}
+                        />
+                        <Route
+                            path="/signIn/:id"
+                            component={SignInSheet}
                             props={props}
                         />
                         <Route

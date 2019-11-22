@@ -51,9 +51,7 @@ export default class MyEvents extends Component {
                 eventDate,
                 company,
                 location,
-                presenterName,
-                eventInfoEmail,
-                url,
+                eventUrl,
             } = doc.data();
             events.push({
                 key: doc.id,
@@ -63,9 +61,7 @@ export default class MyEvents extends Component {
                 eventDate,
                 company,
                 location,
-                presenterName,
-                eventInfoEmail,
-                url,
+                eventUrl,
             });
         });
         this.setState({
@@ -123,9 +119,7 @@ export default class MyEvents extends Component {
                                 <Table.Row>
                                     <Table.HeaderCell>Date</Table.HeaderCell>
                                     <Table.HeaderCell>Title</Table.HeaderCell>
-                                    <Table.HeaderCell>Presenter</Table.HeaderCell>
                                     <Table.HeaderCell>Location</Table.HeaderCell>
-                                    <Table.HeaderCell>Score</Table.HeaderCell>
                                     <Table.HeaderCell>Count</Table.HeaderCell>
                                     <Table.HeaderCell>Action</Table.HeaderCell>
                                 </Table.Row>
