@@ -380,7 +380,7 @@ export default class Event extends Component {
 
                             {!editMode &&
                             <Button loading={isLoading}
-                                    onClick={this.submitEdit}
+                                    onClick={this.submitCreate}
                                     disabled={
                                         !eventTitle || eventTitle === "" ||
                                         !eventDate || eventDate === "MM-DD-YYYY" ||
