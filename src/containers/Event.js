@@ -386,7 +386,7 @@ export default class Event extends Component {
                                         !eventDate || eventDate === "MM-DD-YYYY" ||
                                         !location || location === ""
                                     }
-                            >Update</Button>
+                            >Create</Button>
                             }
 
                             {editMode &&
