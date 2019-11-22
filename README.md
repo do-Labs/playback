@@ -24,6 +24,9 @@
     git push heroku <branch-name>
     
 #### Version History
+    1.2.3 - Updates with custom questions, signIn, event mgmt
+    1.2.2 - bugs fixed
+    
     1.1.2 - Packaged for new temp domain and tweaks
     
     1.1.1 - completed stories for all feature development

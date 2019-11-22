@@ -136,7 +136,8 @@ export default class Event extends Component {
                             }/>
                         <Button icon="edit" as={Link} to={`/event/${this.props.event.id}`}/>
                         {/*<Button icon="reply" as={Link} to={`/my-feedback/${this.props.event.id}`}/>*/}
-                        <Button as={Link} to={`/attendees/${this.props.event.id}`}>Attendees</Button>
+                        {/*<Button as={Link} to={`/attendees/${this.props.event.id}`}>Attendees</Button>*/}
+                        <Button icon="user" as={Link} to={`/attendees/${this.props.event.id}`}/>
                         <Modal
                             trigger={<Button icon="delete" onClick={this.handleOpen}/>}
                             open={this.state.modalOpen}
