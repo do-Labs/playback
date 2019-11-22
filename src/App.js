@@ -18,10 +18,14 @@ import {
     Pitch,
     AllFeedback,
     MyFeedback,
+    MyEvents,
+    Event,
     Feedbacks,
     Feedback,
     ThankYou,
-    Utils
+    Utils,
+    SignInSheet,
+    Attendees,
 } from "./containers/index.js"
 import jwtDecode from "jwt-decode";
 
@@ -189,6 +193,21 @@ class App extends Component {
                             props={props}
                         />
                         <PrivateRoute
+                            path="/my-events"
+                            component={MyEvents}
+                            props={props}
+                        />
+                        <PrivateRoute
+                            path="/event/:id"
+                            component={Event}
+                            props={props}
+                        />
+                        <PrivateRoute
+                            path="/event"
+                            component={Event}
+                            props={props}
+                        />
+                        <PrivateRoute
                             path="/explore"
                             component={Explore}
                             props={props}
@@ -231,6 +250,16 @@ class App extends Component {
                         <Route
                             path="/feedback"
                             component={Feedback}
+                            props={props}
+                        />
+                        <PrivateRoute
+                            path="/attendees/:id"
+                            component={Attendees}
+                            props={props}
+                        />
+                        <Route
+                            path="/signIn/:id"
+                            component={SignInSheet}
                             props={props}
                         />
                         <Route

@@ -18,10 +18,13 @@ export { default as Search } from "./Search";
 
 export { default as AllFeedback } from "./AllFeedback";
 export { default as MyFeedback } from "./MyFeedback";
+export { default as MyEvents } from "./MyEvents";
+export { default as Event } from "./Event";
 export { default as Feedbacks } from "./Feedbacks";
 export { default as Feedback } from "./Feedback";
 export { default as Utils } from "./Utils";
-
+export { default as SignInSheet } from "./SignInSheet";
+export { default as Attendees } from "./Attendees";
 
 export { default as ThankYou } from "./ThankYou";
 

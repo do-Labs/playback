@@ -97,6 +97,19 @@ export default class NavMenu extends Component {
                     </Menu.Item>
                 }
 
+                <Menu.Item>
+                    {/*<Icon name="large microphone" />*/}
+                    Event
+                    <Menu.Menu>
+                        <Menu.Item name="myEvents" as={NavLink} to="/my-events">
+                            My Events
+                        </Menu.Item>
+                        <Menu.Item name="new" as={NavLink} to="/event">
+                            New Event
+                        </Menu.Item>
+                    </Menu.Menu>
+                </Menu.Item>
+
                 {/*<Menu.Item>*/}
                     {/*/!*<Icon name="large binoculars" />*!/*/}
                     {/*Explore*/}
