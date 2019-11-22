@@ -106,7 +106,6 @@ export default class Pitch extends Component {
             isLoading: false,
             businessID: businessID,
         });
-        console.log("questions:", this.state.questions)
     };
 
     handleOnChange = (e) => {
@@ -366,7 +365,6 @@ export default class Pitch extends Component {
     };
 
     addQuestion = event => {
-        console.log("Add question");
         event.preventDefault();
         this.setState({
             questions: [...this.state.questions, ""]
@@ -378,10 +376,6 @@ export default class Pitch extends Component {
         this.setState({
             questions: this.state.questions.filter((_, i) => i !== index)
         });
-    };
-
-    printQuestions = () => {
-        console.log(this.state.questions)
     };
 
     render() {

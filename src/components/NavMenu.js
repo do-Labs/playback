@@ -91,7 +91,7 @@ export default class NavMenu extends Component {
 
                 {isBusinessUser &&
                     <Menu.Item>
-                        <Icon name="calendar alternate icon" />
+                        <Icon name="calendar alternate" />
                         Event
                         <Menu.Menu>
                             <Menu.Item name="myEvents" as={NavLink} to="/my-events">

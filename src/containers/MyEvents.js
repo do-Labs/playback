@@ -80,7 +80,6 @@ export default class MyEvents extends Component {
     getMyEvents = async () => {
         const myEventsRef = firebase.firestore().collection("events");
         const events = await myEventsRef.where("businessID", "==", this.props.businessID);
-        console.log('events:', events);
         this.unsubscribe = await events.onSnapshot(this.onEventsCollectionUpdate);
     };
 
