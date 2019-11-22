@@ -22,7 +22,6 @@ export default class Event extends Component {
         isLoading: false,
         error: null,
         modalOpen: false,
-        showVideo: false,
     };
 
     componentDidMount = async () => {
@@ -93,22 +92,6 @@ export default class Event extends Component {
         })
     };
 
-
-    handleToggleShowVideo = () => {
-        const {showVideo} = this.state;
-        if(showVideo === true){
-            this.setState({
-                showVideo: false
-            })
-        }
-        else {
-            this.setState({
-                showVideo: true
-            })
-        }
-    };
-
-
     render() {
 
         const {
@@ -126,7 +109,6 @@ export default class Event extends Component {
 
             error,
             isLoading,
-            showVideo
         } = this.state;
 
         return (
